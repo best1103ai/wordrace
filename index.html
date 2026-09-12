@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="단어 경주">
+<meta name="theme-color" content="#667eea">
+<title>단어 경주</title>
+<style>
+*{-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+background:linear-gradient(160deg,#667eea 0%,#764ba2 100%);
+background-attachment:fixed;
+min-height:100vh;
+font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;
+color:#111;
+padding:env(safe-area-inset-top) 14px calc(env(safe-area-inset-bottom) + 24px);
+box-sizing:border-box;
+}
+.wrap{max-width:400px;margin:0 auto;padding-top:18px;}
+.card{background:rgba(255,255,255,0.97);border-radius:16px;padding:22px 20px;margin-bottom:12px;box-sizing:border-box;}
+h1{font-size:25px;font-weight:600;margin:0 0 6px;}
+h2{font-size:19px;font-weight:600;margin:0 0 14px;}
+p{margin:0;line-height:1.6;}
+.sub{font-size:13.5px;color:#5a5a5a;line-height:1.6;}
+.btn{display:block;width:100%;box-sizing:border-box;border:none;border-radius:9px;
+padding:14px;font-size:16px;font-weight:600;font-family:inherit;margin-top:9px;
+background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;}
+.btn2{display:block;width:100%;box-sizing:border-box;border:1.5px solid #bbb;border-radius:9px;
+padding:12px;font-size:14.5px;font-weight:500;font-family:inherit;margin-top:8px;background:#fff;color:#333;}
+.btnrow{display:flex;gap:8px;}
+.btnrow .btn2{flex:1;margin-top:0;}
+.danger{color:#B3261E;border-color:#e0a9a4;}
+input,textarea{font-family:inherit;font-size:16px;color:#111;background:#fff;
+border:2px solid #ccc;border-radius:9px;padding:12px;box-sizing:border-box;width:100%;}
+input:focus,textarea:focus{outline:none;border-color:#667eea;}
+textarea{line-height:1.7;}
+.hide{display:none!important;}
+.bar{height:8px;background:#e4e4e4;border-radius:4px;overflow:hidden;}
+.bar>div{height:100%;width:0;background:linear-gradient(135deg,#667eea,#764ba2);transition:width .3s;}
+.meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#555;}
+.opt{display:block;width:100%;box-sizing:border-box;background:#fff;border:1.5px solid #b9b9b9;
+color:#111;padding:13px 12px;border-radius:9px;font-size:16px;font-weight:500;margin-bottom:9px;
+font-family:inherit;text-align:center;line-height:1.4;}
+.opt.ok{background:#E3F5E6;border:2px solid #2E7D32;color:#1B5E20;font-weight:600;}
+.opt.no{background:#FDE7E5;border:2px solid #C62828;color:#8E1B1B;}
+.chap{border:1.5px solid #ddd;border-radius:12px;padding:13px 14px;margin-bottom:9px;}
+.chap .t{font-size:16px;font-weight:600;margin-bottom:3px;}
+.chap .d{font-size:12.5px;color:#666;}
+.row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+.row input.w{flex:1.1;}
+.row input.m{flex:1.6;}
+.row button{width:34px;height:40px;flex:none;border:1.5px solid #e0a9a4;background:#fff;
+color:#B3261E;border-radius:8px;font-size:17px;font-family:inherit;}
+@keyframes bnc{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.bnc{animation:bnc .6s ease infinite;}
+#ovl{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;
+align-items:center;justify-content:center;padding:22px;box-sizing:border-box;z-index:50;}
+#ovl>div{background:#fff;border-radius:14px;padding:24px 20px;max-width:310px;width:100%;text-align:center;}
+.demo{border:1.5px solid #e2e0ea;background:#faf9fd;border-radius:12px;padding:15px 14px;margin:14px 0;}
+.demo .dw{font-size:20px;font-weight:600;}
+.demo .dm{font-size:15px;color:#5b3d9e;font-weight:600;margin-top:3px;}
+.demo .fake{display:block;background:#fff;border:1.5px solid #ccc;border-radius:8px;
+padding:9px;font-size:14px;margin-top:7px;text-align:center;color:#333;}
+.demo .fake.ok{background:#E3F5E6;border-color:#2E7D32;color:#1B5E20;font-weight:600;}
+.demo .fake.go{background:linear-gradient(135deg,#667eea,#764ba2);border:none;color:#fff;font-weight:600;}
+.gh{font-size:18px;font-weight:600;margin-bottom:6px;}.gt{font-size:14px;color:#444;line-height:1.75;}
+.gt b{color:#5b3d9e;}
+.pbtn{background:#fff;border:1.5px solid #d8d5e4;border-radius:12px;padding:8px 0;
+font-size:30px;font-family:inherit;line-height:1.2;}
+.pbtn.sel{border:2.5px solid #764ba2;background:#f4f1fb;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ═══ HOME ═══ -->
+<div id="home">
+  <div class="card" style="text-align:center;">
+    <div id="homeAvatar" style="width:74px;height:74px;margin:0 auto 8px;border-radius:50%;
+      background:#f1eff8;display:flex;align-items:center;justify-content:center;font-size:42px;overflow:hidden;"></div>
+    <h1 id="homeName">단어 경주</h1>
+    <p class="sub">단어를 외우고 결승점까지 달리자</p>
+    <div class="btnrow" style="margin-top:12px;">
+      <button class="btn2" onclick="editProfile()">👤 프로필 바꾸기</button>
+      <button class="btn2" onclick="startGuide()">❓ 사용법</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>내 챕터</h2>
+    <div id="chapList"></div>
+    <button class="btn" onclick="go('newMenu')">+ 새 챕터 만들기</button>
+  </div>
+</div>
+
+<!-- ═══ NEW CHAPTER MENU ═══ -->
+<div id="newMenu" class="hide">
+  <div class="card">
+    <h2>새 챕터 만들기</h2>
+    <p class="sub">단어장을 사진으로 찍거나, 직접 입력해서 나만의 챕터를 만들 수 있어.</p>
+    <button class="btn" onclick="go('shot')">📷 단어장 사진 찍기</button>
+    <button class="btn2" onclick="startManual()">⌨️ 직접 입력하기</button>
+    <button class="btn2" onclick="startPaste()">🔗 공유받은 코드 넣기</button>
+    <button class="btn2" onclick="go('home')">← 돌아가기</button>
+  </div>
+</div>
+
+<!-- ═══ PHOTO / OCR ═══ -->
+<div id="shot" class="hide">
+  <div class="card">
+    <h2>단어장 사진</h2>
+    <p class="sub">글자가 크고 반듯하게 나오도록 찍어줘. 한 번에 한 페이지씩이 제일 정확해.</p>
+    <input type="file" id="pic" accept="image/*" style="margin-top:14px;padding:10px;border-style:dashed;">
+    <div id="ocrBox" class="hide" style="margin-top:14px;">
+      <div class="bar"><div id="ocrBar"></div></div>
+      <p id="ocrMsg" class="sub" style="margin-top:8px;">준비 중</p>
+    </div>
+    <button class="btn2" onclick="go('newMenu')">← 돌아가기</button>
+  </div>
+</div>
+
+<!-- ═══ REVIEW / EDIT WORDS ═══ -->
+<div id="review" class="hide">
+  <div class="card">
+    <h2>단어 확인하기</h2>
+    <p class="sub">틀린 글자는 고치고, 빠진 단어는 추가해. 이 목록이 그대로 챕터가 돼.</p>
+  </div>
+  <div class="card">
+    <div id="rows"></div>
+    <button class="btn2" onclick="addRow('','')">+ 줄 추가</button>
+  </div>
+  <div class="card">
+    <p class="sub" style="margin-bottom:8px;">챕터 이름</p>
+    <input id="chapName" placeholder="예: 워드마스터 DAY 08">
+    <button class="btn" onclick="saveChapter()">챕터 저장하기</button>
+    <button class="btn2" onclick="go('newMenu')">← 취소</button>
+  </div>
+</div>
+
+<!-- ═══ MANUAL INPUT ═══ -->
+<div id="manual" class="hide">
+  <div class="card">
+    <h2>직접 입력</h2>
+    <p class="sub">한 줄에 단어 하나씩. 단어와 뜻은 띄어쓰기나 슬래시(/)로 나눠 써.</p>
+    <textarea id="mtext" rows="9" style="margin-top:12px;" placeholder="apply 지원하다, 적용하다&#10;vast / 거대한, 방대한"></textarea>
+    <button class="btn" onclick="parseManual()">다음</button>
+    <button class="btn2" onclick="go('newMenu')">← 돌아가기</button>
+  </div>
+</div>
+
+<!-- ═══ PROFILE ═══ -->
+<div id="profile" class="hide">
+  <div class="card" style="text-align:center;">
+    <h2 id="profTitle">누가 달릴까?</h2>
+    <div id="pvAvatar" style="width:96px;height:96px;margin:14px auto 10px;border-radius:50%;
+      background:#f1eff8;display:flex;align-items:center;justify-content:center;font-size:54px;overflow:hidden;"></div>
+    <input id="pname" placeholder="이름을 써줘" autocomplete="off" style="text-align:center;">
+  </div>
+  <div class="card">
+    <p class="sub" style="margin-bottom:10px;">달릴 선수 고르기</p>
+    <div id="presets" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
+    <label class="btn2" style="text-align:center;cursor:pointer;">📷 내 얼굴로 하기
+      <input type="file" id="face" accept="image/*" capture="user" style="display:none;">
+    </label>
+    <button class="btn" onclick="saveProfile()">시작하기</button>
+    <button class="btn2 hide" id="profCancel" onclick="go('home')">← 취소</button>
+  </div>
+</div>
+
+<!-- ═══ GUIDE ═══ -->
+<div id="guide" class="hide">
+  <div class="card">
+    <div class="meta" style="margin-bottom:9px;">
+      <span id="gStep">1 / 7</span>
+      <span id="gSkip" style="color:#5b3d9e;font-weight:600;" onclick="endGuide()">건너뛰기</span>
+    </div>
+    <div class="bar" style="margin-bottom:16px;"><div id="gBar"></div></div>
+    <div id="gBody"></div>
+    <div class="btnrow" style="margin-top:16px;">
+      <button class="btn2" id="gPrev" onclick="gMove(-1)">← 이전</button>
+      <button class="btn2" id="gNext" onclick="gMove(1)" style="border-color:#764ba2;color:#5b3d9e;font-weight:600;">다음 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SHARE ═══ -->
+<div id="share" class="hide">
+  <div class="card">
+    <h2>챕터 보내기</h2>
+    <p class="sub">아래 주소를 카톡이나 메시지로 보내면, 받은 사람이 열기만 해도 이 챕터가 그대로 들어가.</p>
+    <textarea id="shareUrl" rows="4" readonly style="margin-top:12px;font-size:12px;color:#444;"></textarea>
+    <button class="btn" onclick="doShare()">보내기</button>
+    <button class="btn2" onclick="copyShare()">주소 복사하기</button>
+    <button class="btn2" onclick="go('home')">← 챕터 목록</button>
+  </div>
+</div>
+
+<!-- ═══ PASTE CODE ═══ -->
+<div id="paste" class="hide">
+  <div class="card">
+    <h2>공유받은 코드 넣기</h2>
+    <p class="sub">받은 주소나 코드를 그대로 붙여넣어.</p>
+    <textarea id="pasteBox" rows="5" style="margin-top:12px;font-size:13px;" placeholder="https://... 또는 코드"></textarea>
+    <button class="btn" onclick="usePaste()">불러오기</button>
+    <button class="btn2" onclick="go('newMenu')">← 돌아가기</button>
+  </div>
+</div>
+
+<!-- ═══ IMPORT ═══ -->
+<div id="importc" class="hide">
+  <div class="card" style="text-align:center;">
+    <div style="font-size:46px;">📬</div>
+    <h1>챕터가 도착했어</h1>
+    <p class="sub" id="impInfo" style="margin-top:8px;"></p>
+    <button class="btn" onclick="acceptImport()">내 폰에 저장하기</button>
+    <button class="btn2" onclick="cancelImport()">지금은 안 할래</button>
+  </div>
+</div>
+
+<!-- ═══ CHAPTER START ═══ -->
+<div id="intro" class="hide">
+  <div class="card" style="text-align:center;">
+    <div style="font-size:46px;transform:scaleX(-1);">🏃</div>
+    <h1 id="introName"></h1>
+    <p class="sub" id="introCnt"></p>
+  </div>
+  <div class="card">
+    <p class="sub" style="line-height:2;">
+    <b style="color:#5b3d9e;">🏆 시상 기준 (한 번에 맞힌 개수)</b><br>
+    🥇 금메달 · 다 맞힘　🥈 은메달 · 1개 틀림<br>
+    🥉 동메달 · 2개　🎖️ 장려상 · 3개<br>
+    🎗️ 참가상 · 4개　🏃 완주상 · 5개 이상</p>
+    <button class="btn" onclick="goStudy()">외우기 시작</button>
+    <button class="btn2" onclick="goTest()">바로 테스트하기</button>
+    <button class="btn2" onclick="go('home')">← 챕터 목록</button>
+  </div>
+</div>
+
+<!-- ═══ STUDY ═══ -->
+<div id="study" class="hide">
+  <div class="card" style="padding:14px 18px;">
+    <div class="meta" style="margin-bottom:10px;"><span id="phase">외우기</span><span><span id="sNum">1</span> / <span id="sTot">0</span></span></div>
+    <div class="bar" style="margin-bottom:10px;"><div id="sBar"></div></div>
+    <div class="btnrow">
+      <button class="btn2" onclick="stepBack()">← 뒤로</button>
+      <button class="btn2" onclick="askQuit()">↺ 나가기</button>
+    </div>
+  </div>
+  <div id="card1" class="card" style="text-align:center;padding:30px 22px;">
+    <p class="sub" style="letter-spacing:1px;margin-bottom:14px;">외워보자</p>
+    <div id="sWord" style="font-size:28px;font-weight:600;margin-bottom:5px;word-break:break-word;"></div>
+    <div id="sPron" style="font-size:13px;color:#777;margin-bottom:15px;"></div>
+    <div id="sMean" style="font-size:18px;color:#5b3d9e;font-weight:600;line-height:1.6;margin-bottom:24px;"></div>
+    <button class="btn" onclick="toQ1()">✓ 외웠어요</button>
+  </div>
+  <div id="card2" class="card hide" style="text-align:center;">
+    <p id="mcLabel" class="sub" style="font-weight:500;margin-bottom:13px;"></p>
+    <div id="mcQ" style="font-size:22px;font-weight:600;margin-bottom:20px;line-height:1.4;word-break:break-word;"></div>
+    <div id="mcOpts"></div>
+    <div id="mcFb" style="font-size:14px;margin-top:12px;min-height:20px;font-weight:500;"></div>
+  </div>
+</div>
+
+<!-- ═══ STUDY DONE ═══ -->
+<div id="sdone" class="hide">
+  <div class="card" style="text-align:center;">
+    <div style="font-size:50px;">🏟️</div>
+    <h1>외우기 완료!</h1>
+    <p class="sub">이제 마라톤 테스트야<br>한 번에 맞힐수록 좋은 메달을 받아</p>
+    <button class="btn" onclick="goTest()">테스트 시작</button>
+    <button class="btn2" onclick="backLastWord()">← 외우기로 돌아가기</button>
+  </div>
+</div>
+
+<!-- ═══ TEST ═══ -->
+<div id="test" class="hide">
+  <div class="card" style="padding:14px 18px;">
+    <div class="meta" style="margin-bottom:8px;"><span>마라톤 테스트</span><span id="medalNow" style="font-weight:600;"></span></div>
+    <div style="position:relative;height:74px;background:rgba(190,190,190,.18);border-radius:9px;overflow:hidden;margin-bottom:8px;">
+      <svg style="width:100%;height:100%;position:absolute;" viewBox="0 0 300 74" preserveAspectRatio="none">
+        <line x1="30" y1="18" x2="270" y2="18" stroke="rgba(120,120,120,.3)" stroke-width="2"/>
+        <line x1="30" y1="37" x2="270" y2="37" stroke="rgba(120,120,120,.3)" stroke-width="2"/>
+        <line x1="30" y1="56" x2="270" y2="56" stroke="rgba(120,120,120,.3)" stroke-width="2"/>
+        <line x1="30" y1="9" x2="30" y2="65" stroke="rgba(60,60,60,.6)" stroke-width="3"/>
+        <line x1="272" y1="9" x2="272" y2="65" stroke="rgba(60,60,60,.6)" stroke-width="3"/>
+        <text x="4" y="71" font-size="9" fill="rgba(0,0,0,.6)">START</text>
+        <text x="256" y="71" font-size="9" fill="rgba(0,0,0,.6)">GOAL</text>
+      </svg>
+      <div id="run" style="position:absolute;width:32px;height:32px;top:13px;left:2%;transition:left .5s ease;
+        display:flex;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;"></div>
+      <div style="position:absolute;right:6px;top:17px;font-size:23px;">🏁</div>
+    </div>
+    <div class="meta" style="margin-bottom:10px;"><span><span id="tNum">0</span>/<span id="tTot">0</span></span><span id="pct">0%</span></div>
+    <div class="btnrow">
+      <button class="btn2" onclick="testBack()">← 이전 문제</button>
+      <button class="btn2" onclick="askQuit()">↺ 나가기</button>
+    </div>
+  </div>
+  <div id="tIn" class="card" style="text-align:center;">
+    <p id="qLabel" class="sub" style="font-weight:500;margin-bottom:13px;"></p>
+    <div id="qText" style="font-size:23px;font-weight:600;margin-bottom:20px;line-height:1.4;word-break:break-word;"></div>
+    <input id="ans" placeholder="답 입력" autocomplete="off" autocapitalize="off" autocorrect="off">
+    <button class="btn" id="okBtn" onclick="check()">확인</button>
+    <button class="btn hide" id="nextBtn" style="background:#555;" onclick="skipNext()">→ 다음 문제</button>
+    <div id="fb" style="font-size:14px;margin-top:12px;min-height:20px;font-weight:500;color:#444;"></div>
+  </div>
+  <div id="tMc" class="card hide" style="text-align:center;">
+    <p class="sub" style="color:#C62828;font-weight:600;margin-bottom:10px;">힌트 · 보기에서 골라봐</p>
+    <div id="tMcQ" style="font-size:21px;font-weight:600;margin-bottom:18px;line-height:1.4;word-break:break-word;"></div>
+    <div id="tMcOpts"></div>
+    <div id="tMcFb" style="font-size:14px;margin-top:12px;min-height:20px;font-weight:500;"></div>
+  </div>
+</div>
+
+<!-- ═══ RESULT ═══ -->
+<div id="result" class="hide">
+  <div class="card" style="text-align:center;padding:36px 24px;">
+    <div id="endIcon" class="bnc" style="font-size:72px;margin-bottom:14px;">🏅</div>
+    <h1>결승점 통과!</h1>
+    <div id="endAward" style="font-size:40px;font-weight:700;margin:6px 0;"></div>
+    <p id="endMsg" class="sub" style="margin:16px 0 0;"></p>
+    <button class="btn" onclick="replay()">다시 도전</button>
+    <button class="btn2" onclick="go('home')">← 챕터 목록</button>
+  </div>
+</div>
+
+</div>
+
+<div id="ovl">
+  <div>
+    <p id="ovlT" style="font-size:16px;font-weight:600;margin-bottom:6px;"></p>
+    <p id="ovlS" class="sub" style="margin-bottom:18px;"></p>
+    <button class="btn" id="ovlY">확인</button>
+    <button class="btn2" onclick="closeOvl()">취소</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js"></script>
+<script>
+/* ─────────── 저장소 ─────────── */
+var KEY="wordrace_v1";
+var DEFAULT_WORDS=[
+["application","[æplikéiʃən]","지원, 신청(서), 적용"],["reasonable","[ríːzənəbl]","합리적인, 분별 있는, (가격이) 적정한"],
+["abandon","[əbǽndən]","버리다, 포기하다"],["get used to","","~에 익숙해지다"],
+["figure out","","~을 알아내다, ~을 이해하다"],["education","[èdʒukéiʃən]","교육, 훈련"],
+["enormous","[inɔ́ːrməs]","거대한, 막대한"],["vast","[væst]","거대한, 방대한"],
+["tiny","[táini]","아주 작은[적은]"],["ordinary","[ɔ́ːrdənèri]","평범한, 보통의"],
+["appoint","[əpɔ́int]","임명[지명]하다, 정하다"],["blend","[blend]","섞다[섞이다], 어울리다, 혼합(물)"],
+["barrier","[bǽriər]","장벽, 장애물, 한계"],["obstacle","[ábstəkl]","장애(물)"],
+["detect","[ditékt]","발견하다, 탐지하다, 감지하다"],["firm","[fəːrm]","단단한, 확고한, 회사"],
+["independence","[indipéndəns]","독립, 자립"],["occasion","[əkéiʒən]","때, 경우, 행사"],
+["publish","[pʌ́bliʃ]","출판[발행]하다, 발표하다"],["appearance","[əpíərəns]","겉모습, 외모, 출현"],
+["worth","[wəːrθ]","~의[할] 가치가 있는, 가치"],["alternative","[ɔːltə́ːrnətiv]","대안, 양자택일, 대체의"],
+["factor","[fǽktər]","요인, 요소"],["element","[éləmənt]","요소, 성분, 원소, 원리"],
+["deadly","[dédli]","치명적인, 극도의, 죽은 듯이"],["donate","[dóuneit]","기부[기증]하다"],
+["average","[ǽvəridʒ]","평균, 표준, 평균의"],["gender","[dʒéndər]","성(性), 성별"],
+["invest","[invést]","투자하다, (시간·노력을) 쏟다"],["previous","[príːviəs]","이전의, 먼저의"],
+["interest","[íntərəst]","관심, 흥미, 이자"],["rare","[rɛər]","드문, 희박한"],
+["employ","[implɔ́i]","고용하다, 이용하다"],["hire","[háiər]","고용하다"],
+["define","[difáin]","정의하다, 규정하다"],["protest","[prətést]","항의하다, 주장하다, 시위"],
+["organic","[ɔːrgǽnik]","유기의, 생물의, 유기농의"],["brilliant","[bríljənt]","훌륭한, 뛰어난, 눈부신"],
+["finance","[fáinæns]","재정, 재무, 자금"],["incredible","[inkrédəbl]","믿을 수 없는, 놀라운, 대단한"]];
+
+var chapters=[];
+function load(){
+  var first=false;
+  try{
+    var raw=localStorage.getItem(KEY);
+    if(raw===null){first=true;chapters=[];}
+    else chapters=JSON.parse(raw)||[];
+  }catch(e){first=true;chapters=[];}
+  if(first){
+    chapters=[{name:"워드마스터 DAY 07",words:DEFAULT_WORDS,best:null,date:today()}];
+    save();
+  }
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(chapters));}catch(e){alert("저장 공간이 부족해");}}
+function today(){var d=new Date();return d.getFullYear()+"."+(d.getMonth()+1)+"."+d.getDate();}
+
+/* ─────────── 화면 전환 ─────────── */
+var SCREENS=["home","profile","newMenu","shot","review","manual","guide","share","paste","importc","intro","study","sdone","test","result"];
+function go(id){
+  SCREENS.forEach(function(s){document.getElementById(s).classList.toggle("hide",s!==id);});
+  window.scrollTo(0,0);
+  if(id==="home"){drawProfileBits();drawHome();}
+}
+
+/* ─────────── 확인창 ─────────── */
+var ovlAction=null;
+function ask(title,sub,fn){
+  document.getElementById("ovlT").textContent=title;
+  document.getElementById("ovlS").textContent=sub;
+  ovlAction=fn;
+  document.getElementById("ovl").style.display="flex";
+}
+function closeOvl(){document.getElementById("ovl").style.display="none";ovlAction=null;}
+document.getElementById("ovlY").onclick=function(){var f=ovlAction;closeOvl();if(f)f();};
+function askQuit(){ask("챕터에서 나갈까?","지금 진행한 기록은 저장되지 않아",function(){go("home");});}
+
+/* ─────────── 홈 ─────────── */
+function drawHome(){
+  var box=document.getElementById("chapList");box.innerHTML="";
+  chapters.forEach(function(c,i){
+    var d=document.createElement("div");d.className="chap";
+    var best=c.best?(" · 최고기록 "+c.best):"";
+    d.innerHTML='<div class="t"></div><div class="d"></div>';
+    d.querySelector(".t").textContent=c.name;
+    d.querySelector(".d").textContent=c.words.length+"단어 · "+c.date+best;
+    var r=document.createElement("div");r.className="btnrow";r.style.marginTop="10px";
+    var b1=document.createElement("button");b1.className="btn2";b1.textContent="열기";
+    b1.onclick=function(){openChapter(i);};
+    var b3=document.createElement("button");b3.className="btn2";b3.textContent="공유";
+    b3.onclick=function(){openShare(i);};
+    var b2=document.createElement("button");b2.className="btn2 danger";b2.textContent="삭제";
+    b2.onclick=function(){delChapter(i);};
+    r.appendChild(b1);r.appendChild(b3);r.appendChild(b2);d.appendChild(r);
+    box.appendChild(d);
+  });
+  if(!chapters.length)box.innerHTML='<p class="sub">아직 챕터가 없어. 아래에서 하나 만들어보자.</p>';
+}
+function delChapter(i){
+  ask("'"+chapters[i].name+"' 삭제할까?","단어와 기록이 모두 지워져",function(){
+    chapters.splice(i,1);save();drawHome();});
+}
+
+/* ─────────── 챕터 만들기 ─────────── */
+var draft=[];
+function startManual(){document.getElementById("mtext").value="";go("manual");}
+function parseManual(){
+  var lines=document.getElementById("mtext").value.split("\n");
+  draft=[];
+  lines.forEach(function(L){
+    var t=parseLine(L);
+    if(t)draft.push(t);
+  });
+  if(!draft.length){alert("읽을 수 있는 단어가 없어. 한 줄에 '단어 뜻' 형식으로 써줘.");return;}
+  drawReview();
+}
+function parseLine(L){
+  L=L.replace(/^\s*\d+\s*/,"").trim();
+  if(!L)return null;
+  if(L.indexOf("/")>0){
+    var p=L.split("/");
+    var w=p[0].trim(),m=p.slice(1).join("/").trim();
+    if(w&&m)return [w,"",m];
+    return null;
+  }
+  var k=L.search(/[\uAC00-\uD7A3]/);
+  if(k<=0)return null;
+  var word=L.slice(0,k).replace(/\[[^\]]*\]/g,"").trim();
+  var mean=L.slice(k).trim();
+  if(!word||!mean)return null;
+  return [word,"",mean];
+}
+function drawReview(){
+  var box=document.getElementById("rows");box.innerHTML="";
+  draft.forEach(function(t){addRow(t[0],t[2]);});
+  document.getElementById("chapName").value="";
+  go("review");
+}
+function addRow(w,m){
+  var box=document.getElementById("rows");
+  var r=document.createElement("div");r.className="row";
+  var i1=document.createElement("input");i1.className="w";i1.placeholder="word";i1.value=w||"";
+  var i2=document.createElement("input");i2.className="m";i2.placeholder="뜻";i2.value=m||"";
+  var b=document.createElement("button");b.textContent="✕";
+  b.onclick=function(){box.removeChild(r);};
+  r.appendChild(i1);r.appendChild(i2);r.appendChild(b);box.appendChild(r);
+}
+function saveChapter(){
+  var rows=document.getElementById("rows").querySelectorAll(".row");
+  var list=[];
+  Array.prototype.forEach.call(rows,function(r){
+    var w=r.querySelector(".w").value.trim(),m=r.querySelector(".m").value.trim();
+    if(w&&m)list.push([w,"",m]);
+  });
+  if(list.length<2){alert("단어를 2개 이상 넣어줘.");return;}
+  var nm=document.getElementById("chapName").value.trim()||("새 챕터 "+today());
+  chapters.push({name:nm,words:list,best:null,date:today()});
+  save();go("home");
+}
+
+/* ─────────── 프로필 ─────────── */
+var PKEY="wordrace_profile_v1";
+var PRESETS=[{v:"🏃‍♂️",f:1},{v:"🏃‍♀️",f:1},{v:"🏃🏻‍♂️",f:1},{v:"🏃🏽‍♀️",f:1},
+{v:"🦊",f:0},{v:"🐯",f:0},{v:"🐧",f:0},{v:"🦸‍♂️",f:0}];
+var prof={name:"",type:"emoji",v:"🏃‍♂️",f:1};
+function loadProfile(){
+  try{var r=localStorage.getItem(PKEY);if(r){prof=JSON.parse(r);return true;}}catch(e){}
+  return false;
+}
+function saveProfileData(){try{localStorage.setItem(PKEY,JSON.stringify(prof));}catch(e){}}
+
+var tmp={name:"",type:"emoji",v:"🏃‍♂️",f:1};
+function startProfile(isEdit){
+  tmp={name:prof.name||"",type:prof.type,v:prof.v,f:prof.f};
+  document.getElementById("profTitle").textContent=isEdit?"프로필 바꾸기":"누가 달릴까?";
+  document.getElementById("pname").value=tmp.name;
+  document.getElementById("profCancel").classList.toggle("hide",!isEdit);
+  drawPresets();paintAvatar(document.getElementById("pvAvatar"),54,tmp);
+  go("profile");
+}
+function editProfile(){startProfile(true);}
+function drawPresets(){
+  var box=document.getElementById("presets");box.innerHTML="";
+  PRESETS.forEach(function(p){
+    var b=document.createElement("button");
+    b.className="pbtn"+(tmp.type==="emoji"&&tmp.v===p.v?" sel":"");
+    b.textContent=p.v;
+    b.style.transform=p.f?"scaleX(-1)":"none";
+    b.onclick=function(){tmp.type="emoji";tmp.v=p.v;tmp.f=p.f;
+      drawPresets();paintAvatar(document.getElementById("pvAvatar"),54,tmp);};
+    box.appendChild(b);
+  });
+}
+function paintAvatar(el,size,p){
+  p=p||prof;
+  if(p.type==="photo"){
+    el.innerHTML="";
+    var im=document.createElement("img");
+    im.src=p.v;im.style.cssText="width:100%;height:100%;object-fit:cover;display:block;";
+    el.appendChild(im);el.style.transform="none";
+  }else{
+    el.textContent=p.v;
+    el.style.fontSize=size+"px";
+    el.style.transform=p.f?"scaleX(-1)":"none";
+  }
+}
+document.getElementById("face").onchange=function(e){
+  var f=e.target.files&&e.target.files[0];if(!f)return;
+  var rd=new FileReader();
+  rd.onload=function(ev){
+    var img=new Image();
+    img.onload=function(){
+      var S=180,c=document.createElement("canvas");c.width=S;c.height=S;
+      var g=c.getContext("2d");
+      var side=Math.min(img.width,img.height);
+      g.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,S,S);
+      tmp.type="photo";tmp.v=c.toDataURL("image/jpeg",0.75);tmp.f=0;
+      drawPresets();paintAvatar(document.getElementById("pvAvatar"),54,tmp);
+    };
+    img.src=ev.target.result;
+  };
+  rd.readAsDataURL(f);
+  e.target.value="";
+};
+function saveProfile(){
+  var n=document.getElementById("pname").value.trim();
+  if(!n){alert("이름을 써줘.");return;}
+  prof={name:n,type:tmp.type,v:tmp.v,f:tmp.f};
+  saveProfileData();
+  if(!guideSeen())startGuide();else go("home");
+}
+function drawProfileBits(){
+  document.getElementById("homeName").textContent=prof.name?(prof.name+"의 단어 경주"):"단어 경주";
+  paintAvatar(document.getElementById("homeAvatar"),42);
+}
+
+/* ─────────── 사용법 안내 ─────────── */
+var GKEY="wordrace_guide_v1";
+var SLIDES=[
+{h:"단어 경주가 뭐야?",
+ b:'단어장 하나가 <b>챕터</b> 하나가 돼.<br>챕터를 열면 두 단계를 지나게 돼.<br><br><b>1단계 외우기</b> — 단어를 하나씩 익히기<br><b>2단계 마라톤</b> — 직접 입력해서 달리기<br><br>결승점에 닿으면 메달을 받아.',
+ d:'<div class="demo" style="text-align:center;"><div style="font-size:34px;transform:scaleX(-1);">🏃</div><div class="gt" style="margin-top:4px;">외우기 → 마라톤 → 메달</div></div>'},
+{h:"1단계 · 외우기",
+ b:'단어와 뜻이 같이 나와. 충분히 봤으면 <b>✓ 외웠어요</b>를 눌러.<br><br>뜻은 교재에 있는 그대로 전부 보여주니까 천천히 읽으면 돼.',
+ d:'<div class="demo" style="text-align:center;"><div class="dw">vast</div><div style="font-size:12px;color:#777;">[væst]</div><div class="dm">거대한, 방대한</div><span class="fake go">✓ 외웠어요</span></div>'},
+{h:"바로 확인 문제 2개",
+ b:'한 단어를 외울 때마다 객관식 두 문제를 풀어.<br><br>① 뜻을 보고 <b>단어</b> 고르기<br>② 단어를 보고 <b>뜻</b> 고르기<br><br>틀리면 맞을 때까지 다시 고르면 돼. 벌점 같은 건 없어.',
+ d:'<div class="demo"><div class="gt" style="text-align:center;margin-bottom:8px;">이 뜻의 단어는?<br><b style="font-size:17px;">거대한, 방대한</b></div><span class="fake">tiny</span><span class="fake ok">vast ✓</span></div>'},
+{h:"2단계 · 마라톤 테스트",
+ b:'이번엔 <b>직접 입력</b>이야. 단어가 나오면 뜻을, 뜻이 나오면 단어를 써.<br><br>맞힐 때마다 달리기 선수가 결승선 쪽으로 나아가.<br><br>뜻이 여러 개인 단어는 <b>하나만</b> 써도 정답이야.',
+ d:'<div class="demo"><div class="gt" style="text-align:center;">단어를 입력하세요<br><b style="font-size:17px;">고용하다</b></div><span class="fake">hire</span><span class="fake go">확인</span><div class="gt" style="text-align:center;margin-top:8px;color:#2E7D32;">✅ 한 번에 정답!</div></div>'},
+{h:"틀려도 괜찮아",
+ b:'바로 답을 알려주지 않아. 이렇게 기회를 줘.<br><br>① 첫 오답 → <b>한 번 더 생각해봐</b><br>② 또 틀리면 → <b>객관식 힌트</b><br>③ 힌트를 맞히면 → <b>다시 직접 입력</b><br>④ 그래도 틀리면 → 그때 정답 공개<br><br>조사(을/를)나 물결(~)은 빠져도 정답으로 봐줘.',
+ d:'<div class="demo"><div class="gt">❌ 아쉬워! 한 번 더 생각해봐</div><div class="gt" style="margin-top:6px;color:#C62828;">힌트 · 보기에서 골라봐</div></div>'},
+{h:"메달 받기",
+ b:'<b>한 번에 맞힌 개수</b>로 상이 정해져.<br><br>🥇 금메달 · 다 맞힘<br>🥈 은메달 · 1개 틀림<br>🥉 동메달 · 2개<br>🎖️ 장려상 · 3개<br>🎗️ 참가상 · 4개<br>🏃 완주상 · 5개 이상<br><br>달리는 동안 지금 등급이 위에 계속 보여.',
+ d:'<div class="demo" style="text-align:center;"><div style="font-size:40px;">🥇</div><div style="font-size:20px;font-weight:700;color:#C08A00;">금메달</div></div>'},
+{h:"내 단어장으로 챕터 만들기",
+ b:'홈에서 <b>+ 새 챕터 만들기</b>를 누르면<br><br>📷 <b>사진 찍기</b> — 단어장을 찍으면 글자를 읽어줘. 틀린 글자는 확인 화면에서 고치면 돼<br>⌨️ <b>직접 입력</b> — 한 줄에 "단어 뜻"씩<br>🔗 <b>공유받은 코드</b> — 아빠가 보낸 챕터 넣기<br><br>만든 챕터는 홈에 저장돼. <b>공유</b>로 카톡 전송, <b>삭제</b>로 지울 수 있어.',
+ d:'<div class="demo"><div class="gt" style="font-weight:600;">워드마스터 DAY 07</div><div style="font-size:12px;color:#666;">40단어 · 최고기록 은메달</div><div style="display:flex;gap:6px;margin-top:8px;"><span class="fake" style="flex:1;margin-top:0;">열기</span><span class="fake" style="flex:1;margin-top:0;">공유</span><span class="fake" style="flex:1;margin-top:0;color:#B3261E;">삭제</span></div></div>'},
+{h:"연습해볼까?",
+ b:'단어 3개짜리 짧은 연습으로 전체 흐름을 직접 해볼 수 있어.<br><br>연습 기록은 저장되지 않으니까 편하게 눌러봐.',
+ d:'<div class="demo" style="text-align:center;"><div style="font-size:34px;">🏟️</div><div class="gt">vast · tiny · hire</div></div>',
+ last:true}
+];
+var gi=0;
+function startGuide(){gi=0;drawSlide();go("guide");}
+function drawSlide(){
+  var s=SLIDES[gi];
+  document.getElementById("gStep").textContent=(gi+1)+" / "+SLIDES.length;
+  document.getElementById("gBar").style.width=Math.round((gi+1)/SLIDES.length*100)+"%";
+  document.getElementById("gBody").innerHTML='<div class="gh">'+s.h+'</div>'+(s.d||"")+'<div class="gt">'+s.b+'</div>';
+  document.getElementById("gPrev").style.visibility=(gi===0)?"hidden":"visible";
+  var n=document.getElementById("gNext");
+  n.textContent=s.last?"▶ 연습 시작하기":"다음 →";
+  window.scrollTo(0,0);
+}
+function gMove(d){
+  if(d>0&&SLIDES[gi].last){markGuideSeen();startDemo();return;}
+  gi+=d;
+  if(gi<0)gi=0;
+  drawSlide();
+}
+function endGuide(){markGuideSeen();go("home");}
+function markGuideSeen(){try{localStorage.setItem(GKEY,"1");}catch(e){}}
+function guideSeen(){try{return localStorage.getItem(GKEY)==="1";}catch(e){return true;}}
+
+var DEMO_WORDS=[["vast","[væst]","거대한, 방대한"],["tiny","[táini]","아주 작은[적은]"],["hire","[háiər]","고용하다"]];
+var isDemo=false;
+function startDemo(){isDemo=true;W=DEMO_WORDS;goStudy();}
+
+/* ─────────── 챕터 공유 ─────────── */
+function enc(c){
+  var t=c.name+"\n"+c.words.map(function(w){return w[0]+"\t"+(w[1]||"")+"\t"+w[2];}).join("\n");
+  return btoa(unescape(encodeURIComponent(t))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function dec(s){
+  s=s.replace(/-/g,"+").replace(/_/g,"/");
+  var t=decodeURIComponent(escape(atob(s)));
+  var L=t.split("\n"),name=L.shift(),ws=[];
+  L.forEach(function(l){
+    var p=l.split("\t");
+    if(p.length>=3&&p[0].trim()&&p[2].trim())ws.push([p[0],p[1],p[2]]);
+    else if(p.length===2&&p[0].trim()&&p[1].trim())ws.push([p[0],"",p[1]]);
+  });
+  if(!ws.length)throw new Error("empty");
+  return {name:name||"받은 챕터",words:ws,best:null,date:today()};
+}
+function shareLink(i){
+  return location.origin+location.pathname+"#c="+enc(chapters[i]);
+}
+var shareIdx=0;
+function openShare(i){
+  shareIdx=i;
+  document.getElementById("shareUrl").value=shareLink(i);
+  go("share");
+}
+function doShare(){
+  var u=document.getElementById("shareUrl").value;
+  if(navigator.share){navigator.share({title:chapters[shareIdx].name,text:"단어 경주 챕터 · "+chapters[shareIdx].name,url:u}).catch(function(){});}
+  else copyShare();
+}
+function copyShare(){
+  var t=document.getElementById("shareUrl");
+  t.select();t.setSelectionRange(0,99999);
+  try{document.execCommand("copy");alert("주소를 복사했어. 카톡에 붙여넣어 보내줘.");}
+  catch(e){alert("길게 눌러서 직접 복사해줘.");}
+}
+function startPaste(){document.getElementById("pasteBox").value="";go("paste");}
+function usePaste(){
+  var v=document.getElementById("pasteBox").value.trim();
+  var m=v.match(/#c=([A-Za-z0-9\-_]+)/);
+  var code=m?m[1]:v.replace(/\s/g,"");
+  try{pending=dec(code);showImport();}
+  catch(e){alert("코드를 읽지 못했어. 주소 전체를 다시 붙여넣어줘.");}
+}
+var pending=null;
+function showImport(){
+  document.getElementById("impInfo").innerHTML="";
+  var p=document.getElementById("impInfo");
+  p.textContent=pending.name+" · "+pending.words.length+"개 단어";
+  go("importc");
+}
+function acceptImport(){
+  if(pending){chapters.push(pending);save();pending=null;}
+  clearHash();go("home");
+}
+function cancelImport(){pending=null;clearHash();go("home");}
+function clearHash(){
+  try{history.replaceState(null,"",location.pathname+location.search);}
+  catch(e){location.hash="";}
+}
+function checkHash(){
+  var h=location.hash||"";
+  var m=h.match(/#c=([A-Za-z0-9\-_]+)/);
+  if(!m)return false;
+  try{pending=dec(m[1]);showImport();return true;}
+  catch(e){clearHash();return false;}
+}
+
+/* ─────────── 사진 인식 ─────────── */
+document.getElementById("pic").onchange=function(e){
+  var f=e.target.files&&e.target.files[0];
+  if(!f)return;
+  if(typeof Tesseract==="undefined"){
+    alert("글자 인식 기능을 불러오지 못했어. 인터넷에 연결한 뒤 다시 열어줘.");return;}
+  document.getElementById("ocrBox").classList.remove("hide");
+  setMsg("사진을 읽는 중… 처음 한 번은 시간이 걸려",5);
+  Tesseract.recognize(f,"eng+kor",{logger:function(m){
+    if(m.status==="recognizing text")setMsg("글자 읽는 중",10+m.progress*88);
+    else if(m.progress)setMsg("준비 중",5+m.progress*5);
+  }}).then(function(res){
+    setMsg("끝!",100);
+    var lines=res.data.text.split("\n");
+    draft=[];
+    lines.forEach(function(L){var t=parseLine(L);if(t)draft.push(t);});
+    setTimeout(function(){
+      document.getElementById("ocrBox").classList.add("hide");
+      document.getElementById("pic").value="";
+      if(!draft.length){
+        alert("글자를 못 읽었어. 더 밝고 크게 찍거나, 직접 입력을 써줘.");
+        go("newMenu");return;}
+      drawReview();
+    },500);
+  }).catch(function(){
+    alert("인식에 실패했어. 다시 시도해줘.");
+    document.getElementById("ocrBox").classList.add("hide");
+  });
+};
+function setMsg(t,p){
+  document.getElementById("ocrMsg").textContent=t;
+  document.getElementById("ocrBar").style.width=Math.round(p)+"%";
+}
+
+/* ─────────── 게임 ─────────── */
+var W=[],curIdx=0,si=0,ti=0,done=0,step="card",results=[],firstOk=[],tries=0,stage="in",mode="mean";
+var AWARDS=[{i:"🥇",n:"금메달",c:"#C08A00"},{i:"🥈",n:"은메달",c:"#767A85"},{i:"🥉",n:"동메달",c:"#9C5F32"},
+{i:"🎖️",n:"장려상",c:"#5b3d9e"},{i:"🎗️",n:"참가상",c:"#2F6B50"},{i:"🏃",n:"완주상",c:"#555"}];
+function awardOf(m){return AWARDS[Math.min(m,5)];}
+function missCount(){var m=0;for(var i=0;i<W.length;i++)if(firstOk[i]===false)m++;return m;}
+function updMedal(){var a=awardOf(missCount()),e=document.getElementById("medalNow");
+e.textContent=a.i+" "+a.n+(missCount()===0?" 유지중":"");e.style.color=a.c;}
+
+function openChapter(i){
+  isDemo=false;curIdx=i;W=chapters[i].words;
+  document.getElementById("introName").textContent=chapters[i].name;
+  document.getElementById("introCnt").textContent=W.length+"개 단어";
+  go("intro");
+}
+
+function goStudy(){si=0;document.getElementById("sTot").textContent=W.length;go("study");drawStudy();}
+function drawStudy(){
+  step="card";
+  document.getElementById("card1").classList.remove("hide");
+  document.getElementById("card2").classList.add("hide");
+  document.getElementById("phase").textContent="외우기";
+  document.getElementById("sWord").textContent=W[si][0];
+  document.getElementById("sPron").textContent=W[si][1]||"";
+  document.getElementById("sMean").textContent=W[si][2];
+  document.getElementById("sNum").textContent=si+1;
+  document.getElementById("sBar").style.width=Math.round((si+1)/W.length*100)+"%";
+}
+function stepBack(){
+  if(step==="q2")toQ1();
+  else if(step==="q1")drawStudy();
+  else if(si>0){si--;drawStudy();}
+}
+function backLastWord(){si=W.length-1;go("study");drawStudy();}
+function pick(idx,col){
+  var r=[],used={};used[idx]=1;
+  var tries=0;
+  while(r.length<3&&tries<300){var k=Math.floor(Math.random()*W.length);tries++;
+    if(!used[k]){used[k]=1;r.push(W[k][col]);}}
+  r.push(W[idx][col]);
+  for(var i=r.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=r[i];r[i]=r[j];r[j]=t;}
+  return r;
+}
+function buildOpts(boxId,fbId,opts,correct,after){
+  var box=document.getElementById(boxId);box.innerHTML="";
+  opts.forEach(function(o){
+    var b=document.createElement("button");b.className="opt";b.textContent=o;
+    b.onclick=function(){
+      var f=document.getElementById(fbId);
+      if(o===correct){b.className="opt ok";f.textContent="✅ 맞았어!";f.style.color="#2E7D32";
+        Array.prototype.forEach.call(box.children,function(c){c.onclick=null;});
+        setTimeout(after,700);}
+      else{b.className="opt no";f.textContent="❌ 다시 골라봐";f.style.color="#C62828";b.onclick=null;}
+    };
+    box.appendChild(b);
+  });
+}
+function toQ1(){
+  step="q1";
+  document.getElementById("card1").classList.add("hide");
+  document.getElementById("card2").classList.remove("hide");
+  document.getElementById("phase").textContent="확인 1 · 단어 고르기";
+  document.getElementById("mcLabel").textContent="이 뜻의 단어는?";
+  document.getElementById("mcQ").textContent=W[si][2];
+  document.getElementById("mcFb").textContent="";
+  buildOpts("mcOpts","mcFb",pick(si,0),W[si][0],toQ2);
+}
+function toQ2(){
+  step="q2";
+  document.getElementById("phase").textContent="확인 2 · 뜻 고르기";
+  document.getElementById("mcLabel").textContent="이 단어의 뜻은?";
+  document.getElementById("mcQ").textContent=W[si][0];
+  document.getElementById("mcFb").textContent="";
+  buildOpts("mcOpts","mcFb",pick(si,2),W[si][2],nextWord);
+}
+function nextWord(){si++;if(si>=W.length)go("sdone");else drawStudy();}
+
+function base(s){return s.replace(/[~\[\]()·,.\-]/g," ").replace(/\s+/g," ").toLowerCase().trim();}
+var PART=["을","를","이","가","은","는","에","의","와","과","로","으로","에게","도","만"];
+function loose(s){
+  var t=base(s).split(" ").filter(function(x){return x.length>0&&PART.indexOf(x)<0;}).join("");
+  return t.replace(/[을를이가은는의]/g,"");
+}
+function expand(s){
+  var m=s.match(/\[([^\]]*)\]/);
+  if(m){var i=m.index,ins=m[1],aft=s.slice(i+m[0].length),bef=s.slice(0,i);
+    return expand(bef+aft).concat(expand(bef.slice(0,Math.max(0,bef.length-ins.length))+ins+aft));}
+  var p=s.match(/\(([^\)]*)\)/);
+  if(p){var j=p.index,i2=p[1],a2=s.slice(j+p[0].length),b2=s.slice(0,j);
+    return expand(b2+a2).concat(expand(b2+i2+a2));}
+  return [s];
+}
+function meanOk(u,full){
+  if(loose(u)===loose(full))return true;
+  var parts=full.split(",");
+  for(var i=0;i<parts.length;i++){
+    var vs=expand(parts[i]);
+    for(var k=0;k<vs.length;k++)if(loose(u)===loose(vs[k]))return true;}
+  return false;
+}
+
+function goTest(){
+  ti=0;done=0;results=new Array(W.length);firstOk=new Array(W.length);
+  document.getElementById("tTot").textContent=W.length;
+  paintAvatar(document.getElementById("run"),28);
+  go("test");updMedal();drawQ();
+}
+function drawQ(){
+  if(ti>=W.length){endGame();return;}
+  tries=0;stage="in";
+  document.getElementById("tIn").classList.remove("hide");
+  document.getElementById("tMc").classList.add("hide");
+  document.getElementById("okBtn").classList.remove("hide");
+  document.getElementById("nextBtn").classList.add("hide");
+  var p=W[ti],a=document.getElementById("ans");
+  a.value="";a.style.borderColor="#ccc";document.getElementById("fb").textContent="";
+  if(Math.random()>0.5){mode="mean";
+    document.getElementById("qLabel").textContent="뜻을 입력하세요 (하나만)";
+    document.getElementById("qText").textContent=p[0];}
+  else{mode="word";
+    document.getElementById("qLabel").textContent="단어를 입력하세요";
+    document.getElementById("qText").textContent=p[2];}
+  document.getElementById("tNum").textContent=ti+1;prog();updMedal();
+}
+function testBack(){if(ti>0){ti--;if(results[ti]){results[ti]=false;done--;}firstOk[ti]=undefined;drawQ();}}
+function skipNext(){ti++;drawQ();}
+function check(){
+  var a=document.getElementById("ans"),f=document.getElementById("fb"),p=W[ti],u=a.value.trim();
+  if(!u){f.textContent="답을 먼저 입력해줘";f.style.color="#C62828";return;}
+  var ok=(mode==="word")?(base(u)===base(p[0])):meanOk(u,p[2]);
+  if(ok){
+    if(firstOk[ti]===undefined)firstOk[ti]=(tries===0&&stage==="in");
+    f.textContent=(tries===0&&stage==="in")?"✅ 한 번에 정답!":"✅ 정답! 잘했어";
+    f.style.color="#2E7D32";a.style.borderColor="#2E7D32";
+    if(!results[ti]){results[ti]=true;done++;}
+    prog();updMedal();
+    setTimeout(function(){ti++;drawQ();},700);return;}
+  a.style.borderColor="#C62828";
+  if(firstOk[ti]===undefined)firstOk[ti]=false;
+  updMedal();
+  if(stage==="final"){
+    f.innerHTML="정답은 <b></b> 였어. 다음에 꼭 맞히자!";
+    f.querySelector("b").textContent=(mode==="word"?p[0]:p[2]);
+    f.style.color="#444";
+    document.getElementById("okBtn").classList.add("hide");
+    document.getElementById("nextBtn").classList.remove("hide");
+    return;}
+  tries++;
+  if(tries===1){f.textContent="❌ 아쉬워! 한 번 더 생각해봐";f.style.color="#C62828";a.value="";a.focus();}
+  else{f.textContent="";showTestMc();}
+}
+function showTestMc(){
+  stage="mc";
+  document.getElementById("tIn").classList.add("hide");
+  document.getElementById("tMc").classList.remove("hide");
+  document.getElementById("tMcFb").textContent="";
+  var col=(mode==="word")?0:2;
+  document.getElementById("tMcQ").textContent=(mode==="word")?W[ti][2]:W[ti][0];
+  buildOpts("tMcOpts","tMcFb",pick(ti,col),W[ti][col],backToInput);
+}
+function backToInput(){
+  stage="final";
+  document.getElementById("tMc").classList.add("hide");
+  document.getElementById("tIn").classList.remove("hide");
+  var a=document.getElementById("ans");a.value="";a.style.borderColor="#ccc";
+  var f=document.getElementById("fb");f.textContent="좋아! 이제 직접 입력해보자";f.style.color="#5b3d9e";
+  a.focus();
+}
+function prog(){
+  var p=Math.round(done/W.length*100);
+  document.getElementById("run").style.left=(2+p*.82)+"%";
+  document.getElementById("pct").textContent=p+"%";
+}
+function endGame(){
+  var miss=missCount(),a=awardOf(miss);
+  document.getElementById("endIcon").textContent=a.i;
+  var aw=document.getElementById("endAward");aw.textContent=a.n;aw.style.color=a.c;
+  document.getElementById("endMsg").innerHTML=(miss===0)
+    ?(W.length+"개 전부 한 번에 정답!<br>"+(prof.name||"너")+" 정말 대단해 👏")
+    :("한 번에 맞힌 단어 "+(W.length-miss)+"개 · 놓친 단어 "+miss+"개<br>끝까지 달린 게 제일 멋져 👏");
+  var rank=["금메달","은메달","동메달","장려상","참가상","완주상"];
+  if(!isDemo){
+    var c=chapters[curIdx];
+    if(!c.best||rank.indexOf(a.n)<rank.indexOf(c.best)){c.best=a.n;save();}
+  }else{
+    document.getElementById("endMsg").innerHTML="연습 끝! 이제 진짜 챕터로 해보자 👏<br>연습 기록은 저장되지 않아.";
+  }
+  go("result");
+}
+document.getElementById("ans").addEventListener("keypress",function(e){
+  if(e.key==="Enter"){
+    if(!document.getElementById("okBtn").classList.contains("hide"))check();
+    else skipNext();}
+});
+
+function replay(){if(isDemo)startDemo();else openChapter(curIdx);}
+
+load();
+var hasProfile=loadProfile();
+if(!checkHash()){
+  if(!hasProfile)startProfile(false);
+  else if(!guideSeen())startGuide();
+  else go("home");
+}
+window.addEventListener("hashchange",function(){checkHash();});
+</script>
+</body>
+</html>
