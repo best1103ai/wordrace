@@ -101,6 +101,10 @@ font-size:30px;font-family:inherit;line-height:1.2;}
       <button class="btn2" onclick="openHall()">🏆 트로피 룸</button>
       <button class="btn2" onclick="startGuide()">❓ 사용법</button>
     </div>
+    <div class="btnrow" style="margin-top:8px;">
+      <button class="btn2" id="sfxBtn" onclick="toggleSfx()">🔔 효과음</button>
+      <button class="btn2" id="bgmBtn" onclick="toggleBgm()">🎵 배경음악</button>
+    </div>
     <button class="btn2" onclick="go('backup')">💾 기록 백업 · 복원</button>
   </div>
   <div class="card">
@@ -355,7 +359,7 @@ font-size:30px;font-family:inherit;line-height:1.2;}
   <div class="card" style="text-align:center;">
     <div style="font-size:50px;">🏟️</div>
     <h1>외우기 완료!</h1>
-    <p class="sub">이제 마라톤 테스트야<br>한 번에 맞힐수록 좋은 메달을 받아</p>
+    <p class="sub">이제 마라톤 테스트야<br>한 번에 맞힐수록 좋은 메달을 받아<br><b style="color:#C62828;">시작하면 앞 문제로 돌아갈 수 없어!</b></p>
     <button class="btn" onclick="goTest()">테스트 시작</button>
     <button class="btn2" onclick="backLastWord()">← 외우기로 돌아가기</button>
   </div>
@@ -380,10 +384,7 @@ font-size:30px;font-family:inherit;line-height:1.2;}
       <div style="position:absolute;right:6px;top:17px;font-size:23px;">🏁</div>
     </div>
     <div class="meta" style="margin-bottom:10px;"><span><span id="tNum">0</span>/<span id="tTot">0</span></span><span id="pct">0%</span></div>
-    <div class="btnrow">
-      <button class="btn2" onclick="testBack()">← 이전 문제</button>
-      <button class="btn2" onclick="askQuit()">↺ 나가기</button>
-    </div>
+    <button class="btn2" onclick="askQuit()">↺ 테스트 그만두기</button>
   </div>
   <div id="tIn" class="card" style="text-align:center;">
     <p id="qLabel" class="sub" style="font-weight:500;margin-bottom:13px;"></p>
@@ -510,7 +511,10 @@ var SCREENS=["home","profile","newMenu","shot","review","manual","guide","share"
 function go(id){
   SCREENS.forEach(function(s){document.getElementById(s).classList.toggle("hide",s!==id);});
   window.scrollTo(0,0);
-  if(id==="home"){drawProfileBits();drawHome();}
+  if(id==="study")startBgm("study");
+  else if(id==="test")startBgm("test");
+  else stopBgm();
+  if(id==="home"){drawProfileBits();drawHome();paintSound();}
   if(id==="backup")drawBackupInfo();
 }
 
@@ -524,7 +528,11 @@ function ask(title,sub,fn){
 }
 function closeOvl(){document.getElementById("ovl").style.display="none";ovlAction=null;}
 document.getElementById("ovlY").onclick=function(){var f=ovlAction;closeOvl();if(f)f();};
-function askQuit(){ask("챕터에서 나갈까?","지금 진행한 기록은 저장되지 않아",function(){go("home");});}
+function askQuit(){
+  var inTest=!document.getElementById("test").classList.contains("hide");
+  ask(inTest?"테스트를 그만둘까?":"챕터에서 나갈까?",
+      inTest?"지금까지 달린 기록은 사라지고, 메달도 받지 못해":"지금 진행한 기록은 저장되지 않아",
+      function(){go("home");});}
 
 /* ─────────── 홈 ─────────── */
 function drawHome(){
@@ -747,6 +755,100 @@ function openWordList(from){
   go("wordlist");
 }
 function closeWordList(){go(wlFrom==="study"?"study":"intro");}
+
+/* ─────────── 소리 ─────────── */
+var SFXK="wordrace_sfx_v1", BGMK="wordrace_bgm_v1";
+var sfxOn=true, bgmOn=true, ac=null, bgmTimer=null, bgmStep=0, bgmKind="";
+function loadSound(){
+  try{sfxOn=(localStorage.getItem(SFXK)!=="0");bgmOn=(localStorage.getItem(BGMK)!=="0");}catch(e){}
+}
+function paintSound(){
+  var a=document.getElementById("sfxBtn"),b=document.getElementById("bgmBtn");
+  if(a){a.classList.toggle("on",sfxOn);a.textContent=sfxOn?"🔔 효과음 켜짐":"🔕 효과음 꺼짐";}
+  if(b){b.classList.toggle("on",bgmOn);b.textContent=bgmOn?"🎵 배경음악 켜짐":"🎵 배경음악 꺼짐";}
+}
+function toggleSfx(){sfxOn=!sfxOn;try{localStorage.setItem(SFXK,sfxOn?"1":"0");}catch(e){}paintSound();if(sfxOn)sfx("ok");}
+function toggleBgm(){
+  bgmOn=!bgmOn;try{localStorage.setItem(BGMK,bgmOn?"1":"0");}catch(e){}
+  paintSound();
+  if(!bgmOn)stopBgm();
+}
+function actx(){
+  if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}}
+  if(ac.state==="suspended")ac.resume();
+  return ac;
+}
+function note(freq,start,dur,type,vol){
+  var c=actx();if(!c)return;
+  var t=c.currentTime+start;
+  var o=c.createOscillator(),g=c.createGain();
+  o.type=type||"triangle";o.frequency.value=freq;
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(vol,t+0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g);g.connect(c.destination);
+  o.start(t);o.stop(t+dur+0.03);
+}
+function drum(st,vol){
+  var c=actx();if(!c)return;
+  var t=c.currentTime+st;
+  var b=c.createBuffer(1,Math.floor(c.sampleRate*0.12),c.sampleRate),d=b.getChannelData(0);
+  for(var i=0;i<d.length;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);}
+  var sn=c.createBufferSource();sn.buffer=b;
+  var g=c.createGain();g.gain.value=vol;
+  var f=c.createBiquadFilter();f.type="highpass";f.frequency.value=2200;
+  sn.connect(f);f.connect(g);g.connect(c.destination);sn.start(t);
+}
+function sfx(kind){
+  if(!sfxOn)return;
+  if(kind==="ok"){
+    note(784,0,0.10,"triangle",0.26);note(1046.5,0.075,0.10,"triangle",0.26);
+    note(1568,0.15,0.26,"triangle",0.24);note(2093,0.22,0.22,"sine",0.12);
+  }
+  else if(kind==="no"){
+    note(196,0,0.20,"square",0.20);note(147,0.16,0.30,"square",0.20);note(98,0.16,0.34,"sine",0.16);
+  }
+  else if(kind==="pick"){note(659,0,0.08,"triangle",0.12);}
+  else if(kind==="done"){
+    [523,659,784,1046].forEach(function(f,i){note(f,i*0.10,0.30,"triangle",0.22);});
+    drum(0,0.12);
+  }
+  else if(kind==="gold"){
+    [523,659,784,1046].forEach(function(f,i){note(f,i*0.10,0.28,"triangle",0.26);drum(i*0.10,0.10);});
+    [1046,1318.5,1568].forEach(function(f,i){note(f,0.45+i*0.10,0.30,"triangle",0.26);});
+    note(2093,0.75,0.60,"triangle",0.22);note(1568,0.75,0.70,"sine",0.18);
+    note(1046,0.75,0.80,"triangle",0.16);note(784,0.75,0.90,"sine",0.12);
+    drum(0.75,0.16);drum(0.95,0.10);drum(1.15,0.08);
+  }
+}
+var STUDY_SEQ=[261.6,329.6,392.0,440.0,523.3,440.0,392.0,329.6];
+var TEST_SEQ=[392.0,523.3,587.3,659.3,523.3,659.3,784.0,659.3];
+var TEST_BASS=[98,98,130.8,98,110,110,130.8,146.8];
+function startBgm(kind){
+  if(!bgmOn){stopBgm();return;}
+  if(bgmKind===kind&&bgmTimer)return;
+  stopBgm();bgmKind=kind;bgmStep=0;
+  var slow=(kind==="study");
+  var gap=slow?680:250;
+  bgmTimer=setInterval(function(){
+    if(!bgmOn){stopBgm();return;}
+    var i=bgmStep%8;
+    if(slow){
+      note(STUDY_SEQ[i]/2,0,1.5,"sine",0.035);
+      if(i%2===0)note(STUDY_SEQ[i],0,0.9,"triangle",0.028);
+    }else{
+      note(TEST_SEQ[i],0,0.20,"triangle",0.048);
+      note(TEST_BASS[i],0,0.22,"sine",0.070);
+      drum(0,i%2===0?0.045:0.022);
+      if(i%2===1)note(TEST_SEQ[i]*2,0.12,0.10,"sine",0.022);
+    }
+    bgmStep++;
+  },gap);
+}
+function stopBgm(){
+  if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null;}
+  bgmKind="";
+}
 
 /* ─────────── 백업 · 복원 ─────────── */
 var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1"];
@@ -1216,10 +1318,10 @@ function buildOpts(boxId,fbId,opts,correct,after){
     var b=document.createElement("button");b.className="opt";b.textContent=o;
     b.onclick=function(){
       var f=document.getElementById(fbId);
-      if(o===correct){b.className="opt ok";f.textContent="✅ 맞았어!";f.style.color="#2E7D32";
+      if(o===correct){sfx("ok");b.className="opt ok";f.textContent="✅ 맞았어!";f.style.color="#2E7D32";
         Array.prototype.forEach.call(box.children,function(c){c.onclick=null;});
         setTimeout(after,700);}
-      else{b.className="opt no";f.textContent="❌ 다시 골라봐";f.style.color="#C62828";b.onclick=null;}
+      else{sfx("no");b.className="opt no";f.textContent="❌ 다시 골라봐";f.style.color="#C62828";b.onclick=null;}
     };
     box.appendChild(b);
   });
@@ -1292,19 +1394,21 @@ function drawQ(){
     document.getElementById("qText").textContent=p[2];}
   document.getElementById("tNum").textContent=ti+1;prog();updMedal();
 }
-function testBack(){if(ti>0){ti--;if(results[ti]){results[ti]=false;done--;}firstOk[ti]=undefined;drawQ();}}
+/* 테스트 중에는 되돌아갈 수 없다 — 한 번에 맞힌 기록이 메달을 정하기 때문 */
 function skipNext(){ti++;drawQ();}
 function check(){
   var a=document.getElementById("ans"),f=document.getElementById("fb"),p=W[ti],u=a.value.trim();
   if(!u){f.textContent="답을 먼저 입력해줘";f.style.color="#C62828";return;}
   var ok=(mode==="word")?(base(u)===base(p[0])):meanOk(u,p[2]);
   if(ok){
+    sfx("ok");
     if(firstOk[ti]===undefined)firstOk[ti]=(tries===0&&stage==="in");
     f.textContent=(tries===0&&stage==="in")?"✅ 한 번에 정답!":"✅ 정답! 잘했어";
     f.style.color="#2E7D32";a.style.borderColor="#2E7D32";
     if(!results[ti]){results[ti]=true;done++;}
     prog();updMedal();
     setTimeout(function(){ti++;drawQ();},700);return;}
+  sfx("no");
   a.style.borderColor="#C62828";
   if(firstOk[ti]===undefined)firstOk[ti]=false;
   updMedal();
@@ -1343,6 +1447,7 @@ function prog(){
 }
 function endGame(){
   var miss=missCount(),a=awardOf(miss);
+  stopBgm();sfx(miss===0?"gold":"done");
   document.getElementById("endIcon").textContent=a.i;
   var aw=document.getElementById("endAward");aw.textContent=a.n;aw.style.color=a.c;
   document.getElementById("endMsg").innerHTML=(miss===0)
@@ -1369,7 +1474,7 @@ document.getElementById("ans").addEventListener("keypress",function(e){
 
 function replay(){if(isDemo)startDemo();else openChapter(curIdx);}
 
-load();loadOrder();loadHall();
+load();loadOrder();loadHall();loadSound();
 var hasProfile=loadProfile();
 if(!checkHash()){
   if(!hasProfile)startProfile(false);
