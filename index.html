@@ -52,6 +52,9 @@ font-family:inherit;text-align:center;line-height:1.4;}
 .chap{border:1.5px solid #ddd;border-radius:12px;padding:13px 14px;margin-bottom:9px;}
 .chap .t{font-size:16px;font-weight:600;margin-bottom:3px;}
 .chap .d{font-size:12.5px;color:#666;}
+.chap .chead{display:flex;gap:8px;align-items:flex-start;}
+.chap .tw{flex:1;min-width:0;}
+.chap .mv{display:flex;flex-direction:column;gap:4px;flex:none;}
 .row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
 .row input.w{flex:1.1;}
 .row input.m{flex:1.6;}
@@ -99,15 +102,9 @@ color:#b6b2c2;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
     <h1 id="homeName">단어 경주</h1>
     <p class="sub">단어를 외우고 결승점까지 달리자</p>
     <div class="btnrow" style="margin-top:12px;">
-      <button class="btn2" onclick="editProfile()">👤 프로필</button>
       <button class="btn2" onclick="openHall()">🏆 트로피 룸</button>
-      <button class="btn2" onclick="startGuide()">❓ 사용법</button>
+      <button class="btn2" onclick="go('settings')">⚙️ 설정</button>
     </div>
-    <div class="btnrow" style="margin-top:8px;">
-      <button class="btn2" id="sfxBtn" onclick="toggleSfx()">🔔 효과음</button>
-      <button class="btn2" id="bgmBtn" onclick="toggleBgm()">🎵 배경음악</button>
-    </div>
-    <button class="btn2" onclick="go('backup')">💾 기록 백업 · 복원</button>
   </div>
   <div class="card">
     <h2>내 챕터</h2>
@@ -201,7 +198,7 @@ color:#b6b2c2;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
       <input type="file" id="face" accept="image/*" capture="user" style="display:none;">
     </label>
     <button class="btn" onclick="saveProfile()">시작하기</button>
-    <button class="btn2 hide" id="profCancel" onclick="go('home')">← 취소</button>
+    <button class="btn2 hide" id="profCancel" onclick="go('settings')">← 취소</button>
   </div>
 </div>
 
@@ -292,6 +289,40 @@ color:#b6b2c2;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
   </div>
 </div>
 
+<!-- ═══ SETTINGS ═══ -->
+<div id="settings" class="hide">
+  <div class="card">
+    <h2>⚙️ 설정</h2>
+    <p class="sub">자주 쓰지 않는 것들을 여기 모아뒀어.</p>
+  </div>
+
+  <div class="card">
+    <p class="sub" style="margin-bottom:10px;font-weight:600;color:#111;">내 정보</p>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;">
+      <div id="setAvatar" style="width:48px;height:48px;border-radius:50%;background:#f1eff8;
+        display:flex;align-items:center;justify-content:center;font-size:26px;overflow:hidden;flex:none;"></div>
+      <div id="setName" style="font-size:15px;font-weight:600;"></div>
+    </div>
+    <button class="btn2" onclick="editProfile()">👤 이름 · 얼굴 바꾸기</button>
+  </div>
+
+  <div class="card">
+    <p class="sub" style="margin-bottom:10px;font-weight:600;color:#111;">소리</p>
+    <button class="btn2" id="sfxBtn" onclick="toggleSfx()">🔔 효과음</button>
+    <button class="btn2" id="bgmBtn" onclick="toggleBgm()">🎵 배경음악</button>
+  </div>
+
+  <div class="card">
+    <p class="sub" style="margin-bottom:10px;font-weight:600;color:#111;">그 밖에</p>
+    <button class="btn2" onclick="startGuide()">❓ 사용법 다시 보기</button>
+    <button class="btn2" onclick="go('backup')">💾 기록 백업 · 복원</button>
+  </div>
+
+  <div class="card">
+    <button class="btn" onclick="go('home')">← 챕터 목록</button>
+  </div>
+</div>
+
 <!-- ═══ BACKUP ═══ -->
 <div id="backup" class="hide">
   <div class="card" style="text-align:center;">
@@ -310,7 +341,7 @@ color:#b6b2c2;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
     <label class="btn2" style="text-align:center;margin-top:10px;">📂 백업 파일 고르기
       <input type="file" id="bkFile" accept=".txt,.json,application/json,text/plain" style="display:none;">
     </label>
-    <button class="btn2" onclick="go('home')">← 챕터 목록</button>
+    <button class="btn2" onclick="go('settings')">← 설정</button>
   </div>
 </div>
 
@@ -464,34 +495,90 @@ var MINJAE_WORDS=[
 ["pine","[pain]","소나무"],
 ["safari","[səfáːri]","사파리 여행"],
 ["surprise","[sərpráiz]","놀라게 하다"],
-["surprised","","놀란"],
 ["brim","[brim]","(컵의) 위 끝부분"],
 ["popular","[pápjələr]","인기 있는"],
-["popularity","","인기"],
 ["hunter","[hʌ́ntər]","사냥꾼"],
-["hunt","","사냥하다"],
 ["key","[kiː]","열쇠, 중요한"],
 ["tape","[teip]","테이프"],
 ["correct","[kərékt]","옳은, 맞는, 고치다, 수정하다"],
-["correctly","","올바르게, 정확히"],
 ["energy","[énərdʒi]","힘, 기운, 에너지"],
 ["cupboard","[kʌ́bərd]","찬장"],
 ["size","[saiz]","크기"],
 ["flashlight","[flǽʃlàit]","손전등"],
 ["secret","[síːkrit]","비밀"],
 ["experiment","[ikspérəmənt]","실험"],
-["experimental","","실험의"],
 ["grain","[grein]","곡물"],
 ["promise","[prámis]","약속하다"],
 ["cause","[kɔːz]","일으키다, 야기시키다"]];
 
-var SEED2="wordrace_seed2_v1";
-function seedMinjae(){
+
+var DAY08_WORDS=[
+["accurate","[ǽkjurət]","정확한, 정밀한"],
+["precise","[prisáis]","정확한, 정밀한, 꼼꼼한"],
+["estimate","[éstəmèit]","추정하다, 평가하다, 추정, 견적"],
+["compete","[kəmpíːt]","경쟁하다, 겨루다"],
+["submit","[səbmít]","제출하다, 굴복하다"],
+["grab","[græb]","붙잡다, 움켜잡다, 움켜잡음"],
+["theory","[θíːəri]","이론, 학설"],
+["document","[dákjumənt]","문서, 서류, 기록하다"],
+["enable","[inéibl]","(~을) 할 수 있게 하다, 가능하게 하다"],
+["avoid","[əvɔ́id]","피하다, 막다"],
+["escape","[iskéip]","달아나다, 탈출하다, 탈출, 도망"],
+["innovate","[ínəvèit]","혁신하다, 쇄신하다"],
+["insight","[ínsàit]","통찰력, 이해"],
+["insurance","[inʃúərəns]","보험"],
+["infection","[infékʃən]","감염, 전염"],
+["vehicle","[víːikl]","차량, 탈것, 운송 수단"],
+["belong","[bilɔ́ːŋ]","속하다, 제자리에 있다"],
+["celebrate","[séləbrèit]","기념하다, 축하하다, 찬양하다"],
+["demonstrate","[démənstrèit]","시범을 보이다, 증명하다, 시위하다"],
+["disaster","[dizǽstər]","재난, 재앙"],
+["economic","[iːkənámik]","경제의, 경제학의"],
+["household","[háushòuld]","가족, 가정, 가족[가정]의"],
+["assign","[əsáin]","할당하다, 임명하다, 지정하다"],
+["transfer","[trænsfə́ːr]","옮기다, 갈아타다, 이동, 이전, 환승"],
+["preserve","[prizə́ːrv]","보존하다, 지키다, 저장하다"],
+["opposite","[ápəzit]","정반대의, 맞은편의, 정반대의 것"],
+["satisfaction","[sæ̀tisfǽkʃən]","만족(감)"],
+["comfort","[kʌ́mfərt]","편안함, 위로, 편하게 하다, 위로하다"],
+["ease","[iːz]","편안함, 용이함, 편하게 하다, 덜어 주다"],
+["motion","[móuʃən]","운동, 움직임, 동작, 몸짓으로 신호하다"],
+["operation","[àpəréiʃən]","수술, 운영, 작업"],
+["blame","[bleim]","비난하다, ~의 책임[탓]으로 돌리다, 비난, 책임"],
+["refreshing","[rifréʃiŋ]","상쾌하게 하는, 신선한"],
+["trend","[trend]","경향, 추세, 유행"],
+["journal","[dʒə́ːrnl]","신문, 간행물, 일기"],
+["private","[práivət]","사적인, 사유의, 비밀의"],
+["sentence","[séntəns]","문장, 판결, 선고, 판결을 내리다, 형을 선고하다"],
+["majority","[mədʒɔ́(ː)rəti]","(대)다수, 대부분"],
+["dozens of","","수십의, 많은"],
+["rather than","","~보다는, ~ 대신에, ~하지 말고"]];
+
+var SEED3="wordrace_seed3_v1";
+function seedDay08(){
   var already=false;
-  try{already=(localStorage.getItem(SEED2)==="1");}catch(e){}
+  try{already=(localStorage.getItem(SEED3)==="1");}catch(e){}
   if(already)return;
-  chapters.push({name:"Unit 27 (521~540)",words:MINJAE_WORDS,best:null,date:today()});
-  try{localStorage.setItem(SEED2,"1");}catch(e){}
+  chapters.unshift({name:"워드마스터 DAY 08",words:DAY08_WORDS,best:null,date:today()});
+  try{localStorage.setItem(SEED3,"1");}catch(e){}
+  save();
+}
+
+var SEED2="wordrace_seed2_v1";
+var SEED2B="wordrace_seed2b_v1";
+var MJ_NAME="Unit 27 (521~540)";
+function seedMinjae(){
+  var done2b=false,done2=false;
+  try{done2b=(localStorage.getItem(SEED2B)==="1");done2=(localStorage.getItem(SEED2)==="1");}catch(e){}
+  if(done2b)return;
+  var idx=-1;
+  for(var i=0;i<chapters.length;i++){if(chapters[i].name===MJ_NAME){idx=i;break;}}
+  if(idx>=0){
+    chapters[idx].words=MINJAE_WORDS;   /* 파생어를 뺀 20단어로 갱신, 기록은 유지 */
+  }else if(!done2){
+    chapters.unshift({name:MJ_NAME,words:MINJAE_WORDS,best:null,date:today()});
+  }
+  try{localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");}catch(e){}
   save();
 }
 
@@ -508,20 +595,22 @@ function load(){
     save();
   }
   seedMinjae();
+  seedDay08();
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(chapters));}catch(e){alert("저장 공간이 부족해");}}
 function today(){var d=new Date();return d.getFullYear()+"."+(d.getMonth()+1)+"."+d.getDate();}
 
 /* ─────────── 화면 전환 ─────────── */
-var SCREENS=["home","profile","newMenu","shot","review","manual","guide","share","paste","importc","intro","wordlist","hall","backup","study","sdone","test","result"];
+var SCREENS=["home","settings","profile","newMenu","shot","review","manual","guide","share","paste","importc","intro","wordlist","hall","backup","study","sdone","test","result"];
 function go(id){
   SCREENS.forEach(function(s){document.getElementById(s).classList.toggle("hide",s!==id);});
   window.scrollTo(0,0);
   if(id==="study")startBgm("study");
   else if(id==="test")startBgm("test");
   else stopBgm();
-  if(id==="home"){drawProfileBits();drawHome();paintSound();}
+  if(id==="home"){drawProfileBits();drawHome();}
   if(id==="backup")drawBackupInfo();
+  if(id==="settings"){paintSound();drawSettings();}
 }
 
 /* ─────────── 확인창 ─────────── */
@@ -546,9 +635,17 @@ function drawHome(){
   chapters.forEach(function(c,i){
     var d=document.createElement("div");d.className="chap";
     var best=c.best?(" · 최고기록 "+c.best):"";
-    d.innerHTML='<div class="t"></div><div class="d"></div>';
+    d.innerHTML='<div class="chead"><div class="tw"><div class="t"></div><div class="d"></div></div><div class="mv"></div></div>';
     d.querySelector(".t").textContent=c.name;
     d.querySelector(".d").textContent=c.words.length+"단어 · "+c.date+best;
+    var mv=d.querySelector(".mv");
+    var up=document.createElement("button");up.className="xsm";up.textContent="▲";
+    up.style.opacity=(i===0)?"0.22":"1";
+    up.onclick=function(){moveChapter(i,-1);};
+    var dn=document.createElement("button");dn.className="xsm";dn.textContent="▼";
+    dn.style.opacity=(i===chapters.length-1)?"0.22":"1";
+    dn.onclick=function(){moveChapter(i,1);};
+    mv.appendChild(up);mv.appendChild(dn);
     var r=document.createElement("div");r.className="btnrow";r.style.marginTop="10px";
     var b1=document.createElement("button");b1.className="btn2";b1.textContent="열기";
     b1.onclick=function(){openChapter(i);};
@@ -560,6 +657,12 @@ function drawHome(){
     box.appendChild(d);
   });
   if(!chapters.length)box.innerHTML='<p class="sub">아직 챕터가 없어. 아래에서 하나 만들어보자.</p>';
+}
+function moveChapter(i,dir){
+  var j=i+dir;
+  if(j<0||j>=chapters.length)return;
+  var t=chapters[i];chapters[i]=chapters[j];chapters[j]=t;
+  save();drawHome();
 }
 function delChapter(i){
   ask("'"+chapters[i].name+"' 삭제할까?","단어와 기록이 모두 지워져",function(){
@@ -718,7 +821,7 @@ function saveChapter(){
     if(w&&m)list.push([w,"",m]);});
   if(list.length<2){alert("단어를 2개 이상 넣어줘.");return;}
   var nm=document.getElementById("chapName").value.trim()||("새 챕터 "+today());
-  chapters.push({name:nm,words:list,best:null,date:today()});
+  chapters.unshift({name:nm,words:list,best:null,date:today()});
   save();clearRows();pageCount=0;pendingName="";go("home");
 }
 
@@ -884,7 +987,7 @@ function stopBgm(){
 }
 
 /* ─────────── 백업 · 복원 ─────────── */
-var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1"];
+var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1"];
 function backupBlob(){
   var o={app:"wordrace",v:1,at:stamp(),data:{}};
   BK_KEYS.forEach(function(k){
@@ -926,7 +1029,7 @@ function applyBackup(d){
       var old=JSON.parse(d.wordrace_v1)||[];
       var have={};
       chapters.forEach(function(c){have[c.name]=1;});
-      old.forEach(function(c){if(!have[c.name])chapters.push(c);});
+      old.forEach(function(c){if(!have[c.name])chapters.push(c);});  /* 백업 복원분은 아래에 붙인다 */
       save();
     }
     if(d.wordrace_hall_v1){
@@ -941,7 +1044,7 @@ function applyBackup(d){
       prof=JSON.parse(d.wordrace_profile_v1);saveProfileData();
     }
     if(d.wordrace_order_v1){orderMode=d.wordrace_order_v1;try{localStorage.setItem(OKEY,orderMode);}catch(e){}}
-    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");}catch(e){}
+    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");}catch(e){}
     alert("되살렸어! 챕터 "+chapters.length+"개, 트로피 "+hall.length+"개");
     go("home");
   }catch(err){alert("되살리는 데 실패했어. 파일을 다시 확인해줘.");}
@@ -1025,7 +1128,11 @@ function startProfile(isEdit){
   drawPresets();paintAvatar(document.getElementById("pvAvatar"),54,tmp);
   go("profile");
 }
-function editProfile(){startProfile(true);}
+var profFrom="home";
+function editProfile(){
+  profFrom=document.getElementById("settings").classList.contains("hide")?"home":"settings";
+  startProfile(true);
+}
 function drawPresets(){
   var box=document.getElementById("presets");box.innerHTML="";
   PRESETS.forEach(function(p){
@@ -1075,6 +1182,10 @@ function saveProfile(){
   prof={name:n,type:tmp.type,v:tmp.v,f:tmp.f};
   saveProfileData();
   if(!guideSeen())startGuide();else go("home");
+}
+function drawSettings(){
+  document.getElementById("setName").textContent=prof.name||"이름 없음";
+  paintAvatar(document.getElementById("setAvatar"),26);
 }
 function drawProfileBits(){
   document.getElementById("homeName").textContent=prof.name?(prof.name+"의 단어 경주"):"단어 경주";
