@@ -7,6 +7,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="단어 경주">
 <meta name="theme-color" content="#667eea">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 <title>단어 경주</title>
 <style>
 *{-webkit-tap-highlight-color:transparent;}
@@ -72,6 +74,16 @@ padding:9px;font-size:14px;margin-top:7px;text-align:center;color:#333;}
 .pbtn{background:#fff;border:1.5px solid #d8d5e4;border-radius:12px;padding:8px 0;
 font-size:30px;font-family:inherit;line-height:1.2;}
 .pbtn.sel{border:2.5px solid #764ba2;background:#f4f1fb;}
+.btn2.on{border:2.5px solid #764ba2;background:#f4f1fb;color:#5b3d9e;font-weight:600;}
+.wl{display:flex;gap:10px;padding:9px 2px;border-bottom:1px solid #eee;align-items:baseline;}
+.wl .n{font-size:11px;color:#aaa;width:20px;flex:none;}
+.wl .w{font-size:15px;font-weight:600;flex:0 0 38%;word-break:break-word;}
+.wl .m{font-size:13.5px;color:#5b3d9e;flex:1;line-height:1.5;}
+.tr{display:flex;gap:10px;align-items:center;padding:10px 2px;border-bottom:1px solid #eee;}
+.tr .ic{font-size:26px;flex:none;}
+.tr .tx{flex:1;}
+.tr .t1{font-size:14.5px;font-weight:600;}
+.tr .t2{font-size:11.5px;color:#777;margin-top:2px;}
 </style>
 </head>
 <body>
@@ -85,7 +97,8 @@ font-size:30px;font-family:inherit;line-height:1.2;}
     <h1 id="homeName">단어 경주</h1>
     <p class="sub">단어를 외우고 결승점까지 달리자</p>
     <div class="btnrow" style="margin-top:12px;">
-      <button class="btn2" onclick="editProfile()">👤 프로필 바꾸기</button>
+      <button class="btn2" onclick="editProfile()">👤 프로필</button>
+      <button class="btn2" onclick="openHall()">🏆 트로피 룸</button>
       <button class="btn2" onclick="startGuide()">❓ 사용법</button>
     </div>
   </div>
@@ -101,7 +114,7 @@ font-size:30px;font-family:inherit;line-height:1.2;}
   <div class="card">
     <h2>새 챕터 만들기</h2>
     <p class="sub">단어장을 사진으로 찍거나, 직접 입력해서 나만의 챕터를 만들 수 있어.</p>
-    <button class="btn" onclick="go('shot')">📷 단어장 사진 찍기</button>
+    <button class="btn" onclick="startPhoto()">📷 단어장 사진 찍기</button>
     <button class="btn2" onclick="startManual()">⌨️ 직접 입력하기</button>
     <button class="btn2" onclick="startPaste()">🔗 공유받은 코드 넣기</button>
     <button class="btn2" onclick="go('home')">← 돌아가기</button>
@@ -112,13 +125,26 @@ font-size:30px;font-family:inherit;line-height:1.2;}
 <div id="shot" class="hide">
   <div class="card">
     <h2>단어장 사진</h2>
-    <p class="sub">글자가 크고 반듯하게 나오도록 찍어줘. 한 번에 한 페이지씩이 제일 정확해.</p>
-    <input type="file" id="pic" accept="image/*" style="margin-top:14px;padding:10px;border-style:dashed;">
-    <div id="ocrBox" class="hide" style="margin-top:14px;">
-      <div class="bar"><div id="ocrBar"></div></div>
-      <p id="ocrMsg" class="sub" style="margin-top:8px;">준비 중</p>
-    </div>
-    <button class="btn2" onclick="go('newMenu')">← 돌아가기</button>
+    <p class="sub">한 페이지씩 찍어줘. 여러 장을 이어서 하나의 챕터로 만들 수 있어.</p>
+    <p id="pgInfo" class="sub" style="margin-top:8px;color:#5b3d9e;font-weight:600;"></p>
+    <input type="file" id="pic" accept="image/*" multiple style="margin-top:12px;padding:10px;border-style:dashed;">
+    <button class="btn2" onclick="backFromShot()">← 돌아가기</button>
+  </div>
+
+  <div id="cropCard" class="card hide">
+    <h2>읽을 부분 고르기</h2>
+    <p class="sub">단어와 뜻이 있는 데까지만 남기고, 예문과 사진은 빼는 게 훨씬 정확해.</p>
+    <canvas id="cv" style="width:100%;border-radius:10px;margin-top:12px;display:block;"></canvas>
+    <div class="meta" style="margin:10px 0 4px;"><span>왼쪽부터 <b id="cutV">55</b>%까지 읽기</span><span id="qLeft"></span></div>
+    <input type="range" id="cut" min="25" max="100" value="55" style="padding:0;border:none;">
+    <button class="btn" onclick="runOcr()">이 사진 읽기</button>
+    <button class="btn2" onclick="cancelShot()">← 취소</button>
+  </div>
+
+  <div id="ocrBox" class="card hide">
+    <div class="bar"><div id="ocrBar"></div></div>
+    <p id="ocrMsg" class="sub" style="margin-top:8px;">준비 중</p>
+    <p class="sub" style="margin-top:6px;color:#888;">처음 한 번은 글자 인식 준비에 시간이 걸려. 다음 장부터는 훨씬 빨라.</p>
   </div>
 </div>
 
@@ -126,17 +152,19 @@ font-size:30px;font-family:inherit;line-height:1.2;}
 <div id="review" class="hide">
   <div class="card">
     <h2>단어 확인하기</h2>
-    <p class="sub">틀린 글자는 고치고, 빠진 단어는 추가해. 이 목록이 그대로 챕터가 돼.</p>
+    <p class="sub">틀린 글자는 고치고, 필요 없는 줄은 ✕로 지워. 이 목록이 그대로 챕터가 돼.</p>
+    <p id="revInfo" class="sub" style="margin-top:8px;color:#5b3d9e;font-weight:600;"></p>
+    <button class="btn2" onclick="go('shot')">📷 페이지 더 추가하기</button>
   </div>
   <div class="card">
     <div id="rows"></div>
     <button class="btn2" onclick="addRow('','')">+ 줄 추가</button>
   </div>
   <div class="card">
-    <p class="sub" style="margin-bottom:8px;">챕터 이름</p>
+    <p class="sub" style="margin-bottom:8px;">챕터 이름 (사진에서 찾은 이름이야. 고쳐도 돼)</p>
     <input id="chapName" placeholder="예: 워드마스터 DAY 08">
     <button class="btn" onclick="saveChapter()">챕터 저장하기</button>
-    <button class="btn2" onclick="go('newMenu')">← 취소</button>
+    <button class="btn2" onclick="cancelReview()">← 취소</button>
   </div>
 </div>
 
@@ -228,14 +256,48 @@ font-size:30px;font-family:inherit;line-height:1.2;}
     <p class="sub" id="introCnt"></p>
   </div>
   <div class="card">
+    <p class="sub" style="margin-bottom:8px;">외우는 순서</p>
+    <div class="btnrow">
+      <button class="btn2" id="ordSeq" onclick="setOrder('seq')">📖 순서대로</button>
+      <button class="btn2" id="ordRand" onclick="setOrder('rand')">🔀 랜덤</button>
+    </div>
+    <button class="btn2" onclick="openWordList('intro')">📒 단어장 전체 보기</button>
+  </div>
+  <div class="card">
     <p class="sub" style="line-height:2;">
     <b style="color:#5b3d9e;">🏆 시상 기준 (한 번에 맞힌 개수)</b><br>
     🥇 금메달 · 다 맞힘　🥈 은메달 · 1개 틀림<br>
     🥉 동메달 · 2개　🎖️ 장려상 · 3개<br>
-    🎗️ 참가상 · 4개　🏃 완주상 · 5개 이상</p>
+    🎗️ 참가상 · 4개　🏃 완주상 · 5개 이상<br>
+    <span style="color:#C08A00;font-weight:600;">⭐ 금메달을 받으면 칭찬 스티커를 받아!</span></p>
     <button class="btn" onclick="goStudy()">외우기 시작</button>
     <button class="btn2" onclick="goTest()">바로 테스트하기</button>
     <button class="btn2" onclick="go('home')">← 챕터 목록</button>
+  </div>
+</div>
+
+<!-- ═══ WORD LIST ═══ -->
+<div id="wordlist" class="hide">
+  <div class="card">
+    <div class="meta" style="margin-bottom:10px;"><span id="wlTitle">단어장</span><span id="wlCnt"></span></div>
+    <div id="wlBody"></div>
+    <button class="btn" onclick="closeWordList()">← 돌아가기</button>
+  </div>
+</div>
+
+<!-- ═══ TROPHY ROOM ═══ -->
+<div id="hall" class="hide">
+  <div class="card" style="text-align:center;">
+    <div style="font-size:44px;">🏆</div>
+    <h1>트로피 룸</h1>
+    <p class="sub" id="hallSum"></p>
+  </div>
+  <div class="card">
+    <div id="hallBody"></div>
+  </div>
+  <div class="card">
+    <button class="btn" onclick="go('home')">← 챕터 목록</button>
+    <button class="btn2 danger" onclick="clearHall()">기록 전체 지우기</button>
   </div>
 </div>
 
@@ -246,6 +308,7 @@ font-size:30px;font-family:inherit;line-height:1.2;}
     <div class="bar" style="margin-bottom:10px;"><div id="sBar"></div></div>
     <div class="btnrow">
       <button class="btn2" onclick="stepBack()">← 뒤로</button>
+      <button class="btn2" onclick="openWordList('study')" style="border-color:#764ba2;color:#5b3d9e;font-weight:600;">📒 단어장</button>
       <button class="btn2" onclick="askQuit()">↺ 나가기</button>
     </div>
   </div>
@@ -381,7 +444,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(chapters));}catch(e)
 function today(){var d=new Date();return d.getFullYear()+"."+(d.getMonth()+1)+"."+d.getDate();}
 
 /* ─────────── 화면 전환 ─────────── */
-var SCREENS=["home","profile","newMenu","shot","review","manual","guide","share","paste","importc","intro","study","sdone","test","result"];
+var SCREENS=["home","profile","newMenu","shot","review","manual","guide","share","paste","importc","intro","wordlist","hall","study","sdone","test","result"];
 function go(id){
   SCREENS.forEach(function(s){document.getElementById(s).classList.toggle("hide",s!==id);});
   window.scrollTo(0,0);
@@ -427,60 +490,237 @@ function delChapter(i){
 }
 
 /* ─────────── 챕터 만들기 ─────────── */
-var draft=[];
+var pageCount=0, pendingName="";
+
+function startPhoto(){pageCount=0;pendingName="";clearRows();updPg();go("shot");}
 function startManual(){document.getElementById("mtext").value="";go("manual");}
-function parseManual(){
-  var lines=document.getElementById("mtext").value.split("\n");
-  draft=[];
+function backFromShot(){ if(rowCount()>0){go("review");} else {go("newMenu");} }
+function cancelReview(){ask("만들던 챕터를 버릴까?","지금까지 읽은 단어가 사라져",function(){
+  clearRows();pageCount=0;pendingName="";go("newMenu");});}
+function updPg(){
+  var t=pageCount?("사진 "+pageCount+"장 · 단어 "+rowCount()+"개"):"";
+  document.getElementById("pgInfo").textContent=t;
+  document.getElementById("revInfo").textContent=t;
+}
+function rowCount(){return document.getElementById("rows").querySelectorAll(".row").length;}
+function clearRows(){document.getElementById("rows").innerHTML="";}
+
+/* ── 교재 프레임을 이해하는 파서 ──
+   A형 (워드마스터): 0241 application [발음] 지원, 신청(서), 적용   ← 한 줄에 전부
+   B형 (Unit 교재) : 521 / rinse / [rins] / v. 헹구다, 씻다        ← 줄이 나뉨, 품사 표시 있음
+   예문·해석·유의어는 버린다.                                              */
+var POS="n|v|adj|adv|prep|conj|pron|int|a";
+var reHan=/[\uAC00-\uD7A3]/;
+var reTitle=/\b(unit|day|chapter|lesson|week)\s*\.?\s*0*(\d{1,3})\b/i;
+var reNum=/^0*(\d{2,4})$/;
+var rePron=/^\[[^\]]{1,30}\]?$/;
+var rePosMean=new RegExp("^("+POS+")\\s*[.·,]\\s*(.+)$","i");
+var reWordPosMean=new RegExp("^([a-z][a-z'\\-]{1,20})\\s+("+POS+")\\s*[.·,]\\s*(.+)$","i");
+var reOneLine=/^0*\d{0,4}\s*([a-zA-Z][a-zA-Z'\- ]{0,24}?)\s*(\[[^\]]*\])?\s*([~\uAC00-\uD7A3].*)$/;
+
+function cleanWord(w){return w.replace(/[^A-Za-z'\- ]/g,"").replace(/\s+/g," ").trim().toLowerCase();}
+function cleanMean(m){
+  return m.replace(/^[.·,\s]+/,"")
+          .replace(/\s*[=≠↔]\s*[A-Za-z].*$/,"")
+          .replace(/\s+/g," ").trim();
+}
+function looksLikeWord(L){
+  if(reHan.test(L))return false;
+  if(/[.?!]$/.test(L))return false;
+  var t=L.trim().split(/\s+/);
+  if(t.length>3)return false;
+  if(L.length>24)return false;
+  return /^[A-Za-z][A-Za-z'\- ]*$/.test(L.trim());
+}
+function isMeaningish(L){
+  if(!reHan.test(L))return false;
+  if(L.length>22)return false;
+  if(/[.?!]$/.test(L))return false;
+  if(/[a-zA-Z]{4,}/.test(L))return false;
+  return true;
+}
+
+function parseOcr(text){
+  var lines=text.split("\n").map(function(x){
+    return x.replace(/[|¦]/g," ").replace(/\s+/g," ").trim();}).filter(function(x){return x.length>0;});
+  var out=[],title="",nums=[],cur=null,lastBase=-1;
+  function push(){
+    if(cur&&cur.w&&cur.m){out.push([cur.w,cur.p||"",cleanMean(cur.m)]);lastBase=out.length-1;}
+    cur=null;
+  }
   lines.forEach(function(L){
-    var t=parseLine(L);
-    if(t)draft.push(t);
+    var t=L.match(reTitle);
+    if(t&&!title){title=L.substr(t.index,t[0].length).replace(/\s+/g," ").trim();return;}
+    var n=L.match(reNum);
+    if(n){nums.push(parseInt(n[1],10));push();return;}
+
+    var one=L.match(reOneLine);
+    if(one&&one[3]&&looksLikeWord(one[1])&&isMeaningish(one[3])){
+      push();
+      out.push([cleanWord(one[1]),one[2]||"",cleanMean(one[3])]);
+      lastBase=out.length-1;
+      return;
+    }
+    var wpm=L.match(reWordPosMean);
+    if(wpm&&isMeaningish(wpm[3])){
+      push();
+      out.push([cleanWord(wpm[1]),"",cleanMean(wpm[3])]);
+      return;
+    }
+    if(rePron.test(L)){if(cur)cur.p=L;return;}
+    var pm=L.match(rePosMean);
+    if(pm&&reHan.test(pm[2])&&pm[2].length<=24){
+      if(cur){
+        if(cur.m)cur.m+=", "+cleanMean(pm[2]);
+        else cur.m=cleanMean(pm[2]);
+      }else if(lastBase>=0){
+        out[lastBase][2]+=", "+cleanMean(pm[2]);
+      }else if(out.length){
+        out[out.length-1][2]+=", "+cleanMean(pm[2]);
+      }
+      return;
+    }
+    if(looksLikeWord(L)){push();cur={w:cleanWord(L),p:"",m:""};return;}
+    if(cur&&!cur.m&&isMeaningish(L)){cur.m=L;return;}
   });
-  if(!draft.length){alert("읽을 수 있는 단어가 없어. 한 줄에 '단어 뜻' 형식으로 써줘.");return;}
-  drawReview();
+  push();
+
+  var seen={},uniq=[];
+  out.forEach(function(t){
+    if(!t[0]||!t[2])return;
+    if(t[0].length<2)return;
+    if(seen[t[0]]){
+      var i=seen[t[0]]-1;
+      if(uniq[i][2].indexOf(t[2])<0)uniq[i][2]+=", "+t[2];
+      return;
+    }
+    seen[t[0]]=uniq.length+1;uniq.push(t);
+  });
+  if(!title&&nums.length>1){
+    nums.sort(function(a,b){return a-b;});
+    title="단어 "+nums[0]+"~"+nums[nums.length-1];
+  }
+  return {words:uniq,title:title};
+}
+
+function parseManual(){
+  var lines=document.getElementById("mtext").value.split("\n"),list=[];
+  lines.forEach(function(L){var t=parseLine(L);if(t)list.push(t);});
+  if(!list.length){alert("읽을 수 있는 단어가 없어. 한 줄에 '단어 뜻' 형식으로 써줘.");return;}
+  clearRows();pageCount=0;pendingName="";
+  appendRows(list);
+  document.getElementById("chapName").value="";
+  updPg();go("review");
 }
 function parseLine(L){
   L=L.replace(/^\s*\d+\s*/,"").trim();
   if(!L)return null;
   if(L.indexOf("/")>0){
-    var p=L.split("/");
-    var w=p[0].trim(),m=p.slice(1).join("/").trim();
-    if(w&&m)return [w,"",m];
-    return null;
+    var p=L.split("/"),w=p[0].trim(),m=p.slice(1).join("/").trim();
+    return (w&&m)?[w,"",m]:null;
   }
-  var k=L.search(/[\uAC00-\uD7A3]/);
+  var k=L.search(reHan);
   if(k<=0)return null;
-  var word=L.slice(0,k).replace(/\[[^\]]*\]/g,"").trim();
-  var mean=L.slice(k).trim();
-  if(!word||!mean)return null;
-  return [word,"",mean];
+  var word=L.slice(0,k).replace(/\[[^\]]*\]/g,"").trim(),mean=L.slice(k).trim();
+  return (word&&mean)?[word,"",mean]:null;
 }
-function drawReview(){
-  var box=document.getElementById("rows");box.innerHTML="";
-  draft.forEach(function(t){addRow(t[0],t[2]);});
-  document.getElementById("chapName").value="";
-  go("review");
-}
+function appendRows(list){list.forEach(function(t){addRow(t[0],t[2]);});}
 function addRow(w,m){
   var box=document.getElementById("rows");
   var r=document.createElement("div");r.className="row";
   var i1=document.createElement("input");i1.className="w";i1.placeholder="word";i1.value=w||"";
   var i2=document.createElement("input");i2.className="m";i2.placeholder="뜻";i2.value=m||"";
   var b=document.createElement("button");b.textContent="✕";
-  b.onclick=function(){box.removeChild(r);};
+  b.onclick=function(){box.removeChild(r);updPg();};
   r.appendChild(i1);r.appendChild(i2);r.appendChild(b);box.appendChild(r);
 }
 function saveChapter(){
-  var rows=document.getElementById("rows").querySelectorAll(".row");
-  var list=[];
+  var rows=document.getElementById("rows").querySelectorAll(".row"),list=[];
   Array.prototype.forEach.call(rows,function(r){
     var w=r.querySelector(".w").value.trim(),m=r.querySelector(".m").value.trim();
-    if(w&&m)list.push([w,"",m]);
-  });
+    if(w&&m)list.push([w,"",m]);});
   if(list.length<2){alert("단어를 2개 이상 넣어줘.");return;}
   var nm=document.getElementById("chapName").value.trim()||("새 챕터 "+today());
   chapters.push({name:nm,words:list,best:null,date:today()});
-  save();go("home");
+  save();clearRows();pageCount=0;pendingName="";go("home");
+}
+
+/* ─────────── 외우는 순서 ─────────── */
+var OKEY="wordrace_order_v1";
+var orderMode="seq";
+function loadOrder(){try{var v=localStorage.getItem(OKEY);if(v)orderMode=v;}catch(e){}}
+function setOrder(m){
+  orderMode=m;
+  try{localStorage.setItem(OKEY,m);}catch(e){}
+  paintOrder();
+}
+function paintOrder(){
+  document.getElementById("ordSeq").classList.toggle("on",orderMode==="seq");
+  document.getElementById("ordRand").classList.toggle("on",orderMode==="rand");
+}
+function shuffled(list){
+  var a=list.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+function arrange(){W=(orderMode==="rand")?shuffled(srcW):srcW.slice();}
+
+/* ─────────── 단어장 전체 보기 ─────────── */
+var wlFrom="intro";
+function openWordList(from){
+  wlFrom=from;
+  var box=document.getElementById("wlBody");box.innerHTML="";
+  var list=srcW.length?srcW:W;
+  document.getElementById("wlCnt").textContent=list.length+"단어";
+  document.getElementById("wlTitle").textContent=(curName||"단어장");
+  list.forEach(function(t,i){
+    var d=document.createElement("div");d.className="wl";
+    d.innerHTML='<div class="n"></div><div class="w"></div><div class="m"></div>';
+    d.querySelector(".n").textContent=(i+1);
+    d.querySelector(".w").textContent=t[0];
+    d.querySelector(".m").textContent=t[2];
+    box.appendChild(d);
+  });
+  go("wordlist");
+}
+function closeWordList(){go(wlFrom==="study"?"study":"intro");}
+
+/* ─────────── 트로피 룸 ─────────── */
+var HKEY="wordrace_hall_v1";
+var hall=[];
+function loadHall(){try{var r=localStorage.getItem(HKEY);hall=r?JSON.parse(r):[];}catch(e){hall=[];}}
+function saveHall(){try{localStorage.setItem(HKEY,JSON.stringify(hall));}catch(e){}}
+function stamp(){
+  var d=new Date(),p=function(n){return (n<10?"0":"")+n;};
+  return d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes());
+}
+function addRecord(chapName,award,total,miss){
+  hall.unshift({at:stamp(),c:chapName,a:award.n,i:award.i,t:total,m:miss,p:(award.n==="금메달")});
+  if(hall.length>200)hall.length=200;
+  saveHall();
+}
+function openHall(){
+  var stars=0;
+  hall.forEach(function(h){if(h.p)stars++;});
+  document.getElementById("hallSum").innerHTML=hall.length
+    ?("도전 "+hall.length+"번 · <b style='color:#C08A00;'>⭐ 칭찬 스티커 "+stars+"개</b>")
+    :"아직 기록이 없어. 챕터를 끝내면 여기에 쌓여!";
+  var box=document.getElementById("hallBody");box.innerHTML="";
+  if(!hall.length){box.innerHTML='<p class="sub">첫 메달을 받아보자 🏃</p>';go("hall");return;}
+  hall.forEach(function(h){
+    var d=document.createElement("div");d.className="tr";
+    d.innerHTML='<div class="ic"></div><div class="tx"><div class="t1"></div><div class="t2"></div></div>';
+    d.querySelector(".ic").textContent=h.i;
+    d.querySelector(".t1").textContent=h.a+(h.p?"  ⭐ 칭찬":"");
+    if(h.p)d.querySelector(".t1").style.color="#C08A00";
+    d.querySelector(".t2").textContent=h.at+" · "+h.c+" · "+h.t+"개 중 "+(h.t-h.m)+"개 한 번에 정답";
+    box.appendChild(d);
+  });
+  go("hall");
+}
+function clearHall(){
+  ask("트로피 룸을 비울까?","지금까지 받은 메달과 칭찬 스티커가 모두 사라져",function(){
+    hall=[];saveHall();openHall();});
 }
 
 /* ─────────── 프로필 ─────────── */
@@ -581,8 +821,11 @@ var SLIDES=[
  b:'<b>한 번에 맞힌 개수</b>로 상이 정해져.<br><br>🥇 금메달 · 다 맞힘<br>🥈 은메달 · 1개 틀림<br>🥉 동메달 · 2개<br>🎖️ 장려상 · 3개<br>🎗️ 참가상 · 4개<br>🏃 완주상 · 5개 이상<br><br>달리는 동안 지금 등급이 위에 계속 보여.',
  d:'<div class="demo" style="text-align:center;"><div style="font-size:40px;">🥇</div><div style="font-size:20px;font-weight:700;color:#C08A00;">금메달</div></div>'},
 {h:"내 단어장으로 챕터 만들기",
- b:'홈에서 <b>+ 새 챕터 만들기</b>를 누르면<br><br>📷 <b>사진 찍기</b> — 단어장을 찍으면 글자를 읽어줘. 틀린 글자는 확인 화면에서 고치면 돼<br>⌨️ <b>직접 입력</b> — 한 줄에 "단어 뜻"씩<br>🔗 <b>공유받은 코드</b> — 아빠가 보낸 챕터 넣기<br><br>만든 챕터는 홈에 저장돼. <b>공유</b>로 카톡 전송, <b>삭제</b>로 지울 수 있어.',
- d:'<div class="demo"><div class="gt" style="font-weight:600;">워드마스터 DAY 07</div><div style="font-size:12px;color:#666;">40단어 · 최고기록 은메달</div><div style="display:flex;gap:6px;margin-top:8px;"><span class="fake" style="flex:1;margin-top:0;">열기</span><span class="fake" style="flex:1;margin-top:0;">공유</span><span class="fake" style="flex:1;margin-top:0;color:#B3261E;">삭제</span></div></div>'},
+ b:'홈에서 <b>+ 새 챕터 만들기</b>를 누르면<br><br>📷 <b>사진 찍기</b> — 한 페이지씩 찍고 <b>여러 장을 이어 붙여</b> 하나의 챕터로 만들어. 찍은 뒤 노란 선을 옮겨서 <b>단어와 뜻이 있는 데까지만</b> 남기면 훨씬 정확해<br>⌨️ <b>직접 입력</b> — 한 줄에 "단어 뜻"씩<br>🔗 <b>공유받은 코드</b> — 아빠가 보낸 챕터 넣기<br><br>챕터 이름은 사진에서 찾아 자동으로 넣어주고, 고칠 수도 있어.',
+ d:'<div class="demo"><div class="gt" style="font-weight:600;">Unit 27</div><div style="font-size:12px;color:#666;">사진 3장 · 단어 20개</div><div style="display:flex;gap:6px;margin-top:8px;"><span class="fake" style="flex:1;margin-top:0;">열기</span><span class="fake" style="flex:1;margin-top:0;">공유</span><span class="fake" style="flex:1;margin-top:0;color:#B3261E;">삭제</span></div></div>'},
+{h:"더 편하게 쓰는 법",
+ b:'<b>📒 단어장</b> — 외우는 중에 언제든 눌러서 전체 단어와 뜻을 한눈에 볼 수 있어<br><br><b>📖 순서대로 / 🔀 랜덤</b> — 챕터 화면에서 고를 수 있어. 지루하면 랜덤으로 바꿔봐<br><br><b>🏆 트로피 룸</b> — 받은 메달이 날짜와 함께 쌓여. 금메달을 받으면 <b>⭐ 칭찬 스티커</b>가 붙어!',
+ d:'<div class="demo"><div style="display:flex;gap:6px;"><span class="fake" style="flex:1;margin-top:0;">📒 단어장</span><span class="fake" style="flex:1;margin-top:0;">🔀 랜덤</span><span class="fake" style="flex:1;margin-top:0;">🏆 트로피</span></div></div>'},
 {h:"연습해볼까?",
  b:'단어 3개짜리 짧은 연습으로 전체 흐름을 직접 해볼 수 있어.<br><br>연습 기록은 저장되지 않으니까 편하게 눌러봐.',
  d:'<div class="demo" style="text-align:center;"><div style="font-size:34px;">🏟️</div><div class="gt">vast · tiny · hire</div></div>',
@@ -612,7 +855,7 @@ function guideSeen(){try{return localStorage.getItem(GKEY)==="1";}catch(e){retur
 
 var DEMO_WORDS=[["vast","[væst]","거대한, 방대한"],["tiny","[táini]","아주 작은[적은]"],["hire","[háiər]","고용하다"]];
 var isDemo=false;
-function startDemo(){isDemo=true;W=DEMO_WORDS;goStudy();}
+function startDemo(){isDemo=true;srcW=DEMO_WORDS;curName="연습";W=srcW.slice();goStudy();}
 
 /* ─────────── 챕터 공유 ─────────── */
 function enc(c){
@@ -684,41 +927,114 @@ function checkHash(){
 }
 
 /* ─────────── 사진 인식 ─────────── */
+var queue=[],srcImg=null,cutPct=55,worker=null;
+
+document.getElementById("cut").oninput=function(){
+  cutPct=parseInt(this.value,10);
+  document.getElementById("cutV").textContent=cutPct;
+  drawCrop();
+};
 document.getElementById("pic").onchange=function(e){
-  var f=e.target.files&&e.target.files[0];
-  if(!f)return;
+  var fs=e.target.files;
+  if(!fs||!fs.length)return;
   if(typeof Tesseract==="undefined"){
     alert("글자 인식 기능을 불러오지 못했어. 인터넷에 연결한 뒤 다시 열어줘.");return;}
-  document.getElementById("ocrBox").classList.remove("hide");
-  setMsg("사진을 읽는 중… 처음 한 번은 시간이 걸려",5);
-  Tesseract.recognize(f,"eng+kor",{logger:function(m){
-    if(m.status==="recognizing text")setMsg("글자 읽는 중",10+m.progress*88);
-    else if(m.progress)setMsg("준비 중",5+m.progress*5);
-  }}).then(function(res){
-    setMsg("끝!",100);
-    var lines=res.data.text.split("\n");
-    draft=[];
-    lines.forEach(function(L){var t=parseLine(L);if(t)draft.push(t);});
-    setTimeout(function(){
-      document.getElementById("ocrBox").classList.add("hide");
-      document.getElementById("pic").value="";
-      if(!draft.length){
-        alert("글자를 못 읽었어. 더 밝고 크게 찍거나, 직접 입력을 써줘.");
-        go("newMenu");return;}
-      drawReview();
-    },500);
-  }).catch(function(){
-    alert("인식에 실패했어. 다시 시도해줘.");
-    document.getElementById("ocrBox").classList.add("hide");
-  });
+  queue=Array.prototype.slice.call(fs);
+  e.target.value="";
+  loadNext();
 };
-function setMsg(t,p){
+function loadNext(){
+  if(!queue.length){document.getElementById("cropCard").classList.add("hide");return;}
+  var f=queue.shift();
+  var rd=new FileReader();
+  rd.onload=function(ev){
+    var im=new Image();
+    im.onload=function(){
+      srcImg=im;
+      document.getElementById("cropCard").classList.remove("hide");
+      document.getElementById("qLeft").textContent=queue.length?("남은 사진 "+queue.length+"장"):"";
+      drawCrop();
+      document.getElementById("cropCard").scrollIntoView({behavior:"smooth",block:"start"});
+    };
+    im.src=ev.target.result;
+  };
+  rd.readAsDataURL(f);
+}
+function drawCrop(){
+  if(!srcImg)return;
+  var c=document.getElementById("cv"),g=c.getContext("2d");
+  var w=640,h=Math.round(srcImg.height/srcImg.width*w);
+  c.width=w;c.height=h;
+  g.drawImage(srcImg,0,0,w,h);
+  var x=w*cutPct/100;
+  g.fillStyle="rgba(20,10,40,0.62)";
+  g.fillRect(x,0,w-x,h);
+  g.strokeStyle="#ffd54f";g.lineWidth=4;
+  g.beginPath();g.moveTo(x,0);g.lineTo(x,h);g.stroke();
+}
+function cancelShot(){
+  srcImg=null;queue=[];
+  document.getElementById("cropCard").classList.add("hide");
+}
+function setMsg(t,pc){
   document.getElementById("ocrMsg").textContent=t;
-  document.getElementById("ocrBar").style.width=Math.round(p)+"%";
+  document.getElementById("ocrBar").style.width=Math.round(pc)+"%";
+}
+function cropped(){
+  var c=document.createElement("canvas");
+  var sw=Math.round(srcImg.width*cutPct/100),sh=srcImg.height;
+  var scale=Math.min(1,1800/Math.max(sw,sh));
+  c.width=Math.round(sw*scale);c.height=Math.round(sh*scale);
+  var g=c.getContext("2d");
+  g.drawImage(srcImg,0,0,sw,sh,0,0,c.width,c.height);
+  return c;
+}
+function getWorker(){
+  if(worker)return Promise.resolve(worker);
+  setMsg("글자 인식 준비 중",4);
+  return Tesseract.createWorker(["eng","kor"],1,{logger:function(m){
+    if(m.progress)setMsg("글자 인식 준비 중",4+m.progress*30);
+  }}).then(function(w){
+    return w.setParameters({tessedit_pageseg_mode:"4",preserve_interword_spaces:"1"})
+      .then(function(){worker=w;return w;});
+  });
+}
+function runOcr(){
+  if(!srcImg)return;
+  var canvas=cropped();
+  document.getElementById("cropCard").classList.add("hide");
+  document.getElementById("ocrBox").classList.remove("hide");
+  setMsg("준비 중",4);
+  getWorker().then(function(w){
+    setMsg("글자 읽는 중",38);
+    return w.recognize(canvas);
+  }).then(function(res){
+    setMsg("정리하는 중",95);
+    var r=parseOcr(res.data.text);
+    document.getElementById("ocrBox").classList.add("hide");
+    if(!r.words.length){
+      alert("이 사진에서는 단어를 못 찾았어.\n더 밝게 찍거나, 자르는 선을 오른쪽으로 옮겨봐.");
+      if(queue.length)loadNext();
+      return;
+    }
+    pageCount++;
+    appendRows(r.words);
+    if(!pendingName&&r.title){
+      pendingName=r.title;
+      var f=document.getElementById("chapName");
+      if(!f.value.trim())f.value=r.title;
+    }
+    updPg();
+    if(queue.length){loadNext();go("shot");}
+    else go("review");
+  }).catch(function(err){
+    document.getElementById("ocrBox").classList.add("hide");
+    alert("인식에 실패했어. 다시 시도하거나 직접 입력을 써줘.");
+  });
 }
 
 /* ─────────── 게임 ─────────── */
-var W=[],curIdx=0,si=0,ti=0,done=0,step="card",results=[],firstOk=[],tries=0,stage="in",mode="mean";
+var W=[],srcW=[],curName="",curIdx=0,si=0,ti=0,done=0,step="card",results=[],firstOk=[],tries=0,stage="in",mode="mean";
 var AWARDS=[{i:"🥇",n:"금메달",c:"#C08A00"},{i:"🥈",n:"은메달",c:"#767A85"},{i:"🥉",n:"동메달",c:"#9C5F32"},
 {i:"🎖️",n:"장려상",c:"#5b3d9e"},{i:"🎗️",n:"참가상",c:"#2F6B50"},{i:"🏃",n:"완주상",c:"#555"}];
 function awardOf(m){return AWARDS[Math.min(m,5)];}
@@ -727,13 +1043,15 @@ function updMedal(){var a=awardOf(missCount()),e=document.getElementById("medalN
 e.textContent=a.i+" "+a.n+(missCount()===0?" 유지중":"");e.style.color=a.c;}
 
 function openChapter(i){
-  isDemo=false;curIdx=i;W=chapters[i].words;
+  isDemo=false;curIdx=i;srcW=chapters[i].words;W=srcW.slice();
+  curName=chapters[i].name;
   document.getElementById("introName").textContent=chapters[i].name;
   document.getElementById("introCnt").textContent=W.length+"개 단어";
+  paintOrder();
   go("intro");
 }
 
-function goStudy(){si=0;document.getElementById("sTot").textContent=W.length;go("study");drawStudy();}
+function goStudy(){arrange();si=0;document.getElementById("sTot").textContent=W.length;go("study");drawStudy();}
 function drawStudy(){
   step="card";
   document.getElementById("card1").classList.remove("hide");
@@ -794,12 +1112,13 @@ function toQ2(){
 }
 function nextWord(){si++;if(si>=W.length)go("sdone");else drawStudy();}
 
-function base(s){return s.replace(/[~\[\]()·,.\-]/g," ").replace(/\s+/g," ").toLowerCase().trim();}
+function base(s){return s.replace(/[~\[\]()·,.\-'"]/g," ").replace(/\s+/g," ").toLowerCase().trim();}
 var PART=["을","를","이","가","은","는","에","의","와","과","로","으로","에게","도","만"];
 function loose(s){
   var t=base(s).split(" ").filter(function(x){return x.length>0&&PART.indexOf(x)<0;}).join("");
   return t.replace(/[을를이가은는의]/g,"");
 }
+function loose2(s){return loose(s).replace(/[와과에로도만]/g,"");}
 function expand(s){
   var m=s.match(/\[([^\]]*)\]/);
   if(m){var i=m.index,ins=m[1],aft=s.slice(i+m[0].length),bef=s.slice(0,i);
@@ -810,15 +1129,15 @@ function expand(s){
   return [s];
 }
 function meanOk(u,full){
-  if(loose(u)===loose(full))return true;
-  var parts=full.split(",");
-  for(var i=0;i<parts.length;i++){
-    var vs=expand(parts[i]);
-    for(var k=0;k<vs.length;k++)if(loose(u)===loose(vs[k]))return true;}
+  var cands=[full];
+  full.split(",").forEach(function(part){cands=cands.concat(expand(part));});
+  for(var i=0;i<cands.length;i++)if(loose(u)===loose(cands[i]))return true;
+  for(var k=0;k<cands.length;k++)if(loose2(u)===loose2(cands[k]))return true;
   return false;
 }
 
 function goTest(){
+  arrange();
   ti=0;done=0;results=new Array(W.length);firstOk=new Array(W.length);
   document.getElementById("tTot").textContent=W.length;
   paintAvatar(document.getElementById("run"),28);
@@ -901,6 +1220,10 @@ function endGame(){
   if(!isDemo){
     var c=chapters[curIdx];
     if(!c.best||rank.indexOf(a.n)<rank.indexOf(c.best)){c.best=a.n;save();}
+    addRecord(curName,a,W.length,miss);
+    if(miss===0){
+      document.getElementById("endMsg").innerHTML=W.length+"개 전부 한 번에 정답!<br>"+(prof.name||"너")+" 정말 대단해 👏<br><b style=\'color:#C08A00;\'>⭐ 칭찬 스티커를 받았어!</b>";
+    }
   }else{
     document.getElementById("endMsg").innerHTML="연습 끝! 이제 진짜 챕터로 해보자 👏<br>연습 기록은 저장되지 않아.";
   }
@@ -914,7 +1237,7 @@ document.getElementById("ans").addEventListener("keypress",function(e){
 
 function replay(){if(isDemo)startDemo();else openChapter(curIdx);}
 
-load();
+load();loadOrder();loadHall();
 var hasProfile=loadProfile();
 if(!checkHash()){
   if(!hasProfile)startProfile(false);
