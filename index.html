@@ -101,6 +101,7 @@ font-size:30px;font-family:inherit;line-height:1.2;}
       <button class="btn2" onclick="openHall()">🏆 트로피 룸</button>
       <button class="btn2" onclick="startGuide()">❓ 사용법</button>
     </div>
+    <button class="btn2" onclick="go('backup')">💾 기록 백업 · 복원</button>
   </div>
   <div class="card">
     <h2>내 챕터</h2>
@@ -285,6 +286,28 @@ font-size:30px;font-family:inherit;line-height:1.2;}
   </div>
 </div>
 
+<!-- ═══ BACKUP ═══ -->
+<div id="backup" class="hide">
+  <div class="card" style="text-align:center;">
+    <div style="font-size:44px;">💾</div>
+    <h1>기록 백업</h1>
+    <p class="sub">프로필, 챕터, 트로피 기록을 파일 하나로 저장해둬.<br>폰을 바꾸거나 앱을 지웠다 깔아도 그대로 되살릴 수 있어.</p>
+    <p id="bkInfo" class="sub" style="margin-top:10px;color:#5b3d9e;font-weight:600;"></p>
+  </div>
+  <div class="card">
+    <button class="btn" onclick="doBackup()">💾 백업 파일 저장하기</button>
+    <p class="sub" style="margin-top:10px;">저장하면 "파일" 앱에 백업 파일이 들어가. 카톡으로 나에게 보내두면 더 안전해.</p>
+  </div>
+  <div class="card">
+    <h2>되살리기</h2>
+    <p class="sub">백업 파일을 고르면 그때 상태로 돌아가. 지금 기록은 <b>지워지지 않고 합쳐져.</b></p>
+    <label class="btn2" style="text-align:center;margin-top:10px;">📂 백업 파일 고르기
+      <input type="file" id="bkFile" accept=".txt,.json,application/json,text/plain" style="display:none;">
+    </label>
+    <button class="btn2" onclick="go('home')">← 챕터 목록</button>
+  </div>
+</div>
+
 <!-- ═══ TROPHY ROOM ═══ -->
 <div id="hall" class="hide">
   <div class="card" style="text-align:center;">
@@ -427,6 +450,44 @@ var DEFAULT_WORDS=[
 ["organic","[ɔːrgǽnik]","유기의, 생물의, 유기농의"],["brilliant","[bríljənt]","훌륭한, 뛰어난, 눈부신"],
 ["finance","[fáinæns]","재정, 재무, 자금"],["incredible","[inkrédəbl]","믿을 수 없는, 놀라운, 대단한"]];
 
+
+var MINJAE_WORDS=[
+["rinse","[rins]","헹구다, 씻다"],
+["tongue","[tʌŋ]","혀"],
+["pine","[pain]","소나무"],
+["safari","[səfáːri]","사파리 여행"],
+["surprise","[sərpráiz]","놀라게 하다"],
+["surprised","","놀란"],
+["brim","[brim]","(컵의) 위 끝부분"],
+["popular","[pápjələr]","인기 있는"],
+["popularity","","인기"],
+["hunter","[hʌ́ntər]","사냥꾼"],
+["hunt","","사냥하다"],
+["key","[kiː]","열쇠, 중요한"],
+["tape","[teip]","테이프"],
+["correct","[kərékt]","옳은, 맞는, 고치다, 수정하다"],
+["correctly","","올바르게, 정확히"],
+["energy","[énərdʒi]","힘, 기운, 에너지"],
+["cupboard","[kʌ́bərd]","찬장"],
+["size","[saiz]","크기"],
+["flashlight","[flǽʃlàit]","손전등"],
+["secret","[síːkrit]","비밀"],
+["experiment","[ikspérəmənt]","실험"],
+["experimental","","실험의"],
+["grain","[grein]","곡물"],
+["promise","[prámis]","약속하다"],
+["cause","[kɔːz]","일으키다, 야기시키다"]];
+
+var SEED2="wordrace_seed2_v1";
+function seedMinjae(){
+  var already=false;
+  try{already=(localStorage.getItem(SEED2)==="1");}catch(e){}
+  if(already)return;
+  chapters.push({name:"Unit 27 (521~540)",words:MINJAE_WORDS,best:null,date:today()});
+  try{localStorage.setItem(SEED2,"1");}catch(e){}
+  save();
+}
+
 var chapters=[];
 function load(){
   var first=false;
@@ -439,16 +500,18 @@ function load(){
     chapters=[{name:"워드마스터 DAY 07",words:DEFAULT_WORDS,best:null,date:today()}];
     save();
   }
+  seedMinjae();
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(chapters));}catch(e){alert("저장 공간이 부족해");}}
 function today(){var d=new Date();return d.getFullYear()+"."+(d.getMonth()+1)+"."+d.getDate();}
 
 /* ─────────── 화면 전환 ─────────── */
-var SCREENS=["home","profile","newMenu","shot","review","manual","guide","share","paste","importc","intro","wordlist","hall","study","sdone","test","result"];
+var SCREENS=["home","profile","newMenu","shot","review","manual","guide","share","paste","importc","intro","wordlist","hall","backup","study","sdone","test","result"];
 function go(id){
   SCREENS.forEach(function(s){document.getElementById(s).classList.toggle("hide",s!==id);});
   window.scrollTo(0,0);
   if(id==="home"){drawProfileBits();drawHome();}
+  if(id==="backup")drawBackupInfo();
 }
 
 /* ─────────── 확인창 ─────────── */
@@ -684,6 +747,75 @@ function openWordList(from){
   go("wordlist");
 }
 function closeWordList(){go(wlFrom==="study"?"study":"intro");}
+
+/* ─────────── 백업 · 복원 ─────────── */
+var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1"];
+function backupBlob(){
+  var o={app:"wordrace",v:1,at:stamp(),data:{}};
+  BK_KEYS.forEach(function(k){
+    try{var v=localStorage.getItem(k);if(v!==null)o.data[k]=v;}catch(e){}
+  });
+  return JSON.stringify(o);
+}
+function doBackup(){
+  var txt=backupBlob();
+  var name="단어경주-백업-"+stamp().replace(/[.: ]/g,"")+".txt";
+  try{
+    var b=new Blob([txt],{type:"text/plain;charset=utf-8"});
+    var u=URL.createObjectURL(b);
+    var a=document.createElement("a");
+    a.href=u;a.download=name;document.body.appendChild(a);a.click();
+    setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u);},1500);
+    document.getElementById("bkInfo").textContent="백업 파일을 만들었어! 저장 위치를 골라줘.";
+  }catch(e){
+    alert("백업에 실패했어. 다시 시도해줘.");
+  }
+}
+document.getElementById("bkFile").onchange=function(e){
+  var f=e.target.files&&e.target.files[0];if(!f)return;
+  var rd=new FileReader();
+  rd.onload=function(ev){
+    var o;
+    try{o=JSON.parse(ev.target.result);}catch(err){alert("백업 파일이 아닌 것 같아.");return;}
+    if(!o||o.app!=="wordrace"||!o.data){alert("백업 파일이 아닌 것 같아.");return;}
+    ask("백업을 되살릴까?","백업에 있던 챕터와 트로피 기록이 지금 기록에 합쳐져",function(){
+      applyBackup(o.data);
+    });
+  };
+  rd.readAsText(f);
+  e.target.value="";
+};
+function applyBackup(d){
+  try{
+    if(d.wordrace_v1){
+      var old=JSON.parse(d.wordrace_v1)||[];
+      var have={};
+      chapters.forEach(function(c){have[c.name]=1;});
+      old.forEach(function(c){if(!have[c.name])chapters.push(c);});
+      save();
+    }
+    if(d.wordrace_hall_v1){
+      var oh=JSON.parse(d.wordrace_hall_v1)||[];
+      var seen={};
+      hall.forEach(function(h){seen[h.at+h.c+h.a]=1;});
+      oh.forEach(function(h){if(!seen[h.at+h.c+h.a])hall.push(h);});
+      hall.sort(function(a,b){return a.at<b.at?1:-1;});
+      saveHall();
+    }
+    if(d.wordrace_profile_v1){
+      prof=JSON.parse(d.wordrace_profile_v1);saveProfileData();
+    }
+    if(d.wordrace_order_v1){orderMode=d.wordrace_order_v1;try{localStorage.setItem(OKEY,orderMode);}catch(e){}}
+    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");}catch(e){}
+    alert("되살렸어! 챕터 "+chapters.length+"개, 트로피 "+hall.length+"개");
+    go("home");
+  }catch(err){alert("되살리는 데 실패했어. 파일을 다시 확인해줘.");}
+}
+function drawBackupInfo(){
+  var stars=0;hall.forEach(function(h){if(h.p)stars++;});
+  document.getElementById("bkInfo").textContent=
+    "지금 챕터 "+chapters.length+"개 · 트로피 "+hall.length+"개 · 칭찬 스티커 "+stars+"개";
+}
 
 /* ─────────── 트로피 룸 ─────────── */
 var HKEY="wordrace_hall_v1";
