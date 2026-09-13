@@ -357,6 +357,7 @@ color:#6b6480;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
     <p class="sub" style="margin-bottom:10px;font-weight:600;color:#111;">그 밖에</p>
     <button class="btn2" onclick="startGuide()">❓ 사용법 다시 보기</button>
     <button class="btn2" onclick="go('backup')">💾 기록 백업 · 복원</button>
+    <button class="btn2" onclick="restoreDefaults(false);go('home');">📚 기본 챕터 다시 불러오기</button>
   </div>
 
   <div class="card">
@@ -641,6 +642,23 @@ function load(){
   }
   seedMinjae();
   seedDay08();
+  if(!chapters.length)restoreDefaults(true);
+}
+function restoreDefaults(silent){
+  var want=[
+    {n:"워드마스터 DAY 08",w:DAY08_WORDS},
+    {n:"Unit 27 (521~540)",w:MINJAE_WORDS},
+    {n:"워드마스터 DAY 07",w:DEFAULT_WORDS}
+  ];
+  var added=0;
+  want.forEach(function(d){
+    var found=false;
+    for(var i=0;i<chapters.length;i++)if(chapters[i].name===d.n){found=true;break;}
+    if(!found){chapters.unshift({name:d.n,words:d.w,best:null,date:today()});added++;}
+  });
+  if(added)save();
+  if(!silent)alert(added?(added+"개 챕터를 다시 넣었어!"):"기본 챕터가 이미 다 있어.");
+  return added;
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(chapters));}catch(e){alert("저장 공간이 부족해");}}
 function today(){var d=new Date();return d.getFullYear()+"."+(d.getMonth()+1)+"."+d.getDate();}
@@ -701,7 +719,7 @@ function drawHome(){
     r.appendChild(b1);r.appendChild(b3);r.appendChild(b2);d.appendChild(r);
     box.appendChild(d);
   });
-  if(!chapters.length)box.innerHTML='<p class="sub">아직 챕터가 없어. 아래에서 하나 만들어보자.</p>';
+  if(!chapters.length)box.innerHTML='<p class="sub">아직 챕터가 없어. 아래에서 새로 만들거나, 설정에서 <b>기본 챕터 다시 불러오기</b>를 눌러봐.</p>';
 }
 var cbSel={};
 function openCombine(){
@@ -1976,7 +1994,7 @@ function replay(){
 load();loadOrder();loadHall();loadSound();loadTts();
 var hasProfile=loadProfile();
 if(!checkHash()){
-  if(!hasProfile)startProfile(false);
+  if(!hasProfile||!prof.name)startProfile(false);
   else if(!guideSeen())startGuide();
   else go("home");
 }
