@@ -632,6 +632,101 @@ function seedDay08(){
   save();
 }
 
+var DAY09_WORDS=[
+["punish","[pʌ́niʃ]","(처)벌하다, 응징하다","However, any sagwan who revealed the records was severely punished.","그러나, 기록을 누설한 '사관'은 누구든 엄격하게 처벌받았다."],
+["civilization","[sìvəlizéiʃən]","문명","It is difficult to imagine the significance of cats to early civilizations.","초기 문명에서 고양이의 중요성을 상상하는 것은 어렵다."],
+["construct","[kənstrʌ́kt]","건설하다, 구성하다","Hatshepsut constructed a magnificent funeral temple.","Hatshepsut는 웅장한 장례용 신전을 건축했다."],
+["recall","[rikɔ́ːl]","기억해 내다, 상기시키다, 회수하다, 회상, 회수","Many peaks cause you to recall the images that mountains are floating upside down.","많은 봉우리들은 여러분에게 산이 거꾸로 떠가는 모습을 생각나게 해 준다."],
+["gradually","[grǽdʒuəli]","점차(적으로), 서서히","They are at the same time gradually turning a biological being into a social being.","그들은 동시에 생물학적 존재를 점차 사회적 존재로 변화시키고 있다."],
+["delay","[diléi]","미루다, 연기하다, 지체하게 하다, 지연, 연기","They will delay taking action because they cannot tolerate being imperfect.","그들은 불완전한 것을 참을 수 없기 때문에 행동을 취하는 것을 미룰 것이다."],
+["genetic","[dʒənétik]","유전적인, 유전학의","When it comes to improving humans, the process will start by eliminating genetic diseases.","인간을 개선하는 것에 관한 한, 그 과정은 유전병을 없애는 것으로 시작할 것이다."],
+["sustainable","[səstéinəbl]","지속 가능한, 견딜 수 있는","Eco-fashion, also known as slow fashion and sustainable clothing, is trendy, too.","에코 패션은 또한 슬로우 패션 그리고 지속 가능한 의류라고 알려져 있는데, 역시 최신 유행이다."],
+["register","[rédʒistər]","등록하다, 기록하다, 등록","Journalists cannot work for the media without being registered and obtaining a press card.","기자는 등록되어 기자증을 얻지 않고는 언론을 위해 일할 수 없다."],
+["rotate","[róuteit]","회전하다, 교대로 하다, 자전하다","It is good to stay well away from the machine when its blades start to rotate.","날개가 회전하기 시작할 때에는 그 기계에서 멀찍이 떨어져 있는 것이 좋다."],
+["declare","[dikléər]","선언하다, 발표하다, (과세품을) 신고하다","The Trophy for General Excellence is awarded to Ms. Zoe Perry, the principal declared.","전체 최우수상을 위한 트로피는 Zoe Perry 양에게 수여됩니다라고 교장이 발표했다."],
+["reputation","[rèpjutéiʃən]","평판, 명성","The Igbo have a reputation for hard work, ambition and love of education.","Igbo인들은 근면하며, 야망이 있고, 교육에 대한 열의가 있다는 평판을 가지고 있다."],
+["settle","[sétl]","해결하다, 정착하다, 안정시키다","How can you settle differences if you don't honestly talk them out?","만약 당신이 솔직하게 차이점들을 털어놓지 않으면, 어떻게 그것들을 해결하겠는가?"],
+["agent","[éidʒənt]","대리인, 중개인, (공공 기관의) 직원","The coupon may be available through customer-service agents.","그 쿠폰은 고객 서비스 직원들을 통해 구할 수 있다."],
+["crisis","[kráisis]","위기","The current environmental crisis may make the earth very hostile to mankind.","현재의 환경 위기는 지구를 인류에게 매우 적대적으로 만들지도 모른다."],
+["guilty","[gílti]","유죄의, 죄책감을 느끼는","Many people thought that the defendant was not guilty.","많은 사람들은 그 피고가 죄가 없다고 생각했다."],
+["innocent","[ínəsənt]","무죄인, 악의 없는, 순수한","We must consider an innocent question asked years ago by a son to his father.","우리는 몇 년 전 한 아들이 자신의 아버지에게 했던 악의 없는 질문을 고려해야 한다."],
+["analyze","[ǽnəlàiz]","분석하다","They analyze the language used by different individuals.","그들은 각각 다른 개인에 의해 사용되는 언어를 분석한다."],
+["commit","[kəmít]","(죄·과실 등을) 저지르다, 전념하다, 약속하다","Losing one's shield in battle was considered the single greatest crime a Spartan could commit.","전투에서 자신의 방패를 잃는 것은 스파르타인이 저지를 수 있는 가장 큰 단일 범죄로 간주되었다."],
+["comment","[kάment]","논평, 언급, 의견, 논평하다, 의견을 말하다","It feels good for someone to hear positive comments.","누구든 긍정적인 의견을 듣는 것은 기분이 좋다."],
+["edit","[édit]","편집하다, 교정하다, 사설, 논설","While in high school, he edited his high school newspaper.","그는 고등학교 시절, 자신의 고등학교 신문을 편집했다."],
+["equip","[ikwíp]","장비를 갖추다, 재능을 주다","A car was found that was equipped with fog lights.","안개등 장비를 갖춘 차 한 대가 발견되었다."],
+["genius","[dʒíːnjəs]","천재성, 천재","Puccini's genius lay in his ability to write beautiful melodies.","Puccini의 천재성은 아름다운 멜로디를 작곡하는 그의 능력에 있었다."],
+["adequate","[ǽdikwət]","적당한, 충분한, 적절한","To improve your learning ability, keep an adequate and regular sleep pattern.","당신의 학습 능력을 향상시키기 위해서, 충분하고 규칙적인 수면 패턴을 유지하라."],
+["aggressive","[əgrésiv]","공격적인, 매우 적극적인, 침략적인","Living together in human society often requires restraining aggressive behavior.","인간 사회에서 함께 살아가는 것은 종종 공격적인 행동을 억제하는 것을 필요로 한다."],
+["load","[loud]","짐, 부담, (짐을) 싣다, 적재하다","The minister personally came up with a load of firewood in the trailer.","그 목사는 직접 트레일러에 한 짐의 장작을 가지고 왔다."],
+["manufacture","[mæ̀njufǽktʃər]","제조하다, 생산하다, 제조, 제품","The water in our food and manufactured products is called virtual water.","우리의 음식과 제조된 제품에 있는 물은 '가상의 물'이라고 불린다."],
+["acknowledge","[æknάlidʒ]","인정하다","She gave me my change, still without acknowledging me in any way.","그녀는 여전히 어떤 식으로든 나를 아는 체하지 않고 나의 잔돈을 주었다."],
+["deny","[dinái]","부인하다, 거부하다","Karl Popper denied that there was such a thing as a scientific method.","Karl Popper는 과학적 방법과 같은 것이 있다는 것을 부인했다."],
+["behavior","[bihéivjər]","행동, 태도","With the right behavior we can make a positive change to the health of our planet.","올바른 행동으로 우리는 우리 행성의 건강에 긍정적인 변화를 만들 수 있다."],
+["mature","[mətjúər]","성숙한, 숙성된, 자라다, 성숙하다, 숙성되다","Its metabolism shifts as it either prepares to mature or differentiates into a specialized form.","그것의 신진대사는 성숙할 준비를 하거나 특수한 형태로 분화됨에 따라 변한다."],
+["thrust","[θrʌst]","밀다, 찌르다, 밀어붙이다, 밀기, 추진력","The doctor thrust the needle into my arm.","의사가 내 팔에 주삿바늘을 찔러 넣었다."],
+["corporate","[kɔ́ːrpərət]","기업[회사]의, 법인의","Libraries raise funds by selling named space for corporate donors.","도서관들은 기업 기부자들에게 이름을 붙인 공간을 판매하여 기금을 모은다."],
+["severe","[sivíər]","심각한, 엄격한","If I hold it for a day straight, it will cause severe pain in my arm.","만약 내가 그것을 하루 종일 잡고 있다면, 그것은 내 팔에 심각한 통증을 유발할 것이다."],
+["alert","[ələ́ːrt]","기민한, 경계하는, 경계경보, 경보, 알리다, 경고하다","An alert message was immediately sent to White and forest rangers.","경계 메시지가 White와 산림 감시원들에게 즉각 전송되었다."],
+["violent","[váiələnt]","폭력적인, 격렬한, 심한","Some news reports are mostly about the latest worst incident or violent crime.","일부 뉴스 보도는 최근의 최악의 사건 또는 폭력적인 범죄에 관한 것이 대부분이다."],
+["glow","[glou]","빛나다, 타다, 상기되다, 불빛, 홍조","The red, velvety coals from the campfire were glowing in the dark.","캠프파이어에서 나온 빨갛고 부드러운 석탄이 어둠 속에서 빛나고 있었다."],
+["guarantee","[gæ̀rəntíː]","보증하다, 보증, 담보","She had nothing to guarantee that she would pay back the loan.","그녀는 대출금을 갚을 것이라고 보증할 것이 아무것도 없었다."],
+["be based on","","~에 바탕을 두다, ~에 근거하다, ~에 기초하다","Present expansion is based on a fundamental misconception.","현재의 확장은 근본적인 오해에 바탕을 두고 있다."],
+["remind A of B","","A에게 B를 상기시키다[생각나게 하다]","If so, it may have reminded you of a highway packed with cars.","그렇다면, 그것은 여러분에게 자동차들로 가득 찬 고속도로를 생각나게 만들었을지도 모른다."]];
+
+var DAY10_WORDS=[
+["obvious","[άbviəs]","명백한, 분명한","It was obvious that my son's teammate needed help.","내 아들의 팀 동료가 도움이 필요하다는 것은 명백했다."],
+["apparent","[əpǽrənt]","분명한, 외견상의","If you want to be an astronomer, the same apparent shortcoming could turn into an unexpected strength.","여러분이 천문학자가 되고 싶다면, 똑같은 외견상의 단점이 예상치 못한 강점으로 바뀔 수 있다."],
+["persist","[pərsíst]","고집하다, 지속되다","The name pyop jar persisted as the clay pot was forgotten.","그 진흙 항아리가 잊히면서 'pyop jar'라는 이름은 지속되었다."],
+["temporary","[témpərèri]","일시적인, 임시의","The filling, only a temporary one, was made with inexpensive material.","그 충전물은 단지 일시적인 것으로, 비싸지 않은 재료로 만들어졌다."],
+["permanent","[pə́ːrmənənt]","영구적인, 영원한","More surprisingly, workers with permanent contracts also feel insecure.","더욱 놀랍게도, 영구적 계약을 맺은 근로자들도 또한 불안감을 느낀다."],
+["rescue","[réskjuː]","구조하다, 구조, 구출","The man tries to rescue the situation by preparing a self-cooked dinner.","그 남자는 직접 요리한 저녁 식사를 준비함으로써 그 상황을 수습하려고 노력한다."],
+["embrace","[imbréis]","받아들이다, 수용하다, 포옹하다","It takes courage to embrace your authentic self and live life on your own terms.","진정한 자신을 받아들이고 자신만의 방식으로 삶을 사는 데는 용기가 필요하다."],
+["tremble","[trémbl]","떨다, 흔들리다, 떨림","Slowly he stepped, his eyes fully dilated, and he trembled with fear.","그는 천천히 걸어갔고, 눈은 완전히 커졌으며, 두려움에 떨었다."],
+["ancestor","[ǽnsestər]","조상, 선조","We share an ancestor with every other species of animal and plant on the planet.","우리는 지구상의 다른 모든 동식물의 종과 조상을 공유한다."],
+["cautious","[kɔ́ːʃəs]","조심스러운, 신중한","Some young children who attend preschool are very cautious.","유치원에 다니는 일부 어린아이들은 매우 조심스럽다."],
+["clarify","[klǽrəfài]","명확히[분명히] 하다, 정화하다","They had all the evidence to clarify the cause of the accident.","그들은 그 사고의 원인을 명확히 할 모든 증거를 가지고 있었다."],
+["drag","[dræg]","끌다, 끌리다, 끌기, 장애물","I could hear something being dragged across the floor.","나는 무언가 바닥을 가로질러 끌리고 있는 것을 들을 수 있었다."],
+["horizontal","[hɔ̀ːrəzάntl]","수평선의, 가로의","You should put a horizontal line through the center and wrap it around.","당신은 중앙을 가로질러 수평선을 긋고 그것을 휘감아야 한다."],
+["vertical","[və́ːrtikəl]","수직의, 세로의","Rarely do they consider the critical role of vertical transportation.","그들은 수직 운송 수단의 중요한 역할을 거의 고려하지 않는다."],
+["remarkable","[rimάːrkəbl]","주목할 만한, 놀랄 만한, 훌륭한","The remarkable growth of art exhibitions can be analyzed in this light.","예술 전시회의 주목할 만한 성장은 이러한 관점에서 분석될 수 있다."],
+["individual","[ìndəvídʒuəl]","개인, 개개의, 개인적인","Even so, many decisions need to be made by the individual who is taking the trip.","그렇다 하더라도, 많은 결정은 그 여행을 하는 개인에 의해 이루어져야 한다."],
+["memorize","[méməràiz]","암기하다, 기억하다","Winston Churchill wrote his speeches out in advance and memorized them.","Winston Churchill은 자신의 연설을 미리 써 놓고 그것들을 암기했다."],
+["retire","[ritáiər]","퇴직하다, 은퇴하다","A newly retired executive was bothered when no one called him anymore.","막 퇴직한 임원은 아무도 자신에게 더 이상 전화하지 않자 괴로웠다."],
+["athlete","[ǽθliːt]","운동선수","Every athlete tries to run faster, jump higher, or become stronger.","모든 운동선수는 더 빨리 달리거나, 더 높이 뛰거나, 더 강해지기 위해 노력한다."],
+["victim","[víktim]","희생, 희생자","The television program may help the families of the victims.","그 텔레비전 프로그램은 희생자들의 가족을 도울 수 있다."],
+["aboard","[əbɔ́ːrd]","(배·비행기 등을) 타고, (배·비행기 등에) 탄","She was even welcomed aboard the plane by the pilot.","그녀는 심지어 조종사에 의해 비행기에 탑승하는 것을 환영받았다."],
+["departure","[dipάːrtʃər]","출발, 출항","We think of life as having departures, destinations, and paths.","우리는 삶에 출발과 목적지, 그리고 길이 있다고 여긴다."],
+["broaden","[brɔ́ːdn]","넓어지다, 넓히다","We are supposed to broaden our knowledge by different channels.","우리는 다양한 경로로 우리의 지식을 넓혀야 한다."],
+["extend","[iksténd]","넓히다, 연장하다, 뻗다","The poster shows a gloved hand with two fingers extended.","그 포스터는 두 손가락을 뻗고 있는 장갑 낀 손을 보여 준다."],
+["sacrifice","[sǽkrəfàis]","희생, 제물, 희생하다, 제물로 바치다","They made incredible sacrifices and overcame all obstacles to complete a project.","그들은 엄청난 희생을 치르고 모든 장애를 극복하여 프로젝트를 완성했다."],
+["devise","[diváiz]","고안하다, 발명하다","Governments also devise non-tariff barriers to trade.","정부들은 또한 무역에 대한 비관세 장벽을 고안한다."],
+["electricity","[ilèktrísəti]","전기","Daniel organized an effort at his school to use less electricity.","Daniel은 자신의 학교에서 전기를 덜 사용하기 위한 활동을 조직했다."],
+["logical","[lάdʒikəl]","논리적인, 타당한","We need to resolve our conflicts in a logical, commonsense way.","우리는 우리의 갈등을 논리적이고 상식적인 방식으로 해결할 필요가 있다."],
+["inherit","[inhérit]","물려받다, 이어받다, 상속하다","The last thing that she expected was to inherit such wealth.","그녀가 전혀 예상하지 못한 것은 그런 재산을 물려받는 것이었다."],
+["length","[leŋkθ]","길이, 시간","The average length of an email message was 3,150 characters.","이메일 메시지의 평균 길이는 3,150 글자였다."],
+["initial","[iníʃəl]","처음의, 초기의, 머리글자","The initial stages of a relationship are usually comfortable.","관계의 초기 단계는 대개 편안하다."],
+["qualified","[kwάləfàid]","자격 있는, 적임의","I am uniquely qualified to offer poodle owners valuable advice on these subjects.","나는 푸들 주인들에게 이런 주제들에 관한 귀중한 조언을 제공할 자격이 있다."],
+["reform","[rifɔ́ːrm]","개혁하다, 개선하다, 개혁, 개선","Douglass continued to fight for reform until his death.","Douglass는 죽을 때까지 개혁을 위해 계속 싸웠다."],
+["regulate","[régjulèit]","통제하다, 조절하다","Melatonin helps regulate the timing of when sleep occurs.","멜라토닌은 수면이 일어나는 시점을 조절하는 것을 돕는다."],
+["delicate","[délikət]","섬세한, 연약한, 정교한","Blue was more delicate and prettier, thus more appropriate for girls.","파란색은 더 섬세하고 예뻐서, 여자아이에게 더 적합했다."],
+["resist","[rizíst]","저항하다, 견디다","She couldn't resist the temptation of chocolate and ice cream.","그녀는 초콜릿과 아이스크림의 유혹을 참을 수 없었다."],
+["restrict","[ristríkt]","제한하다, 한정하다","The doctor advised me to restrict my intake of caffeine to improve my sleep.","의사는 나에게 수면을 개선하기 위해 카페인 섭취를 제한하라고 충고했다."],
+["possess","[pəzés]","소유하다, 지니다, 사로잡다","Creative thinking is possessed by only a few people.","창의적인 생각은 오직 소수의 사람들에 의해서만 소유된다."],
+["be related to","","~와 관계가 있다, ~와 연관되다","The map shows explicitly how various locations are related to each other.","지도는 다양한 장소들이 서로 어떻게 연관되어 있는지 명백하게 보여 준다."],
+["contribute to","","~에 기여하다, ~의 원인이 되다","There is something we ordinary teenagers can do to contribute to making a better world.","우리 평범한 십 대들이 더 나은 세상을 만드는 데 기여하기 위해 할 수 있는 무언가가 있다."]];
+
+var SEED4="wordrace_seed4_v1";
+function seedDay0910(){
+  var done=false;
+  try{done=(localStorage.getItem(SEED4)==="1");}catch(e){}
+  if(done)return;
+  chapters.unshift({name:"워드마스터 DAY 09",words:DAY09_WORDS,best:null,date:today()});
+  chapters.unshift({name:"워드마스터 DAY 10",words:DAY10_WORDS,best:null,date:today()});
+  try{localStorage.setItem(SEED4,"1");}catch(e){}
+  save();
+}
+
 var SEED2="wordrace_seed2_v1";
 var SEED2B="wordrace_seed2b_v1";
 var MJ_NAME="Unit 27 (521~540)";
@@ -664,10 +759,13 @@ function load(){
   }
   seedMinjae();
   seedDay08();
+  seedDay0910();
   if(!chapters.length)restoreDefaults(true);
 }
 function restoreDefaults(silent){
   var want=[
+    {n:"워드마스터 DAY 10",w:DAY10_WORDS},
+    {n:"워드마스터 DAY 09",w:DAY09_WORDS},
     {n:"워드마스터 DAY 08",w:DAY08_WORDS},
     {n:"Unit 27 (521~540)",w:MINJAE_WORDS},
     {n:"워드마스터 DAY 07",w:DEFAULT_WORDS}
@@ -1169,7 +1267,7 @@ function stopBgm(){
 }
 
 /* ─────────── 백업 · 복원 ─────────── */
-var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1"];
+var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1"];
 function backupBlob(){
   var o={app:"wordrace",v:1,at:stamp(),data:{}};
   BK_KEYS.forEach(function(k){
@@ -1226,7 +1324,7 @@ function applyBackup(d){
       prof=JSON.parse(d.wordrace_profile_v1);saveProfileData();
     }
     if(d.wordrace_order_v1){orderMode=d.wordrace_order_v1;try{localStorage.setItem(OKEY,orderMode);}catch(e){}}
-    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");}catch(e){}
+    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");}catch(e){}
     alert("되살렸어! 챕터 "+chapters.length+"개, 트로피 "+hall.length+"개");
     go("home");
   }catch(err){alert("되살리는 데 실패했어. 파일을 다시 확인해줘.");}
