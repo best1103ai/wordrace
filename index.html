@@ -727,6 +727,38 @@ function seedDay0910(){
   save();
 }
 
+var UNIT29_WORDS=[
+["east","[iːst]","동쪽","The sun rises in the east.","해는 동쪽에서 뜬다."],
+["spread","[spred]","펴다, 펼치다, 퍼지다","He spread a mat on the grass.","그는 잔디 위에 매트를 펼쳤다."],
+["fingerprint","[fíŋgərprìnt]","지문","We have different fingerprints.","우리는 다른 지문을 가지고 있다."],
+["zoom","[zuːm]","(빠르게) 가다, 질주하다","A car is zooming down the highway.","차 한 대가 고속도로를 질주하고 있다."],
+["stem","[stem]","(식물의) 줄기","Plants have roots, stems and leaves.","식물은 뿌리, 줄기, 잎을 가지고 있다."],
+["sale","[seil]","판매, 할인 판매","That house is now for sale.","저 집은 지금 팔려고 내놓은 상태이다."],
+["toothpaste","[túːθpèist]","치약","The toothpaste tastes too strong for kids.","그 치약은 아이들이 사용하기에 맛이 너무 강하다."],
+["raise","[reiz]","올리다, 들다, 키우다, 기르다","Raise your hand if you have any questions.","질문이 있으면 손을 들어라."],
+["dip","[dip]","살짝 담그다, 적시다","I dipped a strawberry in the chocolate.","나는 딸기를 초콜릿에 살짝 담갔다."],
+["noise","[nɔiz]","소음","I couldn't fall asleep because of the noise.","나는 소음 때문에 잠을 잘 수 없었다."],
+["dairy","[déəri]","유제품의","You can find yogurt in the dairy section.","유제품 코너에서 요거트를 찾을 수 있다."],
+["narrow","[nǽrou]","(폭이) 좁은","The room is too narrow for a TV.","그 방은 텔레비전을 놓기에 너무 좁다."],
+["shine","[ʃain]","빛나다, 반짝이다","The stars are shining in the night sky.","밤하늘에 별이 빛나고 있다."],
+["chameleon","[kəmíːliən]","카멜레온","Chameleons can change their skin color.","카멜레온은 피부 색깔을 바꿀 수 있다."],
+["trouble","[trʌ́bl]","문제, 골칫거리","My dog sometimes makes trouble.","나의 개는 때때로 문제를 일으킨다."],
+["cover","[kʌ́vər]","씌우다, 덮다","I covered the table with a cloth.","나는 천으로 식탁을 씌웠다."],
+["prize","[praiz]","상","He won the prize at the contest.","그는 대회에서 상을 받았다."],
+["mushroom","[mʌ́ʃruːm]","버섯","I cooked pasta with button mushrooms.","나는 양송이 버섯으로 파스타를 요리했다."],
+["result","[rizʌ́lt]","결과","What was the result of the soccer game?","그 축구 경기 결과는 어땠어?"],
+["ago","[əgóu]","~ 전에, 이전에","We moved here two days ago.","우리는 이틀 전에 여기로 이사 왔다."]];
+
+var SEED5="wordrace_seed5_v1";
+function seedUnit29(){
+  var done=false;
+  try{done=(localStorage.getItem(SEED5)==="1");}catch(e){}
+  if(done)return;
+  chapters.unshift({name:"Unit 29 (561~580)",words:UNIT29_WORDS,best:null,date:today()});
+  try{localStorage.setItem(SEED5,"1");}catch(e){}
+  save();
+}
+
 var SEED2="wordrace_seed2_v1";
 var SEED2B="wordrace_seed2b_v1";
 var MJ_NAME="Unit 27 (521~540)";
@@ -760,10 +792,12 @@ function load(){
   seedMinjae();
   seedDay08();
   seedDay0910();
+  seedUnit29();
   if(!chapters.length)restoreDefaults(true);
 }
 function restoreDefaults(silent){
   var want=[
+    {n:"Unit 29 (561~580)",w:UNIT29_WORDS},
     {n:"워드마스터 DAY 10",w:DAY10_WORDS},
     {n:"워드마스터 DAY 09",w:DAY09_WORDS},
     {n:"워드마스터 DAY 08",w:DAY08_WORDS},
@@ -1267,7 +1301,7 @@ function stopBgm(){
 }
 
 /* ─────────── 백업 · 복원 ─────────── */
-var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1"];
+var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1"];
 function backupBlob(){
   var o={app:"wordrace",v:1,at:stamp(),data:{}};
   BK_KEYS.forEach(function(k){
@@ -1324,7 +1358,7 @@ function applyBackup(d){
       prof=JSON.parse(d.wordrace_profile_v1);saveProfileData();
     }
     if(d.wordrace_order_v1){orderMode=d.wordrace_order_v1;try{localStorage.setItem(OKEY,orderMode);}catch(e){}}
-    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");}catch(e){}
+    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");}catch(e){}
     alert("되살렸어! 챕터 "+chapters.length+"개, 트로피 "+hall.length+"개");
     go("home");
   }catch(err){alert("되살리는 데 실패했어. 파일을 다시 확인해줘.");}
