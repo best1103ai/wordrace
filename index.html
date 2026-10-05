@@ -759,6 +759,38 @@ function seedUnit29(){
   save();
 }
 
+var UNIT30_WORDS=[
+["exam","[igzǽm]","시험","Cindy got the highest score on the exam.","신디는 시험에서 가장 높은 점수를 받았다."],
+["wheel","[hwiːl]","바퀴","All wheels have a circular shape.","모든 바퀴는 둥근 모양이다."],
+["splash","[splæʃ]","(물 등을) 튀기다","They splashed water at me.","그들은 나에게 물을 튀겼다."],
+["mess","[mes]","엉망진창, 혼란","My desk is a mess now.","나의 책상은 지금 엉망이다."],
+["silly","[síli]","어리석은, 바보 같은","I was silly to take the wrong bus.","버스를 잘못 타다니 내가 바보 같았다."],
+["wave","[weiv]","흔들다, 파도, 물결","Mark is waving his hand at us.","마크는 우리를 향해 손을 흔들고 있다."],
+["sigh","[sai]","한숨을 내쉬다","Mom sighed when she saw my dirty room.","엄마는 내 지저분한 방을 보고 한숨을 내쉬셨다."],
+["alligator","[ǽligèitər]","악어","It is dangerous to go near alligators.","악어에게 가까이 가는 것은 위험하다."],
+["torch","[tɔːrtʃ]","횃불","He ran with the Olympic torch in his hand.","그는 손에 올림픽 성화를 들고 뛰었다."],
+["musician","[mju(ː)zíʃən]","음악가","The musician plays the guitar and sings.","그 음악가는 기타를 치며 노래를 부른다."],
+["award","[əwɔ́ːrd]","상, (상 등을) 수여하다, 주다","She won the award for her painting.","그녀는 그림으로 상을 받았다."],
+["discover","[diskʌ́vər]","발견하다","The scientist discovered bones under the ground.","그 과학자는 땅 속에서 뼈를 발견했다."],
+["weight","[weit]","무게","My weight is 11.2 kilograms.","내 몸무게는 11.2 킬로그램이다."],
+["tasty","[téisti]","맛있는","These pancakes are so tasty.","이 팬케이크는 정말 맛있다."],
+["step","[step]","걸음, 단계","The baby is taking one step at a time.","그 아기는 한 걸음씩 걷고 있다."],
+["angel","[éindʒəl]","천사","I saw a statue of an angel beside a pond.","나는 연못 옆에서 천사의 동상을 보았다."],
+["surprisingly","[sərpráiziŋli]","놀랍게도","The clothes are surprisingly cheap.","그 옷들은 놀라울 만큼 싸다."],
+["clip","[klip]","핀, 클립","I need a clip to keep these papers together.","나는 이 서류들을 한데 묶을 클립이 필요하다."],
+["joke","[dʒouk]","농담, 우스갯소리","I made jokes, and we laughed.","내가 농담을 했고 우리는 웃었다."],
+["peel","[piːl]","껍질을 벗기다","Could you peel this orange?","이 오렌지 껍질 좀 벗겨 주시겠어요?"]];
+
+var SEED6="wordrace_seed6_v1";
+function seedUnit30(){
+  var done=false;
+  try{done=(localStorage.getItem(SEED6)==="1");}catch(e){}
+  if(done)return;
+  chapters.unshift({name:"Unit 30 (581~600)",words:UNIT30_WORDS,best:null,date:today()});
+  try{localStorage.setItem(SEED6,"1");}catch(e){}
+  save();
+}
+
 var SEED2="wordrace_seed2_v1";
 var SEED2B="wordrace_seed2b_v1";
 var MJ_NAME="Unit 27 (521~540)";
@@ -793,10 +825,12 @@ function load(){
   seedDay08();
   seedDay0910();
   seedUnit29();
+  seedUnit30();
   if(!chapters.length)restoreDefaults(true);
 }
 function restoreDefaults(silent){
   var want=[
+    {n:"Unit 30 (581~600)",w:UNIT30_WORDS},
     {n:"Unit 29 (561~580)",w:UNIT29_WORDS},
     {n:"워드마스터 DAY 10",w:DAY10_WORDS},
     {n:"워드마스터 DAY 09",w:DAY09_WORDS},
@@ -1301,7 +1335,7 @@ function stopBgm(){
 }
 
 /* ─────────── 백업 · 복원 ─────────── */
-var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1"];
+var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1","wordrace_seed6_v1"];
 function backupBlob(){
   var o={app:"wordrace",v:1,at:stamp(),data:{}};
   BK_KEYS.forEach(function(k){
@@ -1358,7 +1392,7 @@ function applyBackup(d){
       prof=JSON.parse(d.wordrace_profile_v1);saveProfileData();
     }
     if(d.wordrace_order_v1){orderMode=d.wordrace_order_v1;try{localStorage.setItem(OKEY,orderMode);}catch(e){}}
-    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");}catch(e){}
+    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");localStorage.setItem(SEED6,"1");}catch(e){}
     alert("되살렸어! 챕터 "+chapters.length+"개, 트로피 "+hall.length+"개");
     go("home");
   }catch(err){alert("되살리는 데 실패했어. 파일을 다시 확인해줘.");}
