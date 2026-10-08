@@ -791,6 +791,101 @@ function seedUnit30(){
   save();
 }
 
+var DAY11_WORDS=[
+["population","[pὰpjuléiʃən]","인구, 주민, 개체군","Left-handers account for about ten percent of the population.","왼손잡이는 인구의 약 10%를 차지한다."],
+["foster","[fɔ́ːstər]","양육하다, 육성하다, 촉진하다","It is reported that the couple has fostered over 30 children during the past fifteen years.","그 부부는 지난 15년 동안 30명이 넘는 아이들을 위탁 양육해 온 것으로 보고되고 있다."],
+["nurture","[nə́ːrtʃər]","양육하다, 육성하다, 양육, 교육","This was a real triumph for nurture over nature.","이것은 천성에 대한 양육의 진정한 승리였다."],
+["available","[əvéiləbl]","이용할[얻을] 수 있는, 시간이 있는","A supercomputer can suggest available treatments for specific illnesses in an automated way.","슈퍼컴퓨터는 특정한 질병들에 대해 이용 가능한 치료법을 자동화된 방식으로 제안할 수 있다."],
+["discover","[diskʌ́vər]","발견하다, 알아내다, 발굴하다","With time, they discovered techniques for producing materials that had properties superior to those of the natural ones.","시간이 흐르면서, 그들은 자연적인 것들의 특성보다 더 우수한 특성을 가진 재료를 만들어 내는 기술을 발견했다."],
+["carbon","[kάːrbən]","탄소","Carbon emissions trading is becoming a top strategy for reducing pollution.","탄소 배출권 거래는 오염을 줄이기 위한 최고의 전략이 되고 있다."],
+["pressure","[préʃər]","압력, 압박(감)","The pressure to conform to the standards and expectations of friends is likely to be intense.","친구들의 기준과 기대에 부합해야 한다는 압박감이 거세질 가능성이 있다."],
+["accuse","[əkjúːz]","고발하다, 비난하다","Ruben accused the client of theft after he refused to pay the full $3,500.","Ruben은 의뢰인이 3,500달러를 완전히 지불할 것을 거부한 후에 그를 절도죄로 고소했다."],
+["outstanding","[àutstǽndiŋ]","뛰어난, 눈에 띄는, 현저한","Einstein was one of the outstanding figures of the 20th century.","아인슈타인은 20세기의 뛰어난 인물들 중 한 명이었다."],
+["conversation","[kὰnvərséiʃən]","대화, 대담","Conversation is placed at the top of the list of things to understand.","대화가 이해해야 할 것들의 목록 중 맨 위에 놓인다."],
+["massive","[mǽsiv]","거대한, 대량의","Too often, we convince ourselves that massive success requires massive action.","너무 자주, 우리는 거대한 성공에는 거대한 행동이 필요하다고 스스로 확신한다."],
+["analogy","[ənǽlədʒi]","비유, 유사, 유추","An analogy often given for sound is that of throwing a small stone onto the surface of a still pond.","소리 현상에 대해 자주 언급되는 비유는 작은 돌멩이를 고요한 연못 표면에 던지는 것이다."],
+["wound","[wuːnd]","상처를 입히다, 감정을 상하게 하다, 상처, 부상","By the end of World War I in 1918, the empire was fatally wounded.","1918년 제1차 세계 대전이 끝날 무렵에, 그 제국은 치명적으로 상처를 입었다."],
+["cause","[kɔːz]","원인이 되다, 야기[초래]하다, 원인","Dirty earphones can cause an infection or skin trouble in your ears.","더러운 이어폰은 당신의 귀 안에 감염이나 피부 문제를 야기할 수 있다."],
+["consequence","[kάnsikwèns]","결과, 영향(력), 중요함","They're especially likely to ignore consequences that are thought to affect only a few people.","그들은 특히 소수의 사람들에게 영향을 준다고 생각되는 결과들을 무시할 가능성이 있다."],
+["election","[ilékʃən]","선거, 당선","May argued that the results of the election were not the \"true outcome.\"","May는 선거의 결과가 '진정한 결과'가 아니라고 주장했다."],
+["trace","[treis]","추적하다, 추적하여 찾아내다, 자취, 흔적","A localization economy can be traced to the desire of individuals to compare products.","집적 경제는 제품을 비교하고자 하는 개인들의 욕구에서 온 것으로 추적될 수 있다."],
+["wire","[waiər]","철사, 전선, (전선을) 연결하다","But scientists have a saying: \"neurons that fire together, wire together.\"","그러나 과학자들은 \"함께 활성화되는 뉴런은 함께 연결된다.\"라고 말한다."],
+["restore","[ristɔ́ːr]","회복시키다, 복원하다, 되찾다","His sight was restored through a surgery in his forties.","그의 시력이 40대에 수술을 통해 회복되었다."],
+["cognitive","[kάgnətiv]","인식의, 인지의","Explicitly cognitive learning consists of a series of planned but weakly controlled experiments.","명백하게 인지적인 학습은 계획적이지만 약하게 통제되는 일련의 실험으로 구성된다."],
+["biological","[bàiəlάdʒikəl]","생물학의, 생(물)체의","All of these events have the ability to reset the biological clock.","이 모든 경우들은 생체 시계를 재설정하는 능력이 있다."],
+["ability","[əbíləti]","능력, 재능","Creative thinking is the ability to imagine or invent something new.","창의적 사고는 새로운 것을 상상하거나 발명하는 능력이다."],
+["capacity","[kəpǽsəti]","용량, 수용력, 능력","If 25 people are expected to attend your presentation, find a space with a maximum capacity of 30 instead of 100.","만약 25명의 사람들이 여러분의 발표에 참석할 것으로 예상된다면, 최대 수용 인원이 100명이 아니라 30명인 공간을 찾아라."],
+["ingredient","[ingríːdiənt]","(요리의) 재료, 성분, 구성 요소","Worse, some contain ingredients not listed on the label.","더 심각한 것은, 어떤 것들은 라벨에 실려 있지 않은 성분을 포함한다."],
+["adversity","[ædvə́ːrsəti]","역경, 불운","This powerful capacity we all possess to some degree is our ability to bend, not break, in the face of adversity.","우리 모두가 어느 정도 가지고 있는 이 강력한 능력은 역경에 직면해서도 부러지지 않고 구부러지는 우리의 능력이다."],
+["intelligent","[intélidʒənt]","지적인, 지성을 갖춘","Coming up with sophisticated and intelligent ideas is your responsibility.","정교하고 지적인 아이디어를 생각해 내는 것은 여러분의 책임이다."],
+["multiple","[mʌ́ltəpl]","다수의, 많은, 복합적인","Some train stations had multiple clocks hung on their walls.","몇몇 기차역은 벽에 다수의 시계를 걸어 놓았다."],
+["exotic","[igzάtik]","외국의, 이국적인","Exotic pets are more likely to be wild animals that were caught and not bred in captivity to be domesticated.","이국적인 애완동물은 길들이기 위해 포획되어 사육되지 않은 야생 동물일 가능성이 더 크다."],
+["reference","[réfərəns]","언급, 참조, 추천서, 참고 문헌","The reference to his past mistake is to be found at the beginning of his second narrative.","그의 과거 실수에 대한 언급은 그의 두 번째 이야기의 처음에 발견된다."],
+["scatter","[skǽtər]","(흩)뿌리다, 흩어지다[흩어지게 하다]","All the infrared rays of the color spectrum are absorbed and scattered by the water.","색 스펙트럼의 모든 적외선은 물에 흡수되고 흩어진다."],
+["conflict","(명)[kάnflikt] (동)[kənflíkt]","갈등, 충돌, 충돌[대립]하다","The country tries to recover after years of distrust and conflict.","그 나라는 다년간의 불신과 갈등이 있은 후에 회복하려고 노력한다."],
+["friction","[fríkʃən]","마찰, 갈등","The amount of friction depends on the surface material.","마찰의 양은 표면 물질에 따라 달라진다."],
+["asset","[ǽset]","자산, 재산","For elephants, selective hunting converted a disadvantage into an asset and vice versa.","코끼리에게 선택적 사냥은 단점을 자산으로 전환하고 그 반대도 마찬가지였다."],
+["professional","[prəféʃənəl]","직업의, 전문적인, 전문가, 프로 (선수)","Professional cherry growers plant their trees on private property.","전문적인 체리 재배자는 자신들의 나무를 사적인 소유지에 심는다."],
+["disclose","[disklóuz]","밝히다, 폭로하다, 드러내다","Steven was hesitant at first but soon disclosed his secret.","Steven은 처음에는 주저했지만, 곧 자신의 비밀을 밝혔다."],
+["negotiate","[nigóuʃièit]","협상[교섭]하다, 타결하다","Then they can consider and negotiate with their external pressures.","그러고 나서 그들은 외적인 부담에 대해 고려하고 협상할 수 있다."],
+["split","[split]","나누다[나뉘다], 분열하다, 갈라지다","Life diversified over time by successive branchings, with new species splitting away from old.","생명은 시간이 지남에 따라 새로운 종들이 오래된 종들로부터 갈라지면서 연이은 가지치기로 인해 다양해졌다."],
+["have difficulty (in) -ing","","~하는 데 어려움을 겪다","Maybe it was someone you had difficulty working with.","아마도 그것은 여러분이 함께 일하기 어려운 사람이었을 것이다."],
+["go through","","~을 겪다, ~을 거치다, ~을 조사하다","Our brain actually has to go through several steps before deciding anything.","우리의 뇌는 사실 어떤 것을 결정하기 전에 몇 가지 단계를 거쳐야 한다."],
+["be regarded as","","~으로 간주되다[여겨지다]","So a patient whose heart has stopped can no longer be regarded as dead.","그래서 심장이 멎은 환자는 사망한 것으로 더 이상 간주될 수 없다."]
+];
+var DAY12_WORDS=[
+["modern","[mάdərn]","현대의, 현대인","Most of the equipment used in today's modern hospitals is computerized.","오늘날 현대 병원에서 사용되는 장비의 대부분은 컴퓨터화되어 있다."],
+["contemporary","[kəntémpərèri]","동시대의, 현대의, 당대의, 동시대인","In contemporary culture, the benefits and drawbacks of multitasking are often discussed.","현대 문화에서, 다중 작업의 이점과 단점이 흔히 논의된다."],
+["urgent","[ə́ːrdʒənt]","긴급한, 시급한","This is an ever-changing emergency situation that requires urgent attention right now.","지금은 긴급한 주의가 당장 필요한 끊임없이 변화하는 비상 상황이다."],
+["relevant","[réləvənt]","관련된, 적절한, 유의미한","To check a given hypothesis, we need data relevant to that hypothesis.","주어진 가설을 확인하기 위해, 우리는 그 가설과 관련된 데이터가 필요하다."],
+["explicit","[iksplísit]","분명한, 명백한, 솔직한","Goal-driven learning is driven by explicit learning goals of the reasoner.","목표 지향적인 학습은 추론자의 분명한 학습의 목표에 의해 추진된다."],
+["approve","[əprúːv]","승인하다, 찬성하다, 인가하다","In one particular group, an incredible 76 percent actually approved.","한 특정 그룹에서, 놀랍게도, 76퍼센트가 실제로 찬성했다."],
+["confront","[kənfrʌ́nt]","맞서다, 직면하게 만들다","Confronted by a strange object, an inexperienced animal may freeze or attempt to hide.","낯선 대상에 직면하면, 경험이 없는 동물은 얼어붙거나 숨으려고 할 수도 있다."],
+["poverty","[pάvərti]","가난, 빈곤","Some Latin Americans hate the consumption of insects and associate it with poverty.","일부 라틴 아메리카 사람들은 곤충 섭취를 싫어하며 그것을 빈곤과 연관 짓는다."],
+["wealth","[welθ]","부, 재산, 풍부","I have found wealth to be a personality multiplier.","나는 부가 인격을 배가시킨다는 것을 발견했다."],
+["integrate","[íntəgrèit]","통합하다, 통합되다","With this, the function of the composer became integrated into the recording process.","이와 함께 작곡가의 기능이 녹음 과정에 통합되었다."],
+["destructive","[distrʌ́ktiv]","파괴적인","The nineteenth and early-twentieth centuries saw destructive outbreaks of cholera, typhoid, and influenza in European cities.","19세기와 20세기 초에 유럽의 도시들에서 콜레라, 장티푸스, 독감의 파괴적인 발병이 있었다."],
+["hierarchy","[háiərὰːrki]","위계, 계급(제), 지배층","Hierarchy is probably the most common form of organizing the workplace.","위계는 아마도 일터를 조직하는 가장 흔한 형태일 것이다."],
+["expertise","[èkspərtíːz]","전문 지식[기술]","Being informed on a wide range of topics outside your area of expertise can be immensely helpful in building bridges.","여러분의 전문 지식 영역 밖에 있는 광범위한 주제에 대해 알고 있는 것은 다리를 구축하는 데 엄청나게 도움이 될 수 있다."],
+["reproduce","[rìːprədjúːs]","복제하다, 재생하다, 번식하다","Tuskless elephants usually lived to reproduce.","엄니가 없는 코끼리는 보통 번식할 수 있을 만큼 생존했다."],
+["frequency","[fríːkwənsi]","빈도, 빈번함, 진동(수), 주파수","Sickle cell is found in high frequency in malarial regions.","낫 모양의 적혈구는 말라리아 지역에서 높은 빈도로 발견된다."],
+["identical","[aidéntikəl]","동일한, 일치하는","Why are originals more valuable than an identical copy?","왜 원본이 동일한 복제본보다 더 가치가 있는가?"],
+["reinforce","[rìːinfɔ́ːrs]","강화하다, 증강하다, 보강하다","Simply looking at natural landscapes can reinforce our capacity to focus.","단순히 자연 경관을 보는 것만으로도 우리의 집중 능력을 강화할 수 있다."],
+["strengthen","[stréŋkθən]","강화하다, 견고히 하다","Emoticons were useful in strengthening the intensity of a verbal message.","이모티콘은 언어적 메시지의 강도를 강화하는 데 유용했다."],
+["industrial","[indʌ́striəl]","산업의, 공업의","Industrial architecture, the argument went, was ugly and inhuman.","산업 건축은, 그 주장에 따르면, 추하고 비인간적이었다."],
+["classify","[klǽsəfài]","분류하다, 구분하다","To describe a given animal as carnivorous is to classify it as a carnivore.","주어진 동물을 육식 동물로 묘사하는 것은 그것을 육식 동물로 분류하는 것이다."],
+["mutual","[mjúːtʃuəl]","상호 간의, 서로의, 공동[공통]의","We move away from unstable self-sufficiency to more secure mutual interdependence.","우리는 불안정한 자급자족에서 더 안전한 서로의 상호 의존으로 이동한다."],
+["decorate","[dékərèit]","장식하다, 꾸미다","In 1920s homes, every room was decorated with various woodworking tools.","1920년대 집에서는, 모든 방이 다양한 목공 도구로 장식되었다."],
+["potential","[pəténʃəl]","잠재적인, 가능성 있는, 잠재력, 가능성","Some potential employees don't seek employment with the company.","일부 잠재적인 근로자들은 그 회사와의 고용을 추구하지 않는다."],
+["possibility","[pὰsəbíləti]","가능성, 실현성, 장래성","When you are right about something, you close off the possibility of another viewpoint or opportunity.","여러분이 어떤 일에 대해 옳다면, 여러분은 다른 관점이나 기회의 가능성을 닫아 버린다."],
+["implement","[ímpləmənt]","이행하다, 실행하다, 도구","The mental experience of conscious free will may simply justify what our brains have already decided to implement.","의식적인 자유 의지에 대한 정신적 경험은 우리의 뇌가 실행하기로 이미 결정한 것을 단순히 정당화하는 것일 수도 있다."],
+["widespread","[wáidspréd]","널리 퍼진, 광범위한","Gathering firewood was also common until after the war and caused widespread harm to the forest.","땔나무를 모으는 것 또한 전쟁이 끝난 후까지 흔했고 숲에 광범위한 피해를 주었다."],
+["resemble","[rizémbl]","닮다, 유사하다","The thick leaves resemble the cleft in an animal's foot.","그 두꺼운 잎은 동물 발의 갈라진 틈과 닮았다."],
+["fundamental","[fʌ̀ndəméntl]","근본적인, 본질적인, 필수적인","There is nothing more fundamental to the human spirit than the need to be mobile.","인간의 정신에는 이동하려는 욕구보다 더 근본적인 것은 없다."],
+["enthusiastic","[inθjùːziǽstik]","열정적인, 열렬한, 열심인","Because he was so enthusiastic, he got others to take him seriously.","그는 매우 열정적이었기 때문에, 다른 이들이 자신을 진지하게 받아들이도록 했다."],
+["consult","[kənsʌ́lt]","상담하다, 상의하다, 참고하다","It helps to consult a broad range of people who have a stake in the decision you're making.","여러분이 내리는 결정에 이해관계가 있는 폭넓은 범위의 사람들과 상의하는 것이 도움이 된다."],
+["disadvantage","[dìsədvǽntidʒ]","단점, 약점, 불이익","Being tall is an advantage for an NBA player but a disadvantage for a coal miner.","키가 크다는 것은 NBA 선수에게는 장점이지만 탄광 광부에게는 단점이다."],
+["drawback","[drɔ́ːbæ̀k]","단점, 결점, 장애","There have been a lot of conversations about the benefits and drawbacks of multitasking.","멀티태스킹의 장점 및 단점에 관해 많은 대화가 있어 왔다."],
+["steady","[stédi]","꾸준한, 한결같은","The combination of lower prices and a greater selection led to the slow, steady rise of online bookstores.","더 낮은 가격과 더 많은 선택의 결합은 느리지만 꾸준한 온라인 서점의 성장으로 이어졌다."],
+["primitive","[prímətiv]","원시의, 원시적인","These primitive people would not have simply made random sounds or gestures.","이 원시인들은 단순히 무작위적인 소리를 내거나 몸짓을 취하지 않았을 것이다."],
+["dominant","[dάmənənt]","우세한, 지배적인","Not all left-handers are right brain dominant.","모든 왼손잡이가 우뇌가 우세한 것은 아니다."],
+["inhabit","[inhǽbit]","거주하다, 살다","Species inhabiting unstable environments are opportunists.","불안정한 환경에 서식하는 종들은 기회주의자들이다."],
+["adolescence","[ædəlésns]","청소년기","Outside influences become increasingly important, especially during middle childhood and adolescence.","외부의 영향은 특히 유년기 중반부와 청소년기에 점점 더 중요해진다."],
+["attach","[ətǽtʃ]","붙이다, 첨부하다","They were taught how to tie the ropes that were attached to the sails.","그들은 돛에 부착된 밧줄을 묶는 법을 배웠다."],
+["in terms of","","~의 관점에서, ~에 관해서","We shouldn't look at the changes that occur in teens' brains only in terms of maturity.","우리는 십 대들의 뇌에서 일어나는 변화들을 성숙이라는 관점에서만 봐서는 안 된다."],
+["bring about","","~을 야기[초래]하다, ~을 유발하다","A number of artists have attempted to bring about changes in social and political structures.","많은 예술가들은 사회·정치적 구조에 변화를 야기하기 위한 시도를 해 왔다."]
+];
+var SEED7="wordrace_seed7_v1";
+function seedDay1112(){
+  var done=false;
+  try{done=(localStorage.getItem(SEED7)==="1");}catch(e){}
+  if(done)return;
+  chapters.unshift({name:"워드마스터 DAY 11",words:DAY11_WORDS,best:null,date:today()});
+  chapters.unshift({name:"워드마스터 DAY 12",words:DAY12_WORDS,best:null,date:today()});
+  try{localStorage.setItem(SEED7,"1");}catch(e){}
+  save();
+}
+
 var SEED2="wordrace_seed2_v1";
 var SEED2B="wordrace_seed2b_v1";
 var MJ_NAME="Unit 27 (521~540)";
@@ -826,10 +921,13 @@ function load(){
   seedDay0910();
   seedUnit29();
   seedUnit30();
+  seedDay1112();
   if(!chapters.length)restoreDefaults(true);
 }
 function restoreDefaults(silent){
   var want=[
+    {n:"워드마스터 DAY 12",w:DAY12_WORDS},
+    {n:"워드마스터 DAY 11",w:DAY11_WORDS},
     {n:"Unit 30 (581~600)",w:UNIT30_WORDS},
     {n:"Unit 29 (561~580)",w:UNIT29_WORDS},
     {n:"워드마스터 DAY 10",w:DAY10_WORDS},
@@ -839,7 +937,7 @@ function restoreDefaults(silent){
     {n:"워드마스터 DAY 07",w:DEFAULT_WORDS}
   ];
   var added=0;
-  want.forEach(function(d){
+  want.slice().reverse().forEach(function(d){
     var found=false;
     for(var i=0;i<chapters.length;i++)if(chapters[i].name===d.n){found=true;break;}
     if(!found){chapters.unshift({name:d.n,words:d.w,best:null,date:today()});added++;}
@@ -1335,7 +1433,7 @@ function stopBgm(){
 }
 
 /* ─────────── 백업 · 복원 ─────────── */
-var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1","wordrace_seed6_v1"];
+var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1","wordrace_seed6_v1","wordrace_seed7_v1"];
 function backupBlob(){
   var o={app:"wordrace",v:1,at:stamp(),data:{}};
   BK_KEYS.forEach(function(k){
@@ -1392,7 +1490,7 @@ function applyBackup(d){
       prof=JSON.parse(d.wordrace_profile_v1);saveProfileData();
     }
     if(d.wordrace_order_v1){orderMode=d.wordrace_order_v1;try{localStorage.setItem(OKEY,orderMode);}catch(e){}}
-    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");localStorage.setItem(SEED6,"1");}catch(e){}
+    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");localStorage.setItem(SEED6,"1");localStorage.setItem(SEED7,"1");}catch(e){}
     alert("되살렸어! 챕터 "+chapters.length+"개, 트로피 "+hall.length+"개");
     go("home");
   }catch(err){alert("되살리는 데 실패했어. 파일을 다시 확인해줘.");}
@@ -1988,8 +2086,13 @@ function nextWord(){si++;if(si>=W.length){paintHurdle();go("sdone");}else drawSt
 
 function esc(x){return x.replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
 function stems(w){
-  w=w.toLowerCase();
+  w=w.toLowerCase().replace(/\s*\(in\)\s*-ing\s*$/,"");
   var a=[w];
+  if(w.indexOf(" ")>0){
+    var f0=w.split(" ")[0],rest0=w.slice(f0.length);
+    var IRR={"have":["has","had","having"],"be":["am","is","are","was","were","been","being"]};
+    if(IRR[f0])IRR[f0].forEach(function(x){a.push(x+rest0);});
+  }
   if(w.indexOf(" ")<0){
     a.push(w+"s",w+"es",w+"ed",w+"d",w+"ing");
     if(/e$/.test(w))a.push(w.slice(0,-1)+"ing",w.slice(0,-1)+"ed");
