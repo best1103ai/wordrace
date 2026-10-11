@@ -111,6 +111,7 @@ color:#6b6480;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
       <button class="btn2" onclick="openHall()">🏆 트로피 룸</button>
       <button class="btn2" onclick="go('settings')">⚙️ 설정</button>
     </div>
+    <button class="btn2" onclick="refreshApp()" style="margin-top:8px;">🔄 새 버전 확인</button>
   </div>
   <div class="card">
     <h2>내 챕터</h2>
@@ -333,7 +334,7 @@ color:#6b6480;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
 <div id="settings" class="hide">
   <div class="card">
     <h2>⚙️ 설정</h2>
-    <p class="sub" style="font-size:11px;color:#555;">앱 버전 1</p>
+    <p class="sub" style="font-size:11px;color:#555;">앱 버전 2</p>
     <p class="sub">자주 쓰지 않는 것들을 여기 모아뒀어.</p>
   </div>
 
@@ -515,6 +516,10 @@ color:#6b6480;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js"></script>
 <script>
 /* ─────────── 저장소 ─────────── */
+function refreshApp(){
+  var url=window.location.pathname+"?refresh="+new Date().getTime()+(window.location.hash||"");
+  window.location.replace(url);
+}
 var KEY="wordrace_v1";
 var DEFAULT_WORDS=[
 ["application","[æplikéiʃən]","지원, 신청(서), 적용","We are taking applications only on our homepage.","우리는 우리의 홈페이지에서만 지원을 받고 있습니다."],
