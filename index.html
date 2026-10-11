@@ -333,6 +333,7 @@ color:#6b6480;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
 <div id="settings" class="hide">
   <div class="card">
     <h2>⚙️ 설정</h2>
+    <p class="sub" style="font-size:11px;color:#555;">앱 버전 1</p>
     <p class="sub">자주 쓰지 않는 것들을 여기 모아뒀어.</p>
   </div>
 
@@ -886,6 +887,44 @@ function seedDay1112(){
   save();
 }
 
+var BRICKS2300_UNIT01_WORDS=[
+["adult","[ədʌ́lt]","성인, 어른","The scared child looked for an adult.","겁에 질린 아이는 어른을 찾았다."],
+["gun","[gʌn]","총","He shot his gun in the air.","그는 공중에 총을 쏘았다."],
+["helpful","[hélpfəl]","도움이 되는, 유용한","Learning sign languages is helpful and useful.","수화를 배우는 것은 도움이 되고 유용하다."],
+["nighttime","[náittàim]","밤, 야간","Paris looks beautiful in the nighttime.","파리는 밤에 아름답다."],
+["base","[beis]","밑바닥, 토대","The pyramid has a square base with four triangular sides.","피라미드는 네 개의 삼각형 면에 정사각형 바닥을 가지고 있다."],
+["turkey","[tə́ːrki]","칠면조","My dad will cook a turkey at Thanksgiving.","나의 아빠는 추수감사절에 칠면조를 요리할 것이다."],
+["stuff","[stʌf]","물건, 물질, 채워 넣다","Could we leave our stuff at your house?","우리의 물건을 당신 집에 두어도 될까요?"],
+["swallow","[swɑ́lou]","삼키다","Chew your food well before you swallow it.","음식을 삼키기 전에 잘 씹어라."],
+["curl","[kəːrl]","곱슬곱슬하게 하다","She curls her daughter’s hair every morning.","그녀는 매일 아침 딸의 머리를 곱슬곱슬하게 말아 준다."],
+["afraid","[əfréid]","두려워하는, 겁내는","The boy is afraid of big dogs.","그 소년은 큰 개를 두려워한다."],
+["hall","[hɔːl]","회관, 홀, 복도","The concert hall was full of people.","콘서트홀은 사람들로 가득 찼다."],
+["suit","[suːt]","정장, 어울리다","He looks quite nice in a suit and tie.","그는 정장에 넥타이를 매고 있으니 꽤 근사해 보인다."],
+["proud","[praud]","자랑스러운","Mr. Smith is proud of his daughter.","스미스 씨는 그의 딸을 자랑스러워한다."],
+["hum","[hʌm]","콧노래를 부르다","Tom is humming softly to himself.","톰은 혼자서 조용히 콧노래를 부르고 있다."],
+["battery","[bǽtəri]","건전지, 배터리","The clock battery is almost dead.","시계의 배터리가 거의 다 닳았다."],
+["tray","[trei]","쟁반","Jake is carrying food on a tray.","제이크는 쟁반에 음식을 나르고 있다."],
+["borrow","[bɑ́rou]","빌리다"],
+["tap","[tæp]","가볍게 두드리다, (수도 등의) 꼭지"],
+["glad","[glæd]","기쁜","I am glad to meet you again.","나는 너를 다시 만나서 기쁘다."],
+["empty","[émpti]","텅 빈"],
+["vendor","[véndər]","판매인","The vendor is selling fruits.","그 판매인은 과일을 팔고 있다."],
+["knight","[nait]","(중세의) 기사"],
+["jar","[dʒɑːr]","병, 항아리","There are a few candies in the jar.","병 안에 사탕이 몇 개 들어 있다."],
+["traffic","[trǽfik]","교통, 교통량"],
+["sore","[sɔːr]","아픈","I massaged my sore legs.","나는 아픈 다리를 마사지했다."]
+];
+var SEED8="wordrace_seed8_v1";
+function seedBricks2300Unit01(){
+  var done=false;
+  try{done=(localStorage.getItem(SEED8)==="1");}catch(e){}
+  if(done)return;
+  var exists=false;
+  for(var i=0;i<chapters.length;i++)if(chapters[i].name==="Bricks Vocabulary 2300 - Unit 01 (001~025)"){exists=true;break;}
+  if(!exists){chapters.unshift({name:"Bricks Vocabulary 2300 - Unit 01 (001~025)",words:BRICKS2300_UNIT01_WORDS,best:null,date:today()});save();}
+  try{localStorage.setItem(SEED8,"1");}catch(e){}
+}
+
 var SEED2="wordrace_seed2_v1";
 var SEED2B="wordrace_seed2b_v1";
 var MJ_NAME="Unit 27 (521~540)";
@@ -922,10 +961,12 @@ function load(){
   seedUnit29();
   seedUnit30();
   seedDay1112();
+  seedBricks2300Unit01();
   if(!chapters.length)restoreDefaults(true);
 }
 function restoreDefaults(silent){
   var want=[
+    {n:"Bricks Vocabulary 2300 - Unit 01 (001~025)",w:BRICKS2300_UNIT01_WORDS},
     {n:"워드마스터 DAY 12",w:DAY12_WORDS},
     {n:"워드마스터 DAY 11",w:DAY11_WORDS},
     {n:"Unit 30 (581~600)",w:UNIT30_WORDS},
@@ -1433,7 +1474,7 @@ function stopBgm(){
 }
 
 /* ─────────── 백업 · 복원 ─────────── */
-var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1","wordrace_seed6_v1","wordrace_seed7_v1"];
+var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1","wordrace_seed6_v1","wordrace_seed7_v1","wordrace_seed8_v1"];
 function backupBlob(){
   var o={app:"wordrace",v:1,at:stamp(),data:{}};
   BK_KEYS.forEach(function(k){
@@ -1490,7 +1531,7 @@ function applyBackup(d){
       prof=JSON.parse(d.wordrace_profile_v1);saveProfileData();
     }
     if(d.wordrace_order_v1){orderMode=d.wordrace_order_v1;try{localStorage.setItem(OKEY,orderMode);}catch(e){}}
-    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");localStorage.setItem(SEED6,"1");localStorage.setItem(SEED7,"1");}catch(e){}
+    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");localStorage.setItem(SEED6,"1");localStorage.setItem(SEED7,"1");localStorage.setItem(SEED8,"1");}catch(e){}
     alert("되살렸어! 챕터 "+chapters.length+"개, 트로피 "+hall.length+"개");
     go("home");
   }catch(err){alert("되살리는 데 실패했어. 파일을 다시 확인해줘.");}
