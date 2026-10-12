@@ -502,7 +502,7 @@ color:#6b6480;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
 </div>
 
 </div>
-<div style="text-align:center;padding:4px 14px calc(env(safe-area-inset-bottom) + 14px);font-size:12px;color:#fff;">단어 경주 · v3</div>
+<div style="text-align:center;padding:4px 14px calc(env(safe-area-inset-bottom) + 14px);font-size:12px;color:#fff;">단어 경주 · v4</div>
 
 <div id="ovl">
   <div>
@@ -930,6 +930,106 @@ function seedBricks2300Unit01(){
   try{localStorage.setItem(SEED8,"1");}catch(e){}
 }
 
+var DAY13_WORDS=[
+["awkward","","서투른, 어색한","He felt somewhat awkward in his new suit.","그는 자신의 새로운 정장을 입고 약간 어색해했다."],
+["sincere","","진실된, 진심의","Please accept my sincere apologies for that error.","그 잘못에 대한 저의 진심 어린 사과를 받아 주시기 바랍니다."],
+["genuine","","진짜의, 진실한"],
+["anticipate","","기대하다, 예상하다","The process of learning how to see was more difficult than he'd anticipated.","보는 방법을 배우는 과정은 그가 예상했던 것보다 더 어려웠다."],
+["responsible","","책임감 있는, 책임이 있는"],
+["eager","","열망하는, 열심인","The atmosphere was comfortable, and Mrs. Hughes seemed eager to tell her story.","분위기는 편안했고, Hughes 부인은 자신의 사연을 간절히 말하고 싶어 하는 것처럼 보였다."],
+["impatient","","참을 수 없는, 성급한","This is a story about a child impatient to grow up.","이것은 어른이 되고 싶어서 안달인 한 아이에 관한 이야기이다."],
+["frank","","솔직한, 숨김없는","She was frank enough to admit that it was all her fault.","그녀는 그것이 모두 본인의 잘못이라는 것을 인정할 정도로 솔직했다."],
+["arrogant","","거만한, 오만한","Paying attention to some people and not others doesn't mean you're being arrogant.","일부 사람들에게 주의를 기울이고 다른 사람들에게 그렇게 하지 않는 것이 당신이 거만하게 굴고 있다는 것을 의미하지는 않는다."],
+["humble","","겸손한, 비천한","He was deeply humble at heart but arrogant in appearance.","그는 속으로는 매우 겸손했지만 외관상으로는 거만했다."],
+["applause","","박수갈채"],
+["glance","","힐끗[일핏] 보다, 힐끗 봄"],
+["crawl","","기어가다, 서행하다, 기어가기, 서행"],
+["hesitate","","주저하다, 망설이다"],
+["make sense of","","~을 이해하다, ~을 파악하다"],
+["tolerate","","참다, 견디다, 용인하다","They will delay taking action because they cannot tolerate being imperfect.","그들은 불완전한 것을 참을 수 없기 때문에 행동을 취하는 것을 미룰 것이다."],
+["endure","","견디다, 참다","Black boxes must be able to endure the impact of falling from the sky.","블랙박스는 하늘에서 떨어지는 충격을 견딜 수 있어야 한다."],
+["put up with","","~을 참다, ~을 참고 견디다"],
+["depression","","우울(증), 불황","Regular consumption of energy drinks is associated with anxiety and depression.","잦은 에너지 음료 소비는 불안 및 우울과 관련이 있다."],
+["ashamed","","부끄러워하는","You don't have to be ashamed or guilty of your decision.","당신은 자신의 결정에 대해서 부끄러워하거나 죄의식을 가질 필요가 없다."],
+["delight","","기쁨, 기쁘게 하다"],
+["fascinated","","매료된, 매혹된","Children tend to be fascinated by animals.","아이들은 동물에 매료되는 경향이 있다."],
+["resent","","화를 내다, 분개하다","Why do many Muslims deeply resent the West?","왜 많은 무슬림들이 서양 국가들에게 심하게 분개하는가?"],
+["irritate","","짜증나게[화나게] 하다, 거슬리다"],
+["humiliate","","창피를 주다, 굴욕감을 느끼게 하다","Don't ever humiliate people in public!","공개적인 장소에서 사람들에게 창피를 주지 마라!"],
+["impulse","","충동","Most societies were governed by the momentary impulse of their tyrannical rulers.","대부분의 사회가 전제적인 통치자들의 순간적인 충동에 의해서 통치되었다."],
+["reluctant","","(마음이) 내키지 않는, 꺼리는","We are always reluctant to make long-term changes because they can be uncomfortable.","우리는 장기간의 변화를 만들기를 항상 꺼리는데 그것이 불편할 수 있기 때문이다."],
+["astonished","","깜짝 놀란","Astronomers were astonished to discover that space was much more crowded than they had thought.","천문학자들은 우주가 자신들이 생각했던 것보다 훨씬 더 복잡하다는 것을 발견하고 깜짝 놀랐다."],
+["miserable","","비참한, 불쌍한","Don't act like you're the most miserable person in the world, because you are not.","당신이 세상에서 가장 비참한 사람인 것처럼 행동하지 마세요, 왜냐하면 당신은 그렇지 않으니까요."],
+["arouse","","불러일으키다, 유발하다, 깨우다","Warm colors can arouse various emotions, ranging from comfort to anger.","따뜻한 색은 편안함에서 분노에 이르기까지 다양한 감정을 불러일으킬 수 있다."],
+["frustrated","","좌절감을 느끼는"],
+["empathy","","감정 이입, 공감"],
+["offend","","감정을 상하게 하다, 위반하다","I'm sorry, but I didn't mean to offend you.","미안합니다만, 저는 당신의 기분을 상하게 할 의도는 없었습니다."],
+["compassion","","동정, 연민"],
+["despair","","절망, 절망하다"],
+["confident","","자신감 있는, 확신하는","Bit by bit, without even noticing it, he began to feel increasingly confident about himself.","조금씩, 눈치채지도 못하게, 그는 점점 자신에 대해 자신감을 느끼기 시작했다."],
+["jealous","","질투하는","I was loved by all the students, but sometimes I was secretly jealous of Chris.","나는 모든 학생들에게 사랑을 받았지만, 가끔씩 남몰래 Chris를 질투했다."],
+["ridiculous","","터무니없는, 어리석은, 우스운","The students overcame their hesitation as they yelled ridiculous answers to the teacher's questions.","학생들은 교사의 질문에 터무니없는 답변을 외치면서 자신들의 망설임을 극복했다."],
+["generous","","관대한, 후한"],
+["faithful","","충실한","Vincent van Gogh tried to remain faithful to the original composition.","빈센트 반 고흐는 본래의 구도에 충실하려고 노력했다."]
+];
+var DAY14_WORDS=[
+["occupation","","직업, 점유"],
+["supervise","","감독하다, 관리하다, 통제하다"],
+["specialize","","전문적으로 하다, 전공하다"],
+["bond","","유대, 결속, 채권"],
+["certificate","","증명서, 자격증","Every participant will receive a certificate for entry!","모든 참가자는 참가 증명서를 받을 것입니다!"],
+["chief","","(단체의) 장(長), 우두머리, 주요한, 최고의","Luckily, John's role as chief engineer was succeeded by his son, Washington Roebling.","다행히도, 최고 기술자로서의 John의 역할은 그의 아들 Washington Roebling에 의해 계승되었다."],
+["collaborate","","협력하다","We collaborate with local orphanages to protect unfortunate children.","우리는 불우한 아이들을 보호하기 위해서 현지 고아원과 협력한다."],
+["deprive","","박탈하다, 빼앗다","Automobile companies may deprive drivers of the joy of driving by developing driverless cars.","자동차 회사들이 무인 자동차를 개발함으로써 운전자들에게서 운전의 기쁨을 박탈할지도 모른다."],
+["colleague","","(직장) 동료","Ross and his colleagues carried out interesting experiments.","Ross와 그의 동료들은 흥미로운 실험을 수행했다."],
+["shift","","바꾸다, 이동하다, 변화, 이동, 교대"],
+["outcome","","결과, 성과"],
+["exceed","","넘어서다, 초과하다"],
+["procedure","","절차, 수순"],
+["attendant","","종업원, 수행원","What would the attendant tell us?","그 종업원은 우리에게 어떤 말을 할까?"],
+["negotiation","","협상"],
+["incentive","","동기, 유인, 장려(책)","We provide them strong financial incentives.","우리는 그들에게 강력한 금전적 동기를 제공한다."],
+["strategy","","전략","Kogi's marketing strategy uses social networking to announce where it will turn up next.","Kogi의 마케팅 전략은 그것이 다음에 어디에서 나타날지를 알리기 위해 소셜 네트워킹을 사용한다."],
+["challenge","","도전, 난관, 도전하다","Look for an early childhood education program that challenges your child's intellect and creativity.","여러분의 자녀의 지적 능력과 호기심에 도전하는 유아 교육 프로그램을 찾아라."],
+["routine","","일과, 늘 하던 방식, 일상적인","Try to stick to your routine no matter what happens.","무슨 일이 있더라도 네가 늘 하던 방식을 지키기 위해 노력해라."],
+["shelter","","피난처, 주거지, 보호소, 보호하다, 피하다","They gained the ability to come out on land and enjoy opportunities for food and shelter there.","그들은 육지로 나와 그곳에서 먹을 것과 주거지에 대한 기회를 누릴 수 있게 되었다."],
+["withdraw","","인출하다, 철회하다"],
+["deposit","","예금하다, 맡기다, 예금, 보증금"],
+["secure","","안전한, 안정된, 안전하게 하다"],
+["chore","","허드렛일, 집안일"],
+["react","","반응하다, 반작용하다"],
+["urban","","도시의","People do urban farming for personal, economic or environmental reasons.","사람들은 개인적, 경제적, 혹은 환경적 이유 때문에 도시 농사를 한다."],
+["rural","","시골의","People in cities have depended on farmers in rural areas for fruits and vegetables.","도시에 있는 사람들은 과일과 채소를 시골 지역에 있는 농부들에게 의존해 왔다."],
+["complicated","","복잡한","It looks like a complicated gadget, but actually it is really easy to use.","그것은 복잡한 기계 장치처럼 보이지만, 실제로는 사용하기가 정말 쉽다."],
+["resident","","거주자, 레지던트(수련의), 거주하는","Residents of New Orleans were forced to evacuate with little notice.","뉴올리언스 주민들은 별다른 통보 없이 대피해야 했다."],
+["familiar","","익숙한, 친숙한, 잘 아는","We are all familiar with environmental problems such as air, water and land pollution.","우리는 모두 공기, 물, 토양 오염과 같은 환경 문제들에 익숙하다."],
+["miracle","","기적","We know about the digital miracles brought by the smartphone.","우리는 스마트폰이 가져온 디지털 기적에 대해 알고 있다."],
+["companion","","동반자, 동행, 친구"],
+["keep up with","","~에 뒤처지지 않다, ~을 따라가다"],
+["make the most of","","~을 최대한 활용하다"],
+["exchange","","교환, 환전, 교환하다, 환전하다"],
+["strain","","긴장, 부담, 긴장시키다, 혹사하다","They are under a lot of stress and strain at work.","그들은 직장에서 심한 스트레스와 중압감을 받고 있다."],
+["adventure","","모험","We thought we would have many exciting adventures in India.","우리는 우리가 인도에서 많은 신나는 모험들을 할 수 있을 것이라고 생각했다."],
+["destination","","목적지, 도착지, 목표","The transportation industry has always done more than carry travelers from one destination to another.","운송 산업은 항상 한 목적지에서 다른 목적지로 이동하는 사람들을 실어 나르는 것 이상의 일을 해 왔다."],
+["accompany","","동행하다, 수반하다","Experienced lifeguards accompany you throughout the activity.","숙련된 안전 요원이 활동 내내 여러분과 동행합니다."],
+["remote","","먼, 외진, 원격의","Many people in remote areas of the planet observe the night sky.","지구의 외진 지역에 있는 많은 사람들이 밤하늘을 관찰한다."]
+];
+var SEED9="wordrace_seed9_v1";
+function seedDay1314(){
+  var done=false;
+  try{done=(localStorage.getItem(SEED9)==="1");}catch(e){}
+  if(done)return;
+  var has13=false,has14=false;
+  for(var i=0;i<chapters.length;i++){
+    if(chapters[i].name==="워드마스터 DAY 13")has13=true;
+    if(chapters[i].name==="워드마스터 DAY 14")has14=true;
+  }
+  if(!has13)chapters.unshift({name:"워드마스터 DAY 13",words:DAY13_WORDS,best:null,date:today()});
+  if(!has14)chapters.unshift({name:"워드마스터 DAY 14",words:DAY14_WORDS,best:null,date:today()});
+  try{localStorage.setItem(SEED9,"1");}catch(e){}
+  if(!has13||!has14)save();
+}
+
 var SEED2="wordrace_seed2_v1";
 var SEED2B="wordrace_seed2b_v1";
 var MJ_NAME="Unit 27 (521~540)";
@@ -967,10 +1067,13 @@ function load(){
   seedUnit30();
   seedDay1112();
   seedBricks2300Unit01();
+  seedDay1314();
   if(!chapters.length)restoreDefaults(true);
 }
 function restoreDefaults(silent){
   var want=[
+    {n:"워드마스터 DAY 14",w:DAY14_WORDS},
+    {n:"워드마스터 DAY 13",w:DAY13_WORDS},
     {n:"Bricks Vocabulary 2300 - Unit 01 (001~025)",w:BRICKS2300_UNIT01_WORDS},
     {n:"워드마스터 DAY 12",w:DAY12_WORDS},
     {n:"워드마스터 DAY 11",w:DAY11_WORDS},
@@ -1479,7 +1582,7 @@ function stopBgm(){
 }
 
 /* ─────────── 백업 · 복원 ─────────── */
-var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1","wordrace_seed6_v1","wordrace_seed7_v1","wordrace_seed8_v1"];
+var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1","wordrace_seed6_v1","wordrace_seed7_v1","wordrace_seed8_v1","wordrace_seed9_v1"];
 function backupBlob(){
   var o={app:"wordrace",v:1,at:stamp(),data:{}};
   BK_KEYS.forEach(function(k){
@@ -1536,7 +1639,7 @@ function applyBackup(d){
       prof=JSON.parse(d.wordrace_profile_v1);saveProfileData();
     }
     if(d.wordrace_order_v1){orderMode=d.wordrace_order_v1;try{localStorage.setItem(OKEY,orderMode);}catch(e){}}
-    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");localStorage.setItem(SEED6,"1");localStorage.setItem(SEED7,"1");localStorage.setItem(SEED8,"1");}catch(e){}
+    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");localStorage.setItem(SEED6,"1");localStorage.setItem(SEED7,"1");localStorage.setItem(SEED8,"1");localStorage.setItem(SEED9,"1");}catch(e){}
     alert("되살렸어! 챕터 "+chapters.length+"개, 트로피 "+hall.length+"개");
     go("home");
   }catch(err){alert("되살리는 데 실패했어. 파일을 다시 확인해줘.");}
