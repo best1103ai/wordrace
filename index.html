@@ -502,7 +502,7 @@ color:#6b6480;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
 </div>
 
 </div>
-<div style="text-align:center;padding:4px 14px calc(env(safe-area-inset-bottom) + 14px);font-size:12px;color:#fff;">단어 경주 · v7</div>
+<div style="text-align:center;padding:4px 14px calc(env(safe-area-inset-bottom) + 14px);font-size:12px;color:#fff;">단어 경주 · v8</div>
 
 <div id="ovl">
   <div>
@@ -1098,6 +1098,20 @@ function seedDay1516(){
   try{localStorage.setItem(SEED11,"1");}catch(e){}
 }
 
+var DAY17_WORDS=[["conquer","","정복하다, 극복하다, 이기다","",""],["heritage","","유산","",""],["artificial","","인공의, 인위적인","",""],["conventional","","전통적인, 관습적인","",""],["colonial","","식민지의","",""],["noble","","귀족의, 고귀한","",""],["ascend","","오르다, 올라가다","",""],["empower","","권능을 주다, 권한을 주다","",""],["be derived from","","~에서 유래하다, ~에서 파생되다","",""],["take ~ into account","","~을 고려하다","",""],["philosophy","","철학","",""],["profound","","심오한, 깊은","",""],["shallow","","얕은, 피상적인, 천박한","",""],["oppose","","반대하다, 방해하다, 대항하다","",""],["spirit","","정신, 영혼","",""],["ritual","","의식, 의례적인","",""],["substance","","물질, 실체, 본질","",""],["prejudice","","편견, 편견을 갖게 하다","",""],["bias","","편견, 편향, 편견을 갖게 하다","",""],["ultimate","","궁극적인, 최후의, 최종의","",""],["absolute","","절대적인, 완전한","",""],["humanity","","인류, 인간성, 인간애","",""],["draft","","초안, 밑그림, 초안을 작성하다","",""],["spell","","철자를 말하다[쓰다], 마법, 한동안[잠깐]","",""],["modify","","수정하다, 변형하다","",""],["comic","","희극의, 웃기는","",""],["tragic","","비극의, 비참한","",""],["simplify","","단순화하다, 간소화하다","",""],["myth","","신화, 사회적 통념","",""],["imply","","함축하다, 암시하다","",""],["context","","맥락, 정황","",""],["inherent","","내재하는, 고유의, 타고난","",""],["outline","","윤곽을 그리다, 개요를 말하다, 개요, 윤곽","",""],["translate","","번역하다","",""],["series","","연속, 시리즈","",""],["plot","","줄거리, 음모, 음모를 꾸미다","",""],["paradoxically","","역설적으로","",""],["ironically","","반어적으로, 역설적으로","",""],["metaphor","","비유, 은유","",""],["fiction","","소설, 허구","",""]];
+var DAY18_WORDS=[["creative","","창의적인","",""],["abstract","","추상적인, 개요, 추출하다, 요약하다","",""],["concrete","","구체적인, 콘크리트","",""],["masterpiece","","걸작, 명작","",""],["polish","","닦다, 윤[광]내다, 다듬다, 광택제","",""],["craft","","공예, 기술, 공들여 만들다","",""],["authentic","","진짜의, 진본[진품]인","",""],["precious","","귀중한, 소중한","",""],["proportion","","비율, 부분, 균형","",""],["portrait","","초상화","",""],["play a role (in)","","(~에서) 역할을 하다","",""],["elaborate","","정교한, 공들인","",""],["external","","외부의","",""],["internal","","내부의","",""],["memorial","","기념물, 기념의, 추도의","",""],["differ","","다르다","",""],["distinguish","","구별하다, 식별하다","",""],["contrast","","대조, 대비, 대조를 이루다","",""],["architect","","건축가","",""],["institute","","연구소, 협회, 설립하다","",""],["coordinate","","조정하다, 동등한","",""],["collapse","","무너지다, 붕괴하다","",""],["amuse","","즐겁게 하다","",""],["entertain","","즐겁게 하다","",""],["compose","","구성하다, 작곡하다, 조정하다","",""],["orchestra","","오케스트라, 관현악단","",""],["rehearse","","연습[시연]하다, 리허설을 하다","",""],["popularity","","인기","",""],["perform","","공연하다, 실행하다","",""],["impressive","","인상적인, 감동적인","",""],["flash","","번쩍이다, 번쩍임, 플래시","",""],["harmonize","","조화를 이루다, 화음을 넣다","",""],["encounter","","(우연히) 만나다, 마주치다, 마주침","",""],["socialize","","사회화하다, 교제하다","",""],["imaginative","","상상력이 풍부한, 상상의","",""],["magical","","마법의","",""],["theme","","주제, 테마","",""],["entrance","","입장, 입구, 입학","",""],["classical","","고전의, 클래식의","",""],["be associated with","","~와 관련되다","",""]];
+var SEED13="wordrace_seed13_v1";
+function seedDay1718(){
+  var changed=false;
+  [{name:"워드마스터 DAY 18",words:DAY18_WORDS},{name:"워드마스터 DAY 17",words:DAY17_WORDS}].forEach(function(item){
+    if(!chapters.some(function(ch){return ch.name===item.name;})){
+      chapters.unshift({name:item.name,words:item.words,best:null,date:today()});changed=true;
+    }
+  });
+  if(changed)save();
+  try{localStorage.setItem(SEED13,"1");}catch(e){}
+}
+
 var SEED2="wordrace_seed2_v1";
 var SEED2B="wordrace_seed2b_v1";
 var MJ_NAME="Unit 27 (521~540)";
@@ -1138,12 +1152,15 @@ function load(){
   seedDay1314();
   seedBricks2300Unit02();
   seedDay1516();
+  seedDay1718();
   seedBricks2300Unit03();
   if(!chapters.length)restoreDefaults(true);
 }
 function restoreDefaults(silent){
   var want=[
     {n:"Bricks Vocabulary 2300 - Unit 03 (051~075)",w:BRICKS2300_UNIT03_WORDS},
+    {n:"워드마스터 DAY 18",w:DAY18_WORDS},
+    {n:"워드마스터 DAY 17",w:DAY17_WORDS},
     {n:"워드마스터 DAY 16",w:DAY16_WORDS},
     {n:"워드마스터 DAY 15",w:DAY15_WORDS},
     {n:"Bricks Vocabulary 2300 - Unit 02 (026~050)",w:BRICKS2300_UNIT02_WORDS},
