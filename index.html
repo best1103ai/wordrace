@@ -502,7 +502,7 @@ color:#6b6480;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
 </div>
 
 </div>
-<div style="text-align:center;padding:4px 14px calc(env(safe-area-inset-bottom) + 14px);font-size:12px;color:#fff;">단어 경주 · v10</div>
+<div style="text-align:center;padding:4px 14px calc(env(safe-area-inset-bottom) + 14px);font-size:12px;color:#fff;">단어 경주 · v11</div>
 
 <div id="ovl">
   <div>
@@ -1068,6 +1068,21 @@ function seedBricks2300Unit02(){
   try{localStorage.setItem(SEED10,"1");}catch(e){}
 }
 
+var BRICKS2300_UNIT05_WORDS=[["place","","장소, 곳; ~에 두다, 놓다","He placed the car keys on his desk.","그는 차 열쇠를 책상 위에 두었다."],["actor","","배우","",""],["point","","가리키다","\"Look at that!\" She pointed at the poor dog.","\"저것 봐!\" 그녀는 불쌍한 개를 가리켰다."],["instrument","","기구; 악기","Learning musical instruments has many benefits.","악기를 배우면 좋은 점이 많다."],["passion","","열정, 열망","",""],["talkative","","말이 많은, 수다스러운","Suzy is talkative, but she listens well.","수지는 말이 많지만 잘 들어 주기도 한다."],["activity","","활동","Camping is my favorite outdoor activity.","캠핑은 내가 가장 좋아하는 야외 활동이다."],["twin","","쌍둥이","Ella and Emma are twins.","엘라와 엠마는 쌍둥이다."],["earthquake","","지진","The village was destroyed by an earthquake.","그 마을은 지진으로 파괴되었다."],["jaw","","턱","Alligators have very strong jaws.","악어는 강한 턱을 가지고 있다."],["play","","(경기를) 하다; (악기를) 연주하다","I usually play basketball on weekends.","나는 보통 주말마다 농구를 한다."],["clue","","단서, 실마리","I kept searching for clues inside the house.","나는 집안에서 단서를 계속 찾아보았다."],["unhappy","","불행한, 슬픈","They had an unhappy childhood.","그들은 불행한 어린 시절을 보냈다."],["lap","","(다리 위 넓적한 부분) 무릎","The puppy sat on Olive's lap.","그 강아지는 올리브의 무릎에 앉았다."],["rebuild","","다시 짓다","After the flood, they rebuilt the house together.","홍수가 난 후, 그들은 함께 집을 다시 지었다."],["cotton","","목화, 솜","My sweatshirt is made of thick cotton.","내 운동복 상의는 두툼한 면으로 만들어졌다."],["cash","","현금, 돈","Will you pay in cash?","현금으로 계산하시겠습니까?"],["country","","국가, 나라; 시골","",""],["metal","","금속","",""],["challenge","","도전","",""],["mayor","","시장","",""],["flow","","흐르다","",""],["shut","","닫다, 잠그다; 닫힌","",""],["realize","","깨닫다","",""],["rhythm","","리듬, 박자","",""]];
+var SEED16="wordrace_seed16_v1";
+function seedBricks2300Unit05(){
+  var done=false;
+  try{done=(localStorage.getItem(SEED16)==="1");}catch(e){}
+  if(done)return;
+  var exists=false;
+  for(var i=0;i<chapters.length;i++)if(chapters[i].name==="Bricks Vocabulary 2300 - Unit 05 (101~125)"){exists=true;break;}
+  if(!exists){
+    chapters.unshift({name:"Bricks Vocabulary 2300 - Unit 05 (101~125)",words:BRICKS2300_UNIT05_WORDS,best:null,date:today()});
+    save();
+  }
+  try{localStorage.setItem(SEED16,"1");}catch(e){}
+}
+
 var BRICKS2300_UNIT04_WORDS=[["call","","외치다; 이름 짓다, 부르다","The girl called out for help.","그 소녀는 도와 달라고 외쳤다."],["space","","우주","The scientist used a telescope to study planets and outer space.","그 과학자는 행성과 우주 공간을 연구하기 위해 망원경을 사용했다."],["look","","바라보다","You must look left and right before you cross the street.","길을 건너기 전에는 좌우를 살펴야 한다."],["iron","","철, 쇠; 다리미질하다","You need to iron this shirt.","이 셔츠는 다리미질을 해야 할 것 같아."],["jail","","감옥","The criminal spent a year in jail.","그 범죄자는 감옥에서 1년을 보냈다."],["popular","","인기 있는","Soccer is a very popular sport in Europe.","축구는 유럽에서 매우 인기 있는 스포츠다."],["waste","","쓰레기; 낭비하다","Don't waste too much water.","물을 너무 낭비하지 마라."],["comedy","","코미디, 희극","The new comedy show was really funny.","새 코미디 쇼는 정말로 웃겼다."],["knit","","뜨다, 짜다","She knitted a scarf to give as a Christmas gift.","그녀는 크리스마스 선물로 줄 목도리를 떴다."],["pit","","구덩이","You need a spade to dig a pit.","구덩이를 파려면 삽이 필요하다."],["treasure","","보물, 보배","He dug up a box filled with golden treasures.","그는 황금 보물로 가득 찬 상자를 파냈다."],["wonder","","놀라움, 경이; 궁금해하다","I wonder why he didn't come to school.","나는 그가 왜 학교에 오지 않았는지 궁금하다."],["pure","","순수한","We only use pure olive oil in making pasta.","우리는 파스타를 만들 때 순수 올리브유를 사용한다."],["grocery","","식료품","I always make a grocery list before going to the market.","나는 시장에 가기 전에 항상 식료품 구매 목록을 만든다."],["kind","","친절한; 종류","He is very kind to the elderly.","그는 노인들에게 매우 친절하다."],["lead","","이끌다, 인도하다","If you lead, I'll follow behind.","네가 앞장서면 내가 따라갈게."],["ill","","아픈","He couldn't go to school because he was ill.","그는 아파서 학교에 갈 수 없었다."],["novel","","소설","This novel is based on real events.","이 소설은 실제 사건에 기반을 두고 있다."],["print","","인쇄하다","I need to print this document.","나는 이 서류를 인쇄해야 한다."],["breath","","숨, 호흡","Please hold your breath for a moment.","잠깐 숨을 멈추세요."],["fuel","","연료","Electricity is produced by burning fuel.","전기는 연료를 태워서 생산된다."],["always","","항상, 언제나","I always wash my hands before eating.","나는 먹기 전에 항상 손을 씻는다."],["advice","","조언, 충고","Brian listened to his doctor's advice and exercised daily.","브라이언은 의사의 조언을 듣고 매일 운동을 했다."],["subtract","","빼다","If you subtract 62 from 233, you get 171.","233에서 62를 빼면 171이다."],["relax","","휴식을 취하다","Jun turned on the radio to relax for a while.","준은 잠시 쉬기 위해 라디오를 켰다."]];
 var SEED14="wordrace_seed14_v1";
 function seedBricks2300Unit04(){
@@ -1185,10 +1200,12 @@ function load(){
   seedBricks2300Unit03();
   seedBricks2300Unit04();
   seedDay1920();
+  seedBricks2300Unit05();
   if(!chapters.length)restoreDefaults(true);
 }
 function restoreDefaults(silent){
   var want=[
+    {n:"Bricks Vocabulary 2300 - Unit 05 (101~125)",w:BRICKS2300_UNIT05_WORDS},
     {n:"워드마스터 DAY 20",w:DAY20_WORDS},
     {n:"워드마스터 DAY 19",w:DAY19_WORDS},
     {n:"Bricks Vocabulary 2300 - Unit 04 (076~100)",w:BRICKS2300_UNIT04_WORDS},
@@ -1708,7 +1725,7 @@ function stopBgm(){
 }
 
 /* ─────────── 백업 · 복원 ─────────── */
-var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1","wordrace_seed6_v1","wordrace_seed7_v1","wordrace_seed8_v1","wordrace_seed9_v1","wordrace_seed10_v1","wordrace_seed11_v1","wordrace_seed12_v1","wordrace_seed13_v1","wordrace_seed14_v1","wordrace_seed15_v1"];
+var BK_KEYS=["wordrace_v1","wordrace_profile_v1","wordrace_hall_v1","wordrace_order_v1","wordrace_guide_v1","wordrace_seed2_v1","wordrace_seed2b_v1","wordrace_seed3_v1","wordrace_seed4_v1","wordrace_seed5_v1","wordrace_seed6_v1","wordrace_seed7_v1","wordrace_seed8_v1","wordrace_seed9_v1","wordrace_seed10_v1","wordrace_seed11_v1","wordrace_seed12_v1","wordrace_seed13_v1","wordrace_seed14_v1","wordrace_seed15_v1","wordrace_seed16_v1"];
 function backupBlob(){
   var o={app:"wordrace",v:1,at:stamp(),data:{}};
   BK_KEYS.forEach(function(k){
@@ -1765,7 +1782,7 @@ function applyBackup(d){
       prof=JSON.parse(d.wordrace_profile_v1);saveProfileData();
     }
     if(d.wordrace_order_v1){orderMode=d.wordrace_order_v1;try{localStorage.setItem(OKEY,orderMode);}catch(e){}}
-    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");localStorage.setItem(SEED6,"1");localStorage.setItem(SEED7,"1");localStorage.setItem(SEED8,"1");localStorage.setItem(SEED9,"1");localStorage.setItem(SEED10,"1");localStorage.setItem(SEED11,"1");localStorage.setItem(SEED12,"1");localStorage.setItem(SEED14,"1");localStorage.setItem(SEED15,"1");}catch(e){}
+    try{localStorage.setItem(GKEY,"1");localStorage.setItem(SEED2,"1");localStorage.setItem(SEED2B,"1");localStorage.setItem(SEED3,"1");localStorage.setItem(SEED4,"1");localStorage.setItem(SEED5,"1");localStorage.setItem(SEED6,"1");localStorage.setItem(SEED7,"1");localStorage.setItem(SEED8,"1");localStorage.setItem(SEED9,"1");localStorage.setItem(SEED10,"1");localStorage.setItem(SEED11,"1");localStorage.setItem(SEED12,"1");localStorage.setItem(SEED14,"1");localStorage.setItem(SEED15,"1");localStorage.setItem(SEED16,"1");}catch(e){}
     alert("되살렸어! 챕터 "+chapters.length+"개, 트로피 "+hall.length+"개");
     go("home");
   }catch(err){alert("되살리는 데 실패했어. 파일을 다시 확인해줘.");}
