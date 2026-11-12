@@ -502,7 +502,7 @@ color:#6b6480;border-radius:7px;font-size:12px;font-family:inherit;line-height:1
 </div>
 
 </div>
-<div style="text-align:center;padding:4px 14px calc(env(safe-area-inset-bottom) + 14px);font-size:12px;color:#fff;">단어 경주 · v12</div>
+<div style="text-align:center;padding:4px 14px calc(env(safe-area-inset-bottom) + 14px);font-size:12px;color:#fff;">단어 경주 · v13</div>
 
 <div id="ovl">
   <div>
@@ -2445,7 +2445,7 @@ function expand(s){
 }
 function meanOk(u,full){
   var cands=[full];
-  full.split(",").forEach(function(part){cands=cands.concat(expand(part));});
+  full.split(/[,;]/).forEach(function(part){cands=cands.concat(expand(part));});
   for(var i=0;i<cands.length;i++)if(loose(u)===loose(cands[i]))return true;
   for(var k=0;k<cands.length;k++)if(loose2(u)===loose2(cands[k]))return true;
   return false;
